@@ -5,16 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
+
+    <style>
+        .active{
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Header</h1>
-    </header>
+    @include('layouts.partials.header')
     <main>
         @yield('content')
     </main>
-    <footer>
-        <h1>Footer</h1>
-    </footer>
+    @include('layouts.partials.footer')
 </body>
 </html>
