@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -48,3 +49,12 @@ Route::resource('products', ProductController::class);
 Route::get('contact', [ContactController::class, 'index'])->name('contact.index');
 
 Route::post('contact',[ContactController::class, 'store'])->name('contact.store');
+
+Route::post('register/signUp',[AuthController::class,'signUp'])->name('register.signUp');
+Route::get('register',[AuthController::class,'index'])->name('register.index');
+
+Route::post('login/login',[AuthController::class,'login'])->name('login.login');
+Route::view('login.index', 'login.index')->name('login.index');
+
+Route::get('information',[AuthController::class,'user'])->name('information');
+Route::get('logout',[AuthController::class,'logout'])->name('logout');
