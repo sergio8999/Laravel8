@@ -22,10 +22,10 @@ use App\Http\Controllers\ProductController;
     return view('welcome');
 }); */
 
-Route::get('/', HomeController::class)->name('home');
+/* Route::get('/', HomeController::class)->name('home'); */
 
 //Solo para mostrar una vista y no acceda a la base de datos
-Route::view('sobreNosotros', 'sobreNosotros')->name('sobreNosotros');
+/* Route::view('sobreNosotros', 'sobreNosotros')->name('sobreNosotros'); */
 
 // Poner en array ProductControler para llamar al metodo que queremos porque sino llama al metodo __invoke
 /* Route::get('products', [ProductController::class, 'index'])->name('products.index');
@@ -44,17 +44,24 @@ Route::delete('products/{product}', [ProductController::class, 'destroy'])->name
 
 
 // Con el método resource no hace falta poner todas las anteriores
-Route::resource('products', ProductController::class);
+/* Route::resource('products', ProductController::class);
 
 Route::get('contact', [ContactController::class, 'index'])->name('contact.index');
 
 Route::post('contact',[ContactController::class, 'store'])->name('contact.store');
 
-Route::post('register/signUp',[AuthController::class,'signUp'])->name('register.signUp');
-Route::get('register',[AuthController::class,'index'])->name('register.index');
+ Route::post('register/signUp',[AuthController::class,'signUp'])->name('register.signUp');
+
 
 Route::post('login/login',[AuthController::class,'login'])->name('login.login');
-Route::view('login.index', 'login.index')->name('login.index');
 
-Route::get('information',[AuthController::class,'user'])->name('information');
-Route::get('logout',[AuthController::class,'logout'])->name('logout');
+
+Route::get('user',[AuthController::class,'user'])->name('user');
+Route::get('logout',[AuthController::class,'logout'])->name('logout'); 
+Route::get('register',[AuthController::class,'index'])->name('register.index');
+Route::view('login.index', 'login.index')->name('login.index');
+ */
+
+Route::get('{any}', function () {
+    return view('app');
+})->where('any', '.*');
