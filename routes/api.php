@@ -51,10 +51,15 @@ Route::get('logout',[AuthController::class,'logout'])->name('logout'); */
 }); */
 
 Route::group([  ], function() {
-      Route::get('prueba',[PruebaController::class,'prueba'])->name('prueba');
-      Route::post('signUp',[AuthController::class,'signUp'])->name('signUp');
-      Route::post('login',[AuthController::class,'login'])->name('login');
-      Route::get('user',[AuthController::class,'user'])->name('user');
-      Route::get('logout',[AuthController::class,'logout'])->name('logout');
-      Route::get('products', [ProductController::class, 'products'])->name('products');
+    Route::get('prueba',[PruebaController::class,'prueba'])->name('prueba');
+    Route::post('signUp',[AuthController::class,'signUp'])->name('signUp');
+    Route::post('login',[AuthController::class,'login'])->name('login');
+    Route::get('user',[AuthController::class,'user'])->name('user');
+    Route::get('logout',[AuthController::class,'logout'])->name('logout');
+    Route::get('products', [ProductController::class, 'products'])->name('products');
   });
+
+  Route::group(['middleware' => 'auth:api' ], function() {
+    Route::get('user',[AuthController::class,'user'])->name('user');
+    Route::get('logout',[AuthController::class,'logout'])->name('logout');
+});

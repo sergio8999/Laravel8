@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>Productos</h1>
+        <p>{{count}}</p>
         <ul>
             <li v-for="product in products" :key="product.id">
                 <router-link :to="{name:'product',params:{id:product.id}}">{{product.name}}</router-link>
@@ -13,12 +14,13 @@
 
 <script>
 import axios from 'axios'
+
 export default ({
     name:'Products',
     props: [],
     data(){
             return {
-                products:[]
+                products:[],
             }
         },
     components:{
@@ -27,10 +29,15 @@ export default ({
 
     },
     mounted(){
-            axios.get('api/products')
-                .then(response => {
-                    this.products = response.data;
-                })             
-        }
+        axios.get('api/products')
+            .then(response => {
+                this.products = response.data;
+        })             
+    },
+    computed:{
+        count(){
+            return this.$store.state.count;
+        } 
+    }
 })
 </script>

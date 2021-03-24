@@ -20,27 +20,25 @@ export default ({
 
             async user() {
                 try {
-                let res = await axios.get('/api/user')
-                .then(response => {
-                    console.log(response.data);
-                })
+                    let res = await axios.get('/api/user',{headers: {Authorization: 'Bearer ' + this.information.access_token}});
+                    console.log(res.data);
 
-            } catch (e) {
-                 console.log(e.response) // undefined
-            }
-        },
+                } catch (e) {
+                    console.log(e.response) 
+                }
+            },
         async logout() {
                 try {
-                let res = await axios.get('/api/logout')
-                .then(response => {
-                    console.log(response.data);
-                    this.$router.push('/');
-                })
+                    let res = await axios.get('/api/logout')
+                    .then(response => {
+                        console.log(response.data);
+                        this.$router.push('/');
+                    })
 
-            } catch (e) {
-                 console.log(e.response) // undefined
+                } catch (e) {
+                    console.log(e.response) 
+                }
             }
-        }
         },    
     components:{
         

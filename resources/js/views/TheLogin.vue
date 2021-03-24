@@ -17,10 +17,13 @@
         <input  type="submit" name="enviar" value="enviar">
         </form>
     </div>
+    <button @click="user">User</button>
+    <button @click="logout">Cerrar Sesion</button>
 </template>
 
 <script>
 import axios from 'axios'
+import { useStore } from 'vuex'
 export default ({
     name:'TheLogin',
     data(){
@@ -28,27 +31,54 @@ export default ({
             form : {
                 email:"",
                 password:"",
-                information: []
-            }
+            },
+            information: []
             //csrf token
             /* csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content') */
         }
         },
+        // cambiar esto
+        setup(){ 
+            const store = useStore();
+            const login = ()=>{
+                store.dispatch('login',_this.form);
+            };
+
+            return {login};
+        },
         methods:{
 
-            async login() {
+            /* async login() {
                 try {
-                let res = await axios.post('/api/login',this.form)
-                .then(response => {
-                    console.log(response.data);
-                    information = response.data;
-                    this.$router.push('/');
-                })
+                    let res = await axios.post('/api/login',this.form)
+                    this.information = await res.data;
+                    console.log(res.data);
+            
+                } catch (e) {
+                    console.log(e.response) 
+                }
+            }, */
+            async user() {
+                try {
+                    
+                    let res = await axios.get('/api/user',{headers: {Authorization: 'Bearer ' + this.information.access_token}});
+                    console.log(res.data);
+                    
 
-            } catch (e) {
-                 console.log(e.response) // undefined
+                } catch (e) {
+                    console.log(e.response) 
+                }
+            },
+            async logout() {
+                try {
+                    let res = await axios.get('/api/logout',{headers: {Authorization: 'Bearer ' + this.information.access_token}})
+                    console.log(res.data);
+
+                } catch (e) {
+                    console.log(e.response) 
+                }
             }
-        }
+            
         },    
     components:{
         
