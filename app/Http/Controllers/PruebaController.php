@@ -9,4 +9,7 @@ class PruebaController extends Controller
     public function prueba(){
         return "prueba";
     }
+    public function value(){
+        return "value";
+    }
 }

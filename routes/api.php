@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PruebaController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -50,4 +52,9 @@ Route::get('logout',[AuthController::class,'logout'])->name('logout'); */
 
 Route::group([  ], function() {
       Route::get('prueba',[PruebaController::class,'prueba'])->name('prueba');
+      Route::post('signUp',[AuthController::class,'signUp'])->name('signUp');
+      Route::post('login',[AuthController::class,'login'])->name('login');
+      Route::get('user',[AuthController::class,'user'])->name('user');
+      Route::get('logout',[AuthController::class,'logout'])->name('logout');
+      Route::get('products', [ProductController::class, 'products'])->name('products');
   });

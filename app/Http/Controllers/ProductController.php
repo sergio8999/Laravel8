@@ -11,13 +11,25 @@ use App\Http\Requests\StoreProductduct;
 class ProductController extends Controller
 {
     // se puede poner el nombre que se quiera en el metodo
-    public function index(){
+    public function products(){
         //Mostrar todos los registros
         /* $products = Product::all(); */
 
         // Paginar
-        $products = Product::orderBy('id','desc')->paginate();
-        return view('products.index',compact('products'));
+        $products = Product::orderBy('id','desc')->get();
+        /*return view('products.index',compact('products')); */
+        /* return response()->json([
+            'id' => $products->id,
+            'name' => $products->name,
+            'description' => $products->description,
+            'price' => $products->price
+        ], 201);  */
+        return $products;
+    }
+
+
+    public function value(){
+        return "value";
     }
 
     public function create(){
