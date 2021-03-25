@@ -3,27 +3,58 @@ import axios from 'axios'
 
 // Create a new store instance.
 const store = createStore({
-  state:{
-      count: 3,
-      informationLogin:[]
+  state(){
+      return{
+        loggedIn:false,
+        informationLogin:[],
+        informationUser:[],
+        informationLogout:[],
+      }      
   },
   mutations:{
-        setInformationLogin(state,login){
-          state.informationLogin = login;
-        }
+
+    setInformationLogin(state,information){
+      state.informationLogin = information;
+    },
+
+    setInformationUser(state,user){
+      state.informationUser = user;
+    },
+
+    setInformationLogout(state,logout){
+      state.informationLogout = logout;
+    },
+    setLoggedIn(state,loggedIn){
+      state.loggedIn = loggedIn;
+    }
   },
   actions:{
+
     async login({commit},infor) {
-      try {
-        console.log(infor);
           let res = await axios.post('/api/login',infor)
           let information = await res.data;
+          let loggedIn = true;
+          console.log(information);
           commit('setInformationLogin',information);
-  
-      } catch (e) {
-          console.log(e.response) 
-      }
+          commit('setLoggedIn',loggedIn);
+          return res;
   },
+
+    async user({commit,state}) {
+
+        let res = await axios.get('/api/user',{headers: {Authorization: 'Bearer ' + state.informationLogin.access_token}});
+        let information = await res.data;
+        console.log(information);
+        commit('setInformationUser',information);
+    },
+
+    async logout({commit,state}) {
+        let res = await axios.get('/api/logout',{headers: {Authorization: 'Bearer ' + state.informationLogin.access_token}})
+        let information = await res.data;
+        let loggedIn = false;
+        commit('setInformationLogout',information);
+        commit('setLoggedIn',loggedIn);
+    }
   }
 })
 

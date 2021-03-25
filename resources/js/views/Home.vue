@@ -7,13 +7,21 @@
 
 <script>
 import axios from 'axios'
+import { useStore } from 'vuex'
+import {computed} from 'vue'
+
 export default ({
     name:'Home',
     data(){
-            return {
-                prueba:""
-            }
-        },
+        return {
+            prueba:""
+        }
+    },
+    setup(){
+        const store = useStore();
+        const loggedIn = computed(()=> store.state.loggedIn);
+        return {loggedIn};
+    },
     mounted(){
             axios.get('api/prueba')
                 .then(response => {
@@ -22,3 +30,6 @@ export default ({
         }
 })
 </script>
+<style scoped>
+
+</style>

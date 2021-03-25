@@ -2,8 +2,6 @@
     <div>
         <h1>Pagina de registro:</h1>
         <form @submit.prevent="signUp">
-            <!-- <input type="hidden" name="_token" v-bind:value="csrf"> -->
-
             <label for="name">Nombre:
             <br>
             <input type="text" id="name" name="name" v-model="form.name">
@@ -38,12 +36,9 @@ export default ({
                 email:"",
                 password:""
             }
-            //csrf token
-            /* csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content') */
         }
         },
         methods:{
-
             async signUp() {
                 try {
                 let res = await axios.post('/api/signUp',this.form)
@@ -53,18 +48,10 @@ export default ({
                 })
 
             } catch (e) {
-                 console.log(e.response) // undefined
+                 console.log(e.response)
             }
         }
-            /* signUp(){
-                axios.post('api/signUp',this.form)
-                .then(response => {
-                    console.log(response.data.message);
-
-                })
-                .catch(err => console.log(err.response))
-            } */
-        },    
+    },    
     components:{
         
     }
