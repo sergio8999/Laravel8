@@ -7,8 +7,9 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 import { useStore } from 'vuex'
+import useUser from '@/composables/useUser'
 
 export default ({
     name:'User',
@@ -19,10 +20,12 @@ export default ({
     },
     setup(){
         const store = useStore(); 
-        onMounted (()=>{
-            store.dispatch('user');
-        }) 
+        onMounted(()=>{
+            /* const { user } = useUser(); */
+        });
+
         const user = computed(()=> store.state.informationUser);
+        
         return {user};
     }, 
     methods:{

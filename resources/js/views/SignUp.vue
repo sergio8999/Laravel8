@@ -4,19 +4,19 @@
         <form @submit.prevent="signUp">
             <label for="name">Nombre:
             <br>
-            <input type="text" id="name" name="name" v-model="form.name">
+            <input type="text" id="name" name="name" v-model="form.name" placeholder="Nombre">
         </label>
 
         <br>
         <label for="email">Email:
             <br>
-            <input type="email" id="email" name="email" v-model="form.email">
+            <input type="email" id="email" name="email" v-model="form.email" placeholder="Email">
         </label>
 
         <br>
         <label for="password">Password:
             <br>
-            <input type="password" id="password" name="password" v-model="form.password">
+            <input type="password" id="password" name="password" v-model="form.password" placeholder="Password">
         </label>
 
         <br>
@@ -26,31 +26,25 @@
 </template>
 
 <script>
-import axios from 'axios'
+import signUp from '@/composables/useSignUp'
 export default ({
     name:'SignUp',
     data(){
         return {
-            form : {
-                name:"",
-                email:"",
-                password:""
-            }
+            
         }
-        },
-        methods:{
-            async signUp() {
-                try {
-                let res = await axios.post('/api/signUp',this.form)
-                .then(response => {
-                    console.log(response.data.message);
-                    this.$router.push('/');
-                })
+    },
+    setup(){
+        const name =ref('');
+        const email =ref('');
+        const password =ref('');
 
-            } catch (e) {
-                 console.log(e.response)
-            }
-        }
+        const { signUp } = useSignUp(name,email,password);
+
+        return {signUp, name, email, password};
+    },
+    methods:{
+            
     },    
     components:{
         

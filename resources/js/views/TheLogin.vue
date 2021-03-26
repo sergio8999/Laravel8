@@ -4,13 +4,13 @@
         <form @submit.prevent="login">
         <label for="email">Email:
             <br>
-            <input type="email" id="email" name="email" v-model="email">
+            <input type="email" id="email" name="email" v-model="email" placeholder="Email">
         </label>
 
         <br>
         <label for="password">Password:
             <br>
-            <input type="password" id="password" name="password" v-model="password">
+            <input type="password" id="password" name="password" v-model="password" placeholder="Password">
         </label>
 
         <br>
@@ -20,8 +20,9 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
 import { ref } from 'vue'
+/* import useLogin from '../composables/useLogin' */
+import useLogin from '@/composables/useLogin'
 
 export default ({
     name:'TheLogin',
@@ -31,20 +32,12 @@ export default ({
         }
     },
     setup(){ 
-        const store = useStore();
         const email =ref('');
         const password =ref('');
-    
-        const login = async ()=>{
-            try{
-                await store.dispatch('login',{'email':email.value,'password':password.value});
-                /*this.$router.push('/'); */
-            }catch(e){
-                console.log(e);
-            }
-        };
 
-        return {login,email,password};
+        const { login } = useLogin(email,password);
+
+        return {login, email, password};
     },
     methods:{
 
