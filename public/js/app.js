@@ -16557,6 +16557,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _composables_useSignUp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/composables/useSignUp */ "./resources/js/composables/useSignUp.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'SignUp',
@@ -16564,11 +16566,11 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   setup: function setup() {
-    var name = ref('');
-    var email = ref('');
-    var password = ref('');
+    var name = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('');
+    var email = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('');
+    var password = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('');
 
-    var _useSignUp = useSignUp(name, email, password),
+    var _useSignUp = (0,_composables_useSignUp__WEBPACK_IMPORTED_MODULE_0__.default)(name, email, password),
         signUp = _useSignUp.signUp;
 
     return {
@@ -16649,12 +16651,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   setup: function setup() {
     var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.useStore)();
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      /* const { user } = useUser(); */
-    });
-    var user = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
-      return store.state.informationUser;
-    });
+
+    var _useUser = (0,_composables_useUser__WEBPACK_IMPORTED_MODULE_1__.default)(),
+        user = _useUser.user;
+    /* onMounted(()=>{
+        const { user } = useUser();
+        user = user;
+    }); */
+
+    /* const user = computed(()=> store.state.informationUser); */
+
+
     return {
       user: user
     };
@@ -17058,32 +17065,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "name",
     name: "name",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return _ctx.form.name = $event;
+      return $setup.name = $event;
     }),
     placeholder: "Nombre"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.name]])]), _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_6, [_hoisted_7, _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.name]])]), _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_6, [_hoisted_7, _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "email",
     id: "email",
     name: "email",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return _ctx.form.email = $event;
+      return $setup.email = $event;
     }),
     placeholder: "Email"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.email]])]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_10, [_hoisted_11, _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.email]])]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_10, [_hoisted_11, _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     type: "password",
     id: "password",
     name: "password",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return _ctx.form.password = $event;
+      return $setup.password = $event;
     }),
     placeholder: "Password"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.form.password]])]), _hoisted_13, _hoisted_14], 32
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.password]])]), _hoisted_13, _hoisted_14], 32
   /* HYDRATE_EVENTS */
   )]);
 }
@@ -17318,7 +17325,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/router */ "./resources/js/router/index.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -17326,10 +17334,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
-function useSignUp(name, email, password) {
-  var _this = this;
 
-  var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.useStore)();
+function useSignUp(name, email, password) {
+  var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.useStore)();
 
   var signUp = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -17348,24 +17355,23 @@ function useSignUp(name, email, password) {
 
             case 3:
               res = _context.sent;
+              console.log("entra");
               console.log(res.data.message);
-
-              _this.$router.push('/');
-
-              _context.next = 11;
+              _router__WEBPACK_IMPORTED_MODULE_1__.default.push('/');
+              _context.next = 12;
               break;
 
-            case 8:
-              _context.prev = 8;
+            case 9:
+              _context.prev = 9;
               _context.t0 = _context["catch"](0);
               console.log(_context.t0.response);
 
-            case 11:
+            case 12:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[0, 8]]);
+      }, _callee, null, [[0, 9]]);
     }));
 
     return function signUp() {

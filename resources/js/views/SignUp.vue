@@ -4,19 +4,19 @@
         <form @submit.prevent="signUp">
             <label for="name">Nombre:
             <br>
-            <input type="text" id="name" name="name" v-model="form.name" placeholder="Nombre">
+            <input type="text" id="name" name="name" v-model="name" placeholder="Nombre">
         </label>
 
         <br>
         <label for="email">Email:
             <br>
-            <input type="email" id="email" name="email" v-model="form.email" placeholder="Email">
+            <input type="email" id="email" name="email" v-model="email" placeholder="Email">
         </label>
 
         <br>
         <label for="password">Password:
             <br>
-            <input type="password" id="password" name="password" v-model="form.password" placeholder="Password">
+            <input type="password" id="password" name="password" v-model="password" placeholder="Password">
         </label>
 
         <br>
@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import signUp from '@/composables/useSignUp'
+import useSignUp from '@/composables/useSignUp'
+import { ref } from 'vue'
 export default ({
     name:'SignUp',
     data(){

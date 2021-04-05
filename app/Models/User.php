@@ -42,4 +42,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Relación muchos a muchos
+    public function houses(){
+        return $this->belongsToMany(House::class);
+    }
 }

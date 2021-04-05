@@ -20,13 +20,15 @@ export default ({
     },
     setup(){
         const store = useStore(); 
-        onMounted(()=>{
-            /* const { user } = useUser(); */
-        });
+        const { user } = useUser();
+        /* onMounted(()=>{
+            const { user } = useUser();
+            user = user;
+        }); */
 
-        const user = computed(()=> store.state.informationUser);
+        /* const user = computed(()=> store.state.informationUser); */
         
-        return {user};
+        return { user };
     }, 
     methods:{
 

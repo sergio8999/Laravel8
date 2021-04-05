@@ -1,4 +1,5 @@
 import { useStore } from 'vuex'
+import router from "@/router"
 
 export default function useSignUp(name,email,password) {
     const store = useStore(); 
@@ -7,7 +8,7 @@ export default function useSignUp(name,email,password) {
         try {
             let res = await axios.post('/api/signUp',{'name':name,'email':email,'password':password});
             console.log(res.data.message);
-            this.$router.push('/');
+            router.push('/');
 
         } catch (e) {
              console.log(e.response)

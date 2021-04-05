@@ -36,7 +36,7 @@ class ProductController extends Controller
         return view('products.create');
     }
 
-    public function store(StoreProduct $request){
+    public function store(Product $request){
 
 
         // esto es una forma cuando son pocos
