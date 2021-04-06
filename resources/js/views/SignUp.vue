@@ -28,6 +28,7 @@
 <script>
 import useSignUp from '@/composables/useSignUp'
 import { ref } from 'vue'
+
 export default ({
     name:'SignUp',
     data(){

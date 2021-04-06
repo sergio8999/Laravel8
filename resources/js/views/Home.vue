@@ -1,7 +1,18 @@
 <template>
-    <div>
-        <h1>Esto es el Home</h1>
-        <p>{{prueba}}</p>
+    <h1 class="text-center">Alojamientos</h1>
+    <div class="d-flex flex-row justify-content-center">
+        <div v-for="house in houses" :key="house.id" class="card m-2" style="width: 18rem;">
+            <img :src="`/images/${house.url}`" class="card-img-top" alt="...">
+            <div class="card-body">
+            <h5 class="card-title">{{house.name}}</h5>
+            <p class="card-text">{{house.description}}</p>
+            <p class="card-text">{{house.price}}€/h</p>
+            <div class="d-flex justify-content-center">
+                <router-link :to="{name:'house',params:{id:house.id}}" class="btn btn-dark">Ver casa</router-link>
+            </div>
+            
+        </div>
+</div>
     </div>
 </template>
 
@@ -14,7 +25,7 @@ export default ({
     name:'Home',
     data(){
         return {
-            prueba:""
+            houses:[]
         }
     },
     setup(){
@@ -23,10 +34,10 @@ export default ({
         return {loggedIn};
     },
     mounted(){
-            axios.get('api/prueba')
-                .then(response => {
-                    this.prueba = response.data
-                })
+        axios.get('/api/houses')
+            .then(response => {
+                this.houses = response.data
+            }) 
         }
 })
 </script>

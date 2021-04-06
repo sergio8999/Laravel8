@@ -35,7 +35,7 @@
                 </ul>
             </div>
         </nav>
-        <router-view class="d-flex flex-column align-items-center justify-content-center"></router-view>      
+        <router-view></router-view>      
     </div>
 </template>
 
