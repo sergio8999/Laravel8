@@ -5,7 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PruebaController;
+use App\Http\Controllers\ReservationController;
 use App\Models\House;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +63,7 @@ Route::group([  ], function() {
     Route::get('products', [ProductController::class, 'products'])->name('products');
     Route::get('houses',[HouseController::class,'houses'])->name('houses');
     Route::get('house/{id}',[HouseController::class,'show'])->name('house.show');
+    Route::post('house/{id}',[ReservationController::class,'store']);
   });
 
   Route::group(['middleware' => 'auth:api' ], function() {
