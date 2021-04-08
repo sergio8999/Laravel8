@@ -16505,21 +16505,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var primevue_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primevue/config */ "./node_modules/primevue/config/config.esm.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/router */ "./resources/js/router/index.js");
+
 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'House',
   data: function data() {
-    return {
-      house: [],
-      value: null,
-      arrivalTime: '00:00',
-      departureTime: '00:00'
-    };
+    return {};
   },
   setup: function setup() {
     //CAlendario
+    var arrivalTime = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('00:00');
+    var departureTime = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('00:00');
+    var house = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
+    var value = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(null);
+
     var changeToSpanish = function changeToSpanish() {
       var primevue = (0,primevue_config__WEBPACK_IMPORTED_MODULE_2__.usePrimeVue)();
       primevue.config.locale.accept = 'Aceptar';
@@ -16529,66 +16531,75 @@ __webpack_require__.r(__webpack_exports__);
 
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
       changeToSpanish();
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/house/' + _router__WEBPACK_IMPORTED_MODULE_3__.default.currentRoute.value.params.id).then(function (response) {
+        house.value = response.data;
+      });
     });
-  },
-  mounted: function mounted() {
-    var _this = this;
 
-    axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/house/' + this.$route.params.id).then(function (response) {
-      _this.house = response.data;
-    });
-  },
-  methods: {
-    getHours: function getHours() {
-      if (this.value == null || this.value[0] == null || this.value[1] == null) return 0;
-      var time1 = this.arrivalTime.split(':');
-      var time2 = this.departureTime.split(':');
-      var arrival = new Date(this.value[0].getFullYear(), this.value[0].getMonth(), this.value[0].getDate(), time1[0], time1[1]);
-      var departure = new Date(this.value[1].getFullYear(), this.value[1].getMonth(), this.value[1].getDate(), time2[0], time2[1]);
+    var getHours = function getHours() {
+      if (value.value == null || value.value[0] == null || value.value[1] == null) return 0;
+      var time1 = arrivalTime.value.split(':');
+      var time2 = departureTime.value.split(':');
+      var arrival = new Date(value.value[0].getFullYear(), value.value[0].getMonth(), value.value[0].getDate(), time1[0], time1[1]);
+      var departure = new Date(value.value[1].getFullYear(), value.value[1].getMonth(), value.value[1].getDate(), time2[0], time2[1]);
       var hours = (departure.getTime() - arrival.getTime()) / (1000 * 60 * 60);
       return hours;
-    },
-    setReservation: function setReservation() {
+    };
+
+    var setReservation = function setReservation() {
       axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation', {
-        'arrivalDay': this.value[0].toLocaleDateString('es-Es', {
+        'arrivalDay': value.value[0].toLocaleDateString('es-Es', {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit'
         }),
-        'departureDay': this.value[1].toLocaleDateString('es-Es', {
+        'departureDay': value.value[1].toLocaleDateString('es-Es', {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit'
         }),
-        'taxes': this.taxes,
-        'arrivalTime': this.arrivalTime,
-        'departureTime': this.departureTime,
-        'subtotal': this.subtotal,
-        'total': this.totalPrices,
-        'house_id': this.house.id
+        'taxes': taxes.value,
+        'arrivalTime': arrivalTime.value,
+        'departureTime': departureTime.value,
+        'subtotal': subtotal.value,
+        'total': totalPrices.value,
+        'house_id': house.value.id
       }).then(function (response) {
         console.log(response.data);
       })["catch"](function (error) {
         console.log(error);
       });
-    }
-  },
-  computed: {
-    subtotal: function subtotal() {
-      return this.house.price * this.getHours();
-    },
-    taxes: function taxes() {
-      return parseFloat((this.subtotal * 0.10).toFixed(2));
-    },
-    totalPrices: function totalPrices() {
-      return this.subtotal + this.taxes;
-    },
-    minHour: function minHour() {
+    };
+
+    var subtotal = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return house.value.price * getHours();
+    });
+    var taxes = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return parseFloat((subtotal.value * 0.10).toFixed(2));
+    });
+    var totalPrices = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return subtotal.value + taxes.value;
+    });
+    var minHour = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       var actualHour = new Date();
-      if (this.value != null) if (this.value[0].getDate() == actualHour.getDate()) return actualHour.getHours() + 1 + ':00';
+      if (value.value != null) if (value[0].getDate() == actualHour.getDate()) return actualHour.getHours() + 1 + ':00';
       return "00:00";
-    }
-  }
+    });
+    return {
+      arrivalTime: arrivalTime,
+      departureTime: departureTime,
+      value: value,
+      house: house,
+      subtotal: subtotal,
+      taxes: taxes,
+      totalPrices: totalPrices,
+      minHour: minHour,
+      setReservation: setReservation
+    };
+  },
+  mounted: function mounted() {},
+  methods: {},
+  computed: {}
 });
 
 /***/ }),
@@ -17156,21 +17167,21 @@ var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Calendar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Calendar");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.house.name), 1
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.house.name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
-    src: "/images/".concat($data.house.url),
+    src: "/images/".concat($setup.house.url),
     alt: ""
   }, null, 8
   /* PROPS */
-  , ["src"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, "Anfitrión: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.house.host), 1
+  , ["src"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h3", null, "Anfitrión: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.house.host), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.house.description), 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.house.description), 1
   /* TEXT */
   )]), _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Calendar, {
-    modelValue: $data.value,
+    modelValue: $setup.value,
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $data.value = $event;
+      return $setup.value = $event;
     }),
     inline: true,
     "min-date": new Date(),
@@ -17180,7 +17191,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* PROPS */
   , ["modelValue", "min-date"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
-      return $data.arrivalTime = $event;
+      return $setup.arrivalTime = $event;
     }),
     type: "time",
     min: "00:00",
@@ -17188,9 +17199,9 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     step: "3600"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.arrivalTime]]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.arrivalTime]]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
-      return $data.departureTime = $event;
+      return $setup.departureTime = $event;
     }),
     type: "time",
     min: "0:00",
@@ -17198,19 +17209,19 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     step: "600"
   }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.departureTime]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Subtotal (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.house.price) + "€/h):", 1
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.departureTime]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Subtotal (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.house.price) + "€/h):", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.subtotal) + "€", 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.subtotal) + "€", 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.taxes) + "€", 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.taxes) + "€", 1
   /* TEXT */
-  )]), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalPrices) + "€", 1
+  )]), _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.totalPrices) + "€", 1
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     type: "submit",
     "class": "btn btn-dark",
     onClick: _cache[4] || (_cache[4] = function () {
-      return $options.setReservation && $options.setReservation.apply($options, arguments);
+      return $setup.setReservation && $setup.setReservation.apply($setup, arguments);
     })
   }, "Hacer reserva")])])]);
 });

@@ -51,22 +51,25 @@
 
 <script>
 import axios from 'axios'
-import { computed, onMounted } from "vue"
+import { computed, onMounted, ref } from "vue"
 import { usePrimeVue } from "primevue/config"
+import route from "@/router"
 
 
 export default ({
     name:'House',
     data(){
         return {
-            house:[],
-            value:null,
-            arrivalTime:'00:00',
-            departureTime:'00:00'
+            
         }
     },
     setup(){
         //CAlendario
+
+        const arrivalTime =ref('00:00');
+        const departureTime =ref('00:00');
+        const house = ref([]);
+        const value = ref(null);
 
         const changeToSpanish = () => {
             const primevue = usePrimeVue();
@@ -76,39 +79,36 @@ export default ({
         }
 
         onMounted(() => {
-            changeToSpanish();
-
+             changeToSpanish();
+             axios.get('/api/house/'+route.currentRoute.value.params.id)
+            .then(response => {
+                house.value = response.data;
+            }) 
         })
 
-    },
-    mounted(){
-        axios.get('/api/house/'+this.$route.params.id)
-            .then(response => {
-                this.house = response.data;
-            }) 
-    },
-    methods:{
-         getHours(){
-            if(this.value == null || this.value[0] == null || this.value[1] == null)
+        const getHours = ()=>{
+            if(value.value == null || value.value[0] == null || value.value[1] == null)
                 return 0;
 
-            let time1 = this.arrivalTime.split(':');
-            let time2 = this.departureTime.split(':');
-            let arrival = new Date(this.value[0].getFullYear(), this.value[0].getMonth(),this.value[0].getDate(),time1[0],time1[1]);
-            let departure = new Date(this.value[1].getFullYear(), this.value[1].getMonth(),this.value[1].getDate(),time2[0],time2[1]);
+            let time1 = arrivalTime.value.split(':');
+            let time2 = departureTime.value.split(':');
+            let arrival = new Date(value.value[0].getFullYear(), value.value[0].getMonth(),value.value[0].getDate(),time1[0],time1[1]);
+            let departure = new Date(value.value[1].getFullYear(), value.value[1].getMonth(),value.value[1].getDate(),time2[0],time2[1]);
             let hours = (departure.getTime() - arrival.getTime()) /(1000*60*60);
             return hours;
-        }, 
-        setReservation(){
+        
+        };
+
+        const setReservation = ()=>{
             axios.post('/api/reservation',{
-                'arrivalDay' : this.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                'departureDay' : this.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                'taxes' : this.taxes,
-                'arrivalTime' : this.arrivalTime,
-                'departureTime' : this.departureTime,
-                'subtotal' : this.subtotal,
-                'total' : this.totalPrices,
-                'house_id' : this.house.id
+                'arrivalDay' : value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
+                'departureDay' : value.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
+                'taxes' : taxes.value,
+                'arrivalTime' : arrivalTime.value,
+                'departureTime' : departureTime.value,
+                'subtotal' : subtotal.value,
+                'total' : totalPrices.value,
+                'house_id' : house.value.id
             })
             .then(response => {
                 console.log(response.data);
@@ -116,25 +116,38 @@ export default ({
             .catch(error => {
                 console.log(error)
             });
-        } 
-    },
-    computed:{
-        subtotal(){
-            return this.house.price * this.getHours();
-        }, 
-         taxes(){
-            return parseFloat((this.subtotal * 0.10).toFixed(2));
-        }, 
-        totalPrices(){
-            return this.subtotal + this.taxes;
-        }, 
-        minHour(){
+        };
+
+        const subtotal = computed(()=>{
+            return house.value.price * getHours();
+        });
+
+        const taxes = computed(()=>{
+            return parseFloat((subtotal.value * 0.10).toFixed(2));
+        });
+
+        const totalPrices = computed(()=>{
+            return subtotal.value + taxes.value;
+        });
+
+        const minHour = computed(()=>{
             let actualHour = new Date();
-            if(this.value != null)
-                if(this.value[0].getDate() == actualHour.getDate())
+            if(value.value != null)
+                if(value[0].getDate() == actualHour.getDate())
                     return ((actualHour.getHours()+1)+':00'); 
             return "00:00";
-        } 
+        });
+
+        return {arrivalTime, departureTime, value, house,subtotal,taxes,totalPrices,minHour,setReservation};
+    },
+    mounted(){
+        
+    },
+    methods:{
+
+    },
+    computed:{
+
     }
 })
 </script>
