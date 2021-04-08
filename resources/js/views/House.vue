@@ -51,8 +51,8 @@
 
 <script>
 import axios from 'axios'
-import { onMounted } from "vue";
-import { usePrimeVue } from "primevue/config";
+import { computed, onMounted } from "vue"
+import { usePrimeVue } from "primevue/config"
 
 
 export default ({
@@ -76,8 +76,10 @@ export default ({
         }
 
         onMounted(() => {
-             changeToSpanish();
+            changeToSpanish();
+
         })
+
     },
     mounted(){
         axios.get('/api/house/'+this.$route.params.id)
@@ -86,7 +88,7 @@ export default ({
             }) 
     },
     methods:{
-        getHours(){
+         getHours(){
             if(this.value == null || this.value[0] == null || this.value[1] == null)
                 return 0;
 
@@ -96,38 +98,43 @@ export default ({
             let departure = new Date(this.value[1].getFullYear(), this.value[1].getMonth(),this.value[1].getDate(),time2[0],time2[1]);
             let hours = (departure.getTime() - arrival.getTime()) /(1000*60*60);
             return hours;
-        },
+        }, 
         setReservation(){
-            axios.post('/api/house/'+this.$route.params.id,{
+            axios.post('/api/reservation',{
                 'arrivalDay' : this.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                'deapertureDay' : this.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
+                'departureDay' : this.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
                 'taxes' : this.taxes,
+                'arrivalTime' : this.arrivalTime,
+                'departureTime' : this.departureTime,
                 'subtotal' : this.subtotal,
-                'total' : this.totalPrice,
+                'total' : this.totalPrices,
                 'house_id' : this.house.id
             })
             .then(response => {
                 console.log(response.data);
             }) 
-        }
+            .catch(error => {
+                console.log(error)
+            });
+        } 
     },
     computed:{
         subtotal(){
             return this.house.price * this.getHours();
-        },
-        taxes(){
+        }, 
+         taxes(){
             return parseFloat((this.subtotal * 0.10).toFixed(2));
-        },
+        }, 
         totalPrices(){
             return this.subtotal + this.taxes;
-        },
+        }, 
         minHour(){
             let actualHour = new Date();
             if(this.value != null)
                 if(this.value[0].getDate() == actualHour.getDate())
                     return ((actualHour.getHours()+1)+':00'); 
             return "00:00";
-        }
+        } 
     }
 })
 </script>

@@ -16549,23 +16549,27 @@ __webpack_require__.r(__webpack_exports__);
       return hours;
     },
     setReservation: function setReservation() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/house/' + this.$route.params.id, {
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation', {
         'arrivalDay': this.value[0].toLocaleDateString('es-Es', {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit'
         }),
-        'deapertureDay': this.value[1].toLocaleDateString('es-Es', {
+        'departureDay': this.value[1].toLocaleDateString('es-Es', {
           year: 'numeric',
           month: '2-digit',
           day: '2-digit'
         }),
         'taxes': this.taxes,
+        'arrivalTime': this.arrivalTime,
+        'departureTime': this.departureTime,
         'subtotal': this.subtotal,
-        'total': this.totalPrice,
+        'total': this.totalPrices,
         'house_id': this.house.id
       }).then(function (response) {
         console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
       });
     }
   },

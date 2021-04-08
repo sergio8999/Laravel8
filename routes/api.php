@@ -63,7 +63,7 @@ Route::group([  ], function() {
     Route::get('products', [ProductController::class, 'products'])->name('products');
     Route::get('houses',[HouseController::class,'houses'])->name('houses');
     Route::get('house/{id}',[HouseController::class,'show'])->name('house.show');
-    Route::post('house/{id}',[ReservationController::class,'store']);
+    Route::post('reservation',[ReservationController::class,'store'])->name('reservation');
   });
 
   Route::group(['middleware' => 'auth:api' ], function() {
