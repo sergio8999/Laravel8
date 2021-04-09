@@ -43,8 +43,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // Relación muchos a muchos
-    public function houses(){
-        return $this->belongsToMany(House::class);
+    //Relación uno a muchos
+    public function reservations(){
+        return $this->hasMany(User::class);
     }
 }

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1>Pagina de login:</h1>
-        <form @submit.prevent="login">
+        <h1 class="text-center">Pagina de login:</h1>
+        <form @submit.prevent="login" class="d-flex flex-column align-items-center justify-content-center">
         <label for="email">Email:
             <br>
             <input type="email" id="email" name="email" v-model="email" placeholder="Email">

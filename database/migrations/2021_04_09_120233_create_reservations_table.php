@@ -15,16 +15,18 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->date('arrivalDay');
-            $table->date('departureDay');
-            $table->time('arrivalTime');
-            $table->time('departureTime');
+            $table->string('arrivalDay');
+            $table->string('departureDay');
+            $table->string('arrivalTime');
+            $table->string('departureTime');
             $table->double('taxes');
             $table->double('subtotal');
             $table->double('total');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('house_id')->nullable();
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('house_id')->references('id')->on('houses')->onDelete('set null');
         });
     }

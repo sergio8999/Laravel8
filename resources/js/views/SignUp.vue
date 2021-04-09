@@ -1,7 +1,7 @@
 <template>
     <div>
-        <h1>Pagina de registro:</h1>
-        <form @submit.prevent="signUp">
+        <h1 class="text-center">Pagina de registro:</h1>
+        <form @submit.prevent="signUp" class="d-flex flex-column align-items-center justify-content-center">
             <label for="name">Nombre:
             <br>
             <input type="text" id="name" name="name" v-model="name" placeholder="Nombre">

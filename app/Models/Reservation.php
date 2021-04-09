@@ -21,6 +21,7 @@ class Reservation extends Model
         'taxes',
         'subtotal',
         'total',
+        'user_id',
         'house_id'
     ];
     
@@ -29,7 +30,7 @@ class Reservation extends Model
         'updated_at'
     ];
 
-    public static function set($arrivalDay, $departureDay, $arrivalTime, $departureTime, $taxes, $subtotal, $total, $house_id){
+    public static function set($arrivalDay, $departureDay, $arrivalTime, $departureTime, $taxes, $subtotal, $total, $user_id, $house_id){
         $create = [
             'arrivalDay' => $arrivalDay,
             'departureDay' => $departureDay,
@@ -38,6 +39,7 @@ class Reservation extends Model
             'taxes' => $taxes,
             'subtotal' => $subtotal,
             'total' => $total,
+            'user_id' => $user_id,
             'house_id' => $house_id
         ];
         return self::create($create);
@@ -45,6 +47,11 @@ class Reservation extends Model
 
     //Relación uno a muchos (inversa)
     public function house(){
+        return $this->belongsTo(Reservation::class);
+    }
+
+    //Relación uno a muchos (inversa)
+    public function user(){
         return $this->belongsTo(Reservation::class);
     }
 }

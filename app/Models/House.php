@@ -9,11 +9,6 @@ class House extends Model
 {
     use HasFactory;
 
-    // Relación muchos a muchos
-    public function users(){
-        return $this->belongsToMany(House::class);
-    }
-
     //Relación uno a muchos
     public function reservations(){
         return $this->hasMany(House::class);
