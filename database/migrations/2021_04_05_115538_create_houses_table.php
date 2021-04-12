@@ -21,6 +21,7 @@ class CreateHousesTable extends Migration
             $table->double('price');
             $table->text('description');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

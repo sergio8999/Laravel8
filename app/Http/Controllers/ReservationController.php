@@ -3,11 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
 {
+
+    public function allReservation(){
+        try{
+            $reservation = Reservation::all();
+            return response()->json([
+                'reservation'=> $reservation
+            ]);
+        }catch(Exception $exception){
+            return response()->json([
+                'message'=> $exception->getMessage()
+            ]);
+        } 
+    }
+
+
     public function store(Request $reservation){
            
         Reservation::set($reservation['arrivalDay'], $reservation['departureDay'], $reservation['arrivalTime'], $reservation['departureTime'], $reservation['taxes'], $reservation['subtotal'],$reservation['total'],$reservation['user_id'], $reservation['house_id']);
@@ -18,8 +34,17 @@ class ReservationController extends Controller
     }
 
     public function show(Request $id){
-        $reservation =  Reservation::where('reservations.user_id',$id['user_id'])->get();
-        return $reservation;
+        try{
+            $reservation =  Reservation::where('user_id',$id['user_id'])
+        ->with('house')
+        ->get();
+        return response()->json([
+                'reservation'=> $reservation
+            ]);
+        }catch(Exception $exception){
+            return response()->json([
+                    'message'=> $exception->getMessage()
+            ]);
+        }
     }
-
 }

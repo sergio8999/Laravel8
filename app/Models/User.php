@@ -13,6 +13,10 @@ class User extends Authenticatable
 {
     use HasApiTokens,HasFactory, Notifiable;
 
+
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
     /**
      * The attributes that are mass assignable.
      *
@@ -45,6 +49,6 @@ class User extends Authenticatable
 
     //Relación uno a muchos
     public function reservations(){
-        return $this->hasMany(User::class);
+        return $this->hasMany(Reservation::class);
     }
 }

@@ -19,25 +19,26 @@
                 selectionMode="range"
                 />
             </div>
-            <div class="col-4 col-md-2">
-                <label for=""><b>Hora llegada:</b></label>
-                <input
-                v-model="arrivalTime"
-                type="time"
-                min="00:00"
-                max="23:00"
-                step="3600"
-                />
-                <label for="" class="mt-2"><b> Hora salida:</b></label>
-                <input
-                v-model="departureTime"
-                type="time"
-                min="0:00"
-                max="23:00"
-                step="600"
-                />
+            <div class="col-4 col-md-3">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" v-model="selectHours1">
+                        <option v-for="hour1 in hours" :key="hour1.value" :disabled="hour1.disabled">{{hour1.value}}</option>
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text input-size" for="inputGroupSelect02">Hora salida: </label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect02" v-model="selectHours2">
+                        <option v-for="hour2 in hours" :key="hour2.value">{{hour2.value}}</option>
+                    </select>
+                </div>
             </div>
-            <div class="col-5 mt-md-3 col-md-5">
+
+            <div class="col-5 col-md-4">
                 <p><b>Subtotal ({{ house.price }}€/h):</b> {{ subtotal }}€</p>
                 <p><b>Impuestos:</b> {{ taxes }}€</p>
                 <hr />
@@ -45,8 +46,8 @@
                 <button type="submit" class="btn btn-dark" @click="setReservation">Hacer reserva</button>
             </div>
         </div>
-
-  </div>
+        <button @click="prueba">Prueba</button>
+    </div>
 </template>
 
 <script>
@@ -71,11 +72,12 @@ export default ({
         const user = computed(()=> store.state.informationUser);
         const loggedIn = computed(()=> store.state.loggedIn);
         const toast = useToast();
+        const selectHours1 = ref('00:00');
+        const selectHours2 = ref('00:00');
+        const reservations = ref([]);
 
-        const arrivalTime =ref('00:00');
-        const departureTime =ref('00:00');
         const house = ref([]);
-        const value = ref(null);
+        const value = ref([]);
 
         const changeToSpanish = () => {
             const primevue = usePrimeVue();
@@ -90,14 +92,19 @@ export default ({
             .then(response => {
                 house.value = response.data;
             }) 
+
+            axios.get('/api/reservation')
+            .then(response => {
+                reservations.value = response.data.reservations;
+            })
         })
 
         const getHours = ()=>{
             if(value.value == null || value.value[0] == null )
                 return 0;
 
-            let time1 = arrivalTime.value.split(':');
-            let time2 = departureTime.value.split(':');
+            let time1 = selectHours1.value.split(':');
+            let time2 = selectHours2.value.split(':');
             
             let arrival = new Date(value.value[0].getFullYear(), value.value[0].getMonth(),value.value[0].getDate(),time1[0],time1[1]);
             let departure;
@@ -127,8 +134,8 @@ export default ({
                         'arrivalDay' : value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
                         'departureDay' : value.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
                         'taxes' : taxes.value,
-                        'arrivalTime' : arrivalTime.value,
-                        'departureTime' : departureTime.value,
+                        'arrivalTime' : selectHours1.value,
+                        'departureTime' : selectHours2.value,
                         'subtotal' : subtotal.value,
                         'total' : totalPrices.value,
                         'user_id' : user.value.id,
@@ -153,6 +160,29 @@ export default ({
                 
         };
 
+        const prueba = ()=>{
+            let dateNow = new Date();
+            console.log();
+        }
+
+        const hours = computed(()=>{
+            let hour = [];
+            let dateNow = new Date();
+            let valueDay;
+
+            if(value.value.length == 0)
+                valueDay = dateNow.toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' });
+            else
+                valueDay  = value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' });
+
+            for(let i=0;i<24;i++){
+                hour.push({'value': i+':00','disabled':false});
+                if(i <= dateNow.getHours() && dateNow.toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }) == valueDay)
+                    hour[i].disabled = true;
+            }
+            return hour;
+        }); 
+
         const subtotal = computed(()=>{
             return house.value.price * getHours();
         });
@@ -173,7 +203,7 @@ export default ({
             return "00:00";
         });
 
-        return {arrivalTime, departureTime, value, house,subtotal,taxes,totalPrices,minHour,setReservation};
+        return {hours, selectHours1,prueba, selectHours2, value, house, subtotal, taxes, totalPrices, minHour, setReservation};
     },
     mounted(){
         
@@ -193,5 +223,8 @@ export default ({
     }
     .special-day {
         text-decoration: line-through;
+    }
+    .input-size{
+        width: 7rem;
     }
 </style>

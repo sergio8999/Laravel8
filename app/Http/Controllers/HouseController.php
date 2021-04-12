@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\House;
+use App\Models\Reservation;
 use Illuminate\Http\Request;
 
 class HouseController extends Controller

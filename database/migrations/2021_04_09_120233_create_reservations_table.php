@@ -25,6 +25,7 @@ class CreateReservationsTable extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('house_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('house_id')->references('id')->on('houses')->onDelete('set null');
