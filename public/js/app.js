@@ -12679,9 +12679,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "withKeys": () => (/* binding */ withKeys),
 /* harmony export */   "withModifiers": () => (/* binding */ withModifiers)
 /* harmony export */ });
-/* harmony import */ var _vue_shared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/shared */ "./node_modules/@vue/shared/dist/shared.esm-bundler.js");
 /* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
-/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
+/* harmony import */ var _vue_shared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/shared */ "./node_modules/@vue/shared/dist/shared.esm-bundler.js");
 
 
 
@@ -12824,7 +12823,7 @@ function autoPrefix(style, rawName) {
     if (cached) {
         return cached;
     }
-    let name = (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.camelize)(rawName);
+    let name = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__.camelize)(rawName);
     if (name !== 'filter' && name in style) {
         return (prefixCache[rawName] = name);
     }
@@ -13457,7 +13456,7 @@ const TransitionGroupImpl = {
             });
         });
         return () => {
-            const rawProps = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_2__.toRaw)(props);
+            const rawProps = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__.toRaw)(props);
             const cssTransitionProps = resolveTransitionProps(rawProps);
             const tag = rawProps.tag || _vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__.Fragment;
             prevChildren = children;
@@ -16530,9 +16529,11 @@ __webpack_require__.r(__webpack_exports__);
       return store.state.loggedIn;
     });
     var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_3__.useToast)();
-    var selectHours1 = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('00:00');
-    var selectHours2 = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('00:00');
+    var hourActual = new Date();
+    var selectHours1 = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('0:00');
+    var selectHours2 = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('0:00');
     var reservations = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
+    var invalidDates = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
     var house = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
     var value = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
 
@@ -16548,8 +16549,11 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/house/' + _router__WEBPACK_IMPORTED_MODULE_4__.default.currentRoute.value.params.id).then(function (response) {
         house.value = response.data;
       });
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/reservation').then(function (response) {
-        reservations.value = response.data.reservations;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation/allReservationHouse', {
+        'house_id': _router__WEBPACK_IMPORTED_MODULE_4__.default.currentRoute.value.params.id
+      }).then(function (response) {
+        reservations.value = response.data.reservation;
+        disabledDates();
       });
     });
 
@@ -16569,9 +16573,35 @@ __webpack_require__.r(__webpack_exports__);
       return true;
     };
 
+    var checkDateReservation = function checkDateReservation() {
+      var status = true;
+      if (value.value[1] == null) value.value[1] = value.value[0];
+      invalidDates.value.forEach(function (element) {
+        if (value.value[0].getTime() < element.getTime() && value.value[1].getTime() > element.getTime()) status = false;
+      });
+      reservations.value.forEach(function (element) {
+        var dayReservation1 = element.arrivalDay.split('/');
+        var timeReservation1 = element.arrivalTime.split(':');
+        var dateReservation1 = new Date(dayReservation1[2], parseInt(dayReservation1[1]) - 1, dayReservation1[0], timeReservation1[0], timeReservation1[1]);
+        var timeCalendar1 = selectHours1.value.split(':');
+        var timeCalendar2 = selectHours2.value.split(':');
+        var dateCalendar1 = new Date(value.value[0].getFullYear(), value.value[0].getMonth(), value.value[0].getDate(), timeCalendar1[0], timeCalendar1[1]);
+        var dateCalendar2 = new Date(value.value[1].getFullYear(), value.value[1].getMonth(), value.value[1].getDate(), timeCalendar2[0], timeCalendar2[1]);
+        if (dateCalendar1.getTime() <= dateReservation1.getTime() && dateCalendar2.getTime() >= dateReservation1.getTime()) status = false;
+      });
+      return status;
+    };
+
     var setReservation = function setReservation() {
       if (loggedIn.value) {
-        if (checkDate() && totalPrices.value != 0) {
+        if (!checkDateReservation()) {
+          toast.add({
+            severity: 'error',
+            summary: 'Error Message',
+            detail: 'Hay una o varias reservas entre esos dias',
+            life: 3000
+          });
+        } else if (checkDate() && totalPrices.value != 0) {
           if (value.value[1] == null) value.value[1] = value.value[0];
           axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation', {
             'arrivalDay': value.value[0].toLocaleDateString('es-Es', {
@@ -16624,11 +16654,17 @@ __webpack_require__.r(__webpack_exports__);
     };
 
     var prueba = function prueba() {
-      var dateNow = new Date();
-      console.log();
+      console.log(value.value);
     };
 
-    var hours = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var hoursArrival = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return setHours('arrival');
+    });
+    var hoursDeparture = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+      return setHours('departure');
+    });
+
+    var setHours = function setHours(day) {
       var hour = [];
       var dateNow = new Date();
       var valueDay;
@@ -16647,15 +16683,45 @@ __webpack_require__.r(__webpack_exports__);
           'value': i + ':00',
           'disabled': false
         });
-        if (i <= dateNow.getHours() && dateNow.toLocaleDateString('es-Es', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit'
-        }) == valueDay) hour[i].disabled = true;
+
+        if (day == 'arrival') {
+          if (i <= dateNow.getHours() && dateNow.toLocaleDateString('es-Es', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          }) == valueDay) hour[i].disabled = true;
+        } else {
+          if (i <= dateNow.getHours() + 1 && dateNow.toLocaleDateString('es-Es', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit'
+          }) == valueDay || value.value[1] == null && i <= parseInt(selectHours1.value)) hour[i].disabled = true;
+        }
       }
 
       return hour;
-    });
+    };
+
+    var disabledDates = function disabledDates() {
+      reservations.value.forEach(function (element) {
+        var arrivalDay = element.arrivalDay.split('/');
+        var dateArrival = new Date(arrivalDay[2], arrivalDay[1], arrivalDay[0]);
+        var departureDay = element.departureDay.split('/');
+        var dateDeparture = new Date(departureDay[2], departureDay[1], departureDay[0]);
+
+        if (element.arrivalDay != element.departureDay) {
+          if (element.arrivalTime == '0:00') invalidDates.value.push(new Date(arrivalDay[2], parseInt(arrivalDay[1]) - 1, arrivalDay[0]));
+          if (element.departureTime == '23:00') invalidDates.value.push(new Date(departureDay[2], parseInt(departureDay[1]) - 1, departureDay[0]));
+
+          for (var i = dateArrival.getMonth(); i <= dateDeparture.getMonth(); i++) {
+            for (var j = dateArrival.getDate() + 1; j < dateDeparture.getDate(); j++) {
+              invalidDates.value.push(new Date(arrivalDay[2], i - 1, j));
+            }
+          }
+        }
+      });
+    };
+
     var subtotal = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return house.value.price * getHours();
     });
@@ -16665,22 +16731,18 @@ __webpack_require__.r(__webpack_exports__);
     var totalPrices = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return subtotal.value + taxes.value;
     });
-    var minHour = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
-      var actualHour = new Date();
-      if (value.value != null) if (value[0].getDate() == actualHour.getDate()) return actualHour.getHours() + 1 + ':00';
-      return "00:00";
-    });
     return {
-      hours: hours,
+      hoursArrival: hoursArrival,
+      hoursDeparture: hoursDeparture,
       selectHours1: selectHours1,
       prueba: prueba,
+      invalidDates: invalidDates,
       selectHours2: selectHours2,
       value: value,
       house: house,
       subtotal: subtotal,
       taxes: taxes,
       totalPrices: totalPrices,
-      minHour: minHour,
       setReservation: setReservation
     };
   },
@@ -17312,18 +17374,19 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       return $setup.value = $event;
     }),
     inline: true,
+    disabledDates: $setup.invalidDates,
     "min-date": new Date(),
     stepMinute: 60,
     selectionMode: "range"
   }, null, 8
   /* PROPS */
-  , ["modelValue", "min-date"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+  , ["modelValue", "disabledDates", "min-date"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
     "class": "custom-select",
     id: "inputGroupSelect01",
     "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
       return $setup.selectHours1 = $event;
     })
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.hours, function (hour1) {
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.hoursArrival, function (hour1) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
       key: hour1.value,
       disabled: hour1.disabled
@@ -17340,12 +17403,13 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
       return $setup.selectHours2 = $event;
     })
-  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.hours, function (hour2) {
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.hoursDeparture, function (hour2) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
-      key: hour2.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hour2.value), 1
-    /* TEXT */
-    );
+      key: hour2.value,
+      disabled: hour2.disabled
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(hour2.value), 9
+    /* TEXT, PROPS */
+    , ["disabled"]);
   }), 128
   /* KEYED_FRAGMENT */
   ))], 512
@@ -28619,9 +28683,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "compile": () => (/* binding */ compileToFunction)
 /* harmony export */ });
 /* harmony import */ var _vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vue/runtime-dom */ "./node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js");
-/* harmony import */ var _vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @vue/runtime-dom */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
-/* harmony import */ var _vue_compiler_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @vue/compiler-dom */ "./node_modules/@vue/compiler-dom/dist/compiler-dom.esm-bundler.js");
-/* harmony import */ var _vue_shared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/shared */ "./node_modules/@vue/shared/dist/shared.esm-bundler.js");
+/* harmony import */ var _vue_compiler_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/compiler-dom */ "./node_modules/@vue/compiler-dom/dist/compiler-dom.esm-bundler.js");
+/* harmony import */ var _vue_shared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @vue/shared */ "./node_modules/@vue/shared/dist/shared.esm-bundler.js");
 
 
 
@@ -28630,7 +28693,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function initDev() {
     {
-        (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.initCustomFormatter)();
+        (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.initCustomFormatter)();
     }
 }
 
@@ -28640,13 +28703,13 @@ if ((true)) {
 }
 const compileCache = Object.create(null);
 function compileToFunction(template, options) {
-    if (!(0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.isString)(template)) {
+    if (!(0,_vue_shared__WEBPACK_IMPORTED_MODULE_2__.isString)(template)) {
         if (template.nodeType) {
             template = template.innerHTML;
         }
         else {
-            ( true) && (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.warn)(`invalid template option: `, template);
-            return _vue_shared__WEBPACK_IMPORTED_MODULE_1__.NOOP;
+            ( true) && (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.warn)(`invalid template option: `, template);
+            return _vue_shared__WEBPACK_IMPORTED_MODULE_2__.NOOP;
         }
     }
     const key = template;
@@ -28657,7 +28720,7 @@ function compileToFunction(template, options) {
     if (template[0] === '#') {
         const el = document.querySelector(template);
         if (( true) && !el) {
-            (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.warn)(`Template element not found or is empty: ${template}`);
+            (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.warn)(`Template element not found or is empty: ${template}`);
         }
         // __UNSAFE__
         // Reason: potential execution of JS expressions in in-DOM template.
@@ -28665,14 +28728,14 @@ function compileToFunction(template, options) {
         // by the server, the template should not contain any user data.
         template = el ? el.innerHTML : ``;
     }
-    const { code } = (0,_vue_compiler_dom__WEBPACK_IMPORTED_MODULE_3__.compile)(template, (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.extend)({
+    const { code } = (0,_vue_compiler_dom__WEBPACK_IMPORTED_MODULE_1__.compile)(template, (0,_vue_shared__WEBPACK_IMPORTED_MODULE_2__.extend)({
         hoistStatic: true,
         onError(err) {
             if ((true)) {
                 const message = `Template compilation error: ${err.message}`;
                 const codeFrame = err.loc &&
-                    (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.generateCodeFrame)(template, err.loc.start.offset, err.loc.end.offset);
-                (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.warn)(codeFrame ? `${message}\n${codeFrame}` : message);
+                    (0,_vue_shared__WEBPACK_IMPORTED_MODULE_2__.generateCodeFrame)(template, err.loc.start.offset, err.loc.end.offset);
+                (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.warn)(codeFrame ? `${message}\n${codeFrame}` : message);
             }
             else {}
         }
@@ -28685,7 +28748,7 @@ function compileToFunction(template, options) {
     render._rc = true;
     return (compileCache[key] = render);
 }
-(0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.registerRuntimeCompiler)(compileToFunction);
+(0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.registerRuntimeCompiler)(compileToFunction);
 
 
 

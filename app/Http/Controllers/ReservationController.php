@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\DB;
 class ReservationController extends Controller
 {
 
-    public function allReservation(){
+    public function allReservationHouse(Request $id){
         try{
-            $reservation = Reservation::all();
+            $reservation = Reservation::where('house_id',$id['house_id'])->get();
             return response()->json([
                 'reservation'=> $reservation
             ]);
