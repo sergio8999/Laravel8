@@ -10,8 +10,8 @@
             <div class="col-6 d-flex flex-column justify-content-center">
                 <div v-if="value == 'information'">
                     <h1 class="mb-4">Perfil:</h1>
-                    <p><b>Nombre:</b>{{user.name}}</p>
-                    <p><b>Email:</b>{{user.email}}</p>           
+                    <p><b>Nombre:</b> {{user.name}}</p>
+                    <p><b>Email:</b> {{user.email}}</p>           
                 </div>
                 <div v-if="value == 'reservation'">
                     <h1 class="mb-4">Reservas:</h1>

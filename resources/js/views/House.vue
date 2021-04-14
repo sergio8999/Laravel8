@@ -59,7 +59,7 @@ import { useToast } from "primevue/usetoast"
 import route from "@/router"
 import router from "@/router"
 import { useStore } from 'vuex'
-
+import moment from 'moment'
 
 export default ({
     name:'House',
@@ -73,7 +73,6 @@ export default ({
         const user = computed(()=> store.state.informationUser);
         const loggedIn = computed(()=> store.state.loggedIn);
         const toast = useToast();
-        let hourActual = new Date();
 
         const selectHours1 = ref('0:00');
         const selectHours2 = ref('0:00');
@@ -105,6 +104,7 @@ export default ({
 
         })
 
+        // Obtener horas entre la diferencia de fechas
         const getHours = ()=>{
             if(value.value == null || value.value[0] == null )
                 return 0;
@@ -124,12 +124,14 @@ export default ({
             return hours;
         };
 
+        // Comprobar que hay un dia seleccionado
         const checkDate = ()=>{
-            if(value.value == null || value.value[0] == null)
+            if(value.value[0] == undefined)
                 return false;
             return true;
         };
         
+        // Comprobar si existe reserva entre las fechas seleccionadas
         const checkDateReservation = ()=>{
             let status = true;
             if(value.value[1] == null)
@@ -153,20 +155,24 @@ export default ({
                 let dateCalendar1 = new Date(value.value[0].getFullYear(),value.value[0].getMonth(),value.value[0].getDate(),timeCalendar1[0],timeCalendar1[1]);
                 let dateCalendar2 = new Date(value.value[1].getFullYear(),value.value[1].getMonth(),value.value[1].getDate(),timeCalendar2[0],timeCalendar2[1]);
 
-                if(dateCalendar1.getTime() <= dateReservation1.getTime() && dateCalendar2.getTime() >= dateReservation1.getTime())
+                if(dateCalendar1.getTime() <= dateReservation1.getTime() && dateCalendar2.getTime() >= dateReservation1.getTime()){
                     status = false;  
+                }
+                    
         
             });  
         
             return status;
         };
 
+        // Hacer reservas con sus correspondientes comprobaciones
         const setReservation = ()=>{
-
             if(loggedIn.value){
-                if(!checkDateReservation()){
+                if(!checkDate())
+                    toast.add({severity:'error', summary: 'Error Message', detail:'Debe seleccionar dias', life: 3000}); 
+                else if(!checkDateReservation()){
                     toast.add({severity:'error', summary: 'Error Message', detail:'Hay una o varias reservas entre esos dias', life: 3000});                    
-                }else if(checkDate() && totalPrices.value != 0){
+                }else if( totalPrices.value > 0){
                     if(value.value[1] == null)
                         value.value[1] = value.value[0];
 
@@ -183,12 +189,14 @@ export default ({
                     })
                     .then(response => {
                         console.log(response.data);
+                        router.push('/');
+                        console.log("Realizado correctamente");
+                        toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente"', life: 3000});
                     }) 
                     .catch(error => {
                         console.log(error)
                     });
-                    console.log("Realizado correctamente");
-                    toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente"', life: 3000});
+                    
                     }else{
                         console.log("Error. Debe seleccionar los dias y horas correctamente");
                         toast.add({severity:'error', summary: 'Error Message', detail:'Error. Debe seleccionar los dias y horas correctamente', life: 3000});
@@ -200,24 +208,23 @@ export default ({
                 
         };
 
-        const prueba = ()=>{
-             console.log(value.value);
-        }
-
+        // Obtener horas de llegada
         const hoursArrival = computed(()=>{
             return setHours('arrival');
         }); 
 
+        // Obtener horas de salida
         const hoursDeparture = computed(()=>{
             return setHours('departure');
         }); 
 
+        // Método para obtener las horas y si se deshabilita 
         const setHours = (day)=>{
             let hour = [];
             let dateNow = new Date();
             let valueDay;
 
-            if(value.value.length == 0)
+            if(value.value.length == 0 || value.value[0]  == undefined)
                 valueDay = dateNow.toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' });
             else
                 valueDay  = value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' });
@@ -225,10 +232,10 @@ export default ({
             for(let i=0;i<24;i++){
                 hour.push({'value': i+':00','disabled':false});
                 if(day == 'arrival'){
-                    if(i <= dateNow.getHours() && dateNow.toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }) == valueDay)
+                    if(i <= dateNow.getHours() && dateNow.toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }) == valueDay  || checkHourReservation('arrivalDay',hour[i].value))
                         hour[i].disabled = true;
                 }else{
-                    if(i <= dateNow.getHours()+1 && dateNow.toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }) == valueDay || value.value[1]==null && i <= parseInt(selectHours1.value))
+                    if(i <= dateNow.getHours()+1 && dateNow.toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }) == valueDay || value.value[1]==null && i <= parseInt(selectHours1.value) || checkHourReservation('departureDay',hour[i].value))
                         hour[i].disabled = true;
                 }
             }
@@ -236,6 +243,30 @@ export default ({
             return hour;
         }
 
+        // Checkear para deshabilitar las horas de llegada y salida respectivamente
+        const checkHourReservation = (day,hour)=>{
+            let status = false;
+
+            if(value.value[0] != undefined)
+                reservations.value.forEach(element => {
+                    if(day == 'arrivalDay' || value.value[1] == undefined){
+                        if(moment(value.value[0],'DD-MM-YYYY '+ hour).format('DD/MM/YYYY') == element.arrivalDay ){
+                            if(parseInt(element.arrivalTime) <= parseInt(hour) && parseInt(element.departureTime) >= parseInt(hour) || parseInt(element.arrivalTime) <= parseInt(hour) && element.arrivalDay != element.departureDay )
+                                status = true;
+                        }else if(moment(value.value[0],'DD-MM-YYYY '+ hour).format('DD/MM/YYYY') == element.departureDay && parseInt(hour) <= parseInt(element.departureTime)) 
+                            status = true;
+                    }else{
+                        if(moment(value.value[1],'DD-MM-YYYY').format('DD/MM/YYYY') == element.departureDay){
+                            if(parseInt(element.arrivalTime) <= parseInt(hour) && parseInt(element.departureTime) >= parseInt(hour) && element.arrivalDay == element.departureDay || parseInt(element.departureTime) >= parseInt(hour) && element.arrivalDay != element.departureDay)
+                                status = true;
+                            } 
+                    }
+                });
+
+            return status;
+        }
+
+        // Añadir dias para deshabilitar en el calendario
         const disabledDates = ()=>{
             reservations.value.forEach(element => {
                 let arrivalDay = element.arrivalDay.split('/');
@@ -259,6 +290,10 @@ export default ({
             });
         };
 
+        const prueba = ()=>{
+        
+        }
+
         const subtotal = computed(()=>{
             return house.value.price * getHours();
         });
@@ -271,9 +306,7 @@ export default ({
             return subtotal.value + taxes.value;
         });
 
-    
-
-        return {hoursArrival,hoursDeparture, selectHours1, prueba, invalidDates, selectHours2, value, house, subtotal, taxes, totalPrices, setReservation};
+        return {hoursArrival, prueba, hoursDeparture, selectHours1, invalidDates, selectHours2, value, house, subtotal, taxes, totalPrices, setReservation};
     },
     mounted(){
         
