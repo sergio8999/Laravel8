@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\House;
-use App\Models\Reservation;
+use Exception;
 use Illuminate\Http\Request;
 
 class HouseController extends Controller
@@ -15,8 +15,17 @@ class HouseController extends Controller
     }
 
     public function show($id){ 
-       $house = House::find($id);
-        
-       return $house;
+        try{
+            $house = House::where('id',$id)
+            ->with('details')
+            ->get();
+            return response()->json([
+                'house'=> $house
+            ]);
+        }catch(Exception $exception){
+            return response()->json([
+                'message'=> $exception->getMessage()
+            ]);
+        }
     }
 }

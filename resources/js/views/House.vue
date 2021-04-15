@@ -1,12 +1,26 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="house.length !=0">
     <div class="d-flex flex-column justify-content-center align-items-center">
       <h1>{{ house.name }}</h1>
       <img :src="`/images/${house.url}`" alt="" />
     </div>
     <div class="mt-4">
       <h3>Anfitrión: {{ house.host }}</h3>
+      <div class="d-flex">
+        <span class="ml-2">{{details.guests}} Huéspedes</span> 
+        <span class="ml-2">·</span>
+        <span class="ml-2">{{details.bedrooms}} dormitorio/s</span>
+        <span class="ml-2">·</span>
+        <span class="ml-2">{{details.beds}} cama/s</span>
+        <span class="ml-2">·</span>
+        <p class="ml-2">{{details.toilets}} baño/s</p>
+      </div>
       <p>{{ house.description }}</p>
+      <h5>Servicios:</h5>
+      <div class="d-flex flex-column mb-4">
+            <span v-if="details.wifi == 'true'"><i class="pi pi-wifi icon mb-3 mr-2"></i>Wifi</span>
+            <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
+      </div>
     </div>
     <h4>Dia llegada - salida</h4>
         <div class="row my-3">
@@ -49,6 +63,10 @@
         </div>
         <button @click="prueba">Prueba</button>
     </div>
+
+    <div v-else class="d-flex justify-content-center mt-5">
+        <i class="pi pi-spin pi-spinner" style="fontSize: 2rem"></i>
+    </div>
 </template>
 
 <script>
@@ -80,6 +98,7 @@ export default ({
         const invalidDates =ref([]);
 
         const house = ref([]);
+        const details = ref([]);
         const value = ref([]);
 
         const changeToSpanish = () => {
@@ -93,7 +112,8 @@ export default ({
              changeToSpanish();
              axios.get('/api/house/'+route.currentRoute.value.params.id)
             .then(response => {
-                house.value = response.data;
+                house.value = response.data.house[0];
+                details.value = response.data.house[0].details[0];
             }) 
 
             axios.post('/api/reservation/allReservationHouse',{'house_id' : route.currentRoute.value.params.id})
@@ -306,7 +326,7 @@ export default ({
             return subtotal.value + taxes.value;
         });
 
-        return {hoursArrival, prueba, hoursDeparture, selectHours1, invalidDates, selectHours2, value, house, subtotal, taxes, totalPrices, setReservation};
+        return {hoursArrival, prueba, hoursDeparture, selectHours1, invalidDates, selectHours2, value, house, details, subtotal, taxes, totalPrices, setReservation};
     },
     mounted(){
         
@@ -321,7 +341,7 @@ export default ({
 </script>
 <style scoped>
     img {
-        width: 100%;
+        width: auto;
         height: 30rem;
     }
     .special-day {
@@ -329,5 +349,11 @@ export default ({
     }
     .input-size{
         width: 7rem;
+    }
+
+    .icon{
+        width: 1.7rem;
+        height: 1.7rem;
+        font-size: 1.5rem;
     }
 </style>

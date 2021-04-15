@@ -35,7 +35,7 @@ class ReservationController extends Controller
 
     public function show(Request $id){
         try{
-            $reservation =  Reservation::where('user_id',$id['user_id'])
+            $reservation = Reservation::where('user_id',$id['user_id'])
         ->with('house')
         ->get();
         return response()->json([

@@ -20,8 +20,13 @@ class CreateHousesTable extends Migration
             $table->string('url');
             $table->double('price');
             $table->text('description');
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->unsignedBigInteger('location_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('set null');
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('set null');
         });
     }
 

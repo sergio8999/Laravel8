@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class House extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'houses';
     protected $primaryKey = 'id';
@@ -19,7 +19,9 @@ class House extends Model
         'host',
         'url',
         'price',
-        'description'
+        'description',
+        'category_id',
+        'location_id'
     ];
     
     protected $hidden = [
@@ -28,13 +30,15 @@ class House extends Model
         'deleted_at' 
     ];
 
-    public static function set($name, $host, $url, $price, $description){
+    public static function set($name, $host, $url, $price, $description, $category_id, $location_id){
         $create = [
             'name' => $name,
             'host' => $host,
             'url' => $url,
             'price' => $price,
-            'description' => $description
+            'description' => $description,
+            'category_id' => $category_id,
+            'location_id' => $location_id
         ];
         return self::create($create);
     }
@@ -42,5 +46,18 @@ class House extends Model
     //Relación uno a muchos
     public function reservations(){
         return $this->hasMany(Reservation::class);
+    }
+
+    public function details(){
+        return $this->hasMany(Detail::class);
+    }
+
+    //Relación muchos a uno
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+ 
+    public function location(){
+        return $this->belongsTo(Location::class);
     }
 }
