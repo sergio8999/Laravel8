@@ -1,51 +1,88 @@
 <template>
-    <div v-if="houses.length !=0">
-        <h1 class="text-center">Alojamientos</h1>
-        <div class="d-flex flex-wrap flex-row justify-content-center">
-            <div v-for="house in houses" :key="house.id" class="card m-2" style="width: 18rem;">
-                <img :src="`/images/${house.url}`" class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">{{house.name}}</h5>
-                    <p class="card-text">{{house.description}}</p>
-                    <p class="card-text">{{house.price}}€/h</p>
-                    <div class="d-flex justify-content-center">
-                        <router-link :to="{name:'house',params:{id:house.id}}" class="btn btn-dark">Ver casa</router-link>
-                    </div>    
+    <div class="hero d-flex flex-column align-items-center">
+        <img src="/images/hero.jpg" alt="hero">
+        <span>Todo es posible gracias a los anfitriones</span>
+    </div>
+    <div class="categories">
+        <h2 class="mt-5">Vive donde quieras</h2>
+        <div class="row d-flex justify-content-center align-items-center my-5">
+                <div class="categories-category col-12 col-md-5 col-lg-3 mt-3 mt-md-4 mt-lg-0" v-for="category in categories" :key="category.id">
+                    <router-link :to="{name:'category',params:{id:category.id}}">
+                        <img class="categories-img" :src="`/images/${category.url}`" alt="">
+                        <span class="categories-text">{{category.name}}</span>
+                    </router-link>
                 </div>
-            </div>
         </div>
     </div>
-    <div v-else class="d-flex justify-content-center mt-5">
-        <i class="pi pi-spin pi-spinner" style="fontSize: 2rem"></i>
-    </div>
-    
 </template>
 
 <script>
 import axios from 'axios'
-import { useStore } from 'vuex'
-import {computed} from 'vue'
+import { onMounted, ref } from "vue"
 
-export default ({
+
+export default({
     name:'Home',
     data(){
         return {
-            houses:[]
+            
         }
     },
-    setup(){
-        const store = useStore();
-        const loggedIn = computed(()=> store.state.loggedIn);
-        return {loggedIn};
-    },
-    mounted(){
-        axios.get('/api/houses')
+    setup() {
+        const categories = ref([]);
+
+        onMounted(()=>{
+            axios.get('/api/categories')
             .then(response => {
-                this.houses = response.data
+                categories.value = response.data.categories;
             }) 
-        }
+        })
+
+        return {categories};
+    },
 })
 </script>
-<style scoped>
 
+<style scoped lang="scss">
+@import '../../scss/app.scss';
+.hero{
+    width: 100%;
+    height: 80vh;
+    padding: 0rem 4rem 8rem;
+    background-color: $color-primary;
+
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    span{
+        color: $color-white;
+        font-size: 2.5rem;
+        margin-top: 4rem;
+    }
+}
+
+    .categories{
+        width: 80%;
+        margin: auto;
+
+        &-img{
+            width: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        a{
+            text-decoration: none;
+        }
+        
+        &-text{
+            color: black;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }        
+
+    }    
 </style>

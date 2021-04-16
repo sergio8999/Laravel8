@@ -24,7 +24,7 @@
     </div>
     <h4>Dia llegada - salida</h4>
         <div class="row my-3">
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-md-7 col-lg-5">
                 <Calendar
                 v-model="value"
                 :inline="true"
@@ -34,7 +34,7 @@
                 selectionMode="range"
                 />
             </div>
-            <div class="col-4 col-md-3">
+            <div class="col-4 col-md-5 col-lg-3">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
@@ -53,7 +53,7 @@
                 </div>
             </div>
 
-            <div class="col-5 col-md-4">
+            <div class="col-5 col-md-4 col-lg-4">
                 <p><b>Subtotal ({{ house.price }}€/h):</b> {{ subtotal }}€</p>
                 <p><b>Impuestos:</b> {{ taxes }}€</p>
                 <hr />
@@ -64,7 +64,7 @@
         <button @click="prueba">Prueba</button>
     </div>
 
-    <div v-else class="d-flex justify-content-center mt-5">
+    <div v-else class="d-flex justify-content-center align-items-start mt-5">
         <i class="pi pi-spin pi-spinner" style="fontSize: 2rem"></i>
     </div>
 </template>

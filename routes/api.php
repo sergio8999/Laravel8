@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HouseController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\ReservationController;
+use App\Models\Category;
 use App\Models\House;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
@@ -66,6 +68,8 @@ Route::group([  ], function() {
     Route::post('reservation',[ReservationController::class,'store']);
     Route::post('reservation/show',[ReservationController::class,'show']);
     Route::post('reservation/allReservationHouse',[ReservationController::class,'allReservationHouse']);
+    Route::get('categories',[CategoryController::class, 'categories']);
+    Route::get('categories/{id}',[CategoryController::class,'show']);
   });
 
   Route::group(['middleware' => 'auth:api' ], function() {

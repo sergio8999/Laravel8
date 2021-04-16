@@ -14,7 +14,8 @@ class Category extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'name'
+        'name',
+        'url'
     ];
 
     protected $hidden = [
@@ -23,9 +24,10 @@ class Category extends Model
         'deleted_at' 
     ];
 
-    public static function set($name){
+    public static function set($name, $url){
         $create = [
-            'name' => $name
+            'name' => $name,
+            'url' => $url
         ];
         return self::create($create);
     }
