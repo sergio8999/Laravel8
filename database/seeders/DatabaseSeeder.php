@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Detail;
 use App\Models\House;
+use App\Models\House_Detail;
 use App\Models\Location;
 use Illuminate\Database\Seeder;
 
@@ -23,11 +24,62 @@ class DatabaseSeeder extends Seeder
         /* Product::factory(20)->create(); */
 
         // Localizacion
-        Location::set('Granada');
-        Location::set('Almuñecar');
-        Location::set('Madrid');
+        
+        Location::set('Álava','Ál.','ES-VI');
+        Location::set('Albacete','Alb.','ES-AB');
+        Location::set('Alicante', 'Alc.', 'ES-A');
+        Location::set('Almería', 'Alm.', 'ES-AL');
+        Location::set('Asturias', 'Ast.', 'ES-O');
+        Location::set('Ávila', 'Áv.', 'ES-AV');
+        Location::set('Badajoz', 'Bad.', 'ES-BA');
+        Location::set('Baleares / Balears',	'Bal.',	'ES-PM');
+        Location::set('Barcelona', 'Barna.', 'ES-B');
+        Location::set('Burgos', 'Burg.', 'ES-BU');
+        Location::set('Cáceres', 'Các.', 'ES-CC');
+        Location::set('Cádiz', 'Cád.', 'ES-CA');
+        Location::set('Cantabria', 'Cantb.', 'ES-S');
+        Location::set('Castellón / Castelló', 'Cs., Cast.',	'ES-CS');
+        Location::set('Ciudad Real', 'C. Real', 'ES-CR');
+        Location::set('Córdoba', 'Córd.', 'ES-CO');
+        Location::set('Cuenca', 'Cuen.', 'ES-CU');
+        Location::set('Gerona / Girona','–', 'ES-GI');
+        Location::set('Granada', 'Gran.', 'ES-GR');
+        Location::set('Guadalajara', 'Guad.', 'ES-GU');
+        Location::set('Guipúzcoa / Gipuzkoa', 'Guip.', 'ES-SS');
+        Location::set('Huelva', 'Huel.', 'ES-H');
+        Location::set('Huesca', 'Hues.', 'ES-HU');
+        Location::set('Jaén', '–', 'ES-J');
+        Location::set('La Coruña / A Coruña', '–', 'ES-C');
+        Location::set('La Rioja', '–', 'ES-LO');
+        Location::set('Las Palmas', '–', 'ES-GC');
+        Location::set('León', '–', 'ES-LE');
+        Location::set('Lérida / Lleida', 'Lér.', 'ES-L');
+        Location::set('Lugo', '–', 'ES-LU');
+        Location::set('Madrid', 'Mad.', 'ES-M');
+        Location::set('Málaga', 'Mál.', 'ES-MA');
+        Location::set('Murcia', 'Mur.', 'ES-MU');
+        Location::set('Navarra', 'Nav.', 'ES-NA');
+        Location::set('Orense / Ourense', '–', 'ES-OR');
+        Location::set('Palencia', 'Pal.', 'ES-P');
+        Location::set('Pontevedra', '–', 'ES-PO');
+        Location::set('Salamanca', 'Sal.', 'ES-SA');
+        Location::set('Santa Cruz de Tenerife', '–', 'ES-TF');
+        Location::set('Segovia', 'Seg.', 'ES-SG');
+        Location::set('Sevilla', 'Sev.', 'ES-SE');
+        Location::set('Soria', 'Sor.', 'ES-SO');
+        Location::set('Tarragona', '–', 'ES-T');
+        Location::set('Teruel', 'Ter.', 'ES-TE');
+        Location::set('Toledo',	'Tol.',	'ES-TO');
+        Location::set('Valencia / València', 'Val.', 'ES-V');
+        Location::set('Valladolid',	'Vall.', 'ES-VA');
+        Location::set('Vizcaya / Bizkaia', 'Vizc.', 'ES-BI');
+        Location::set('Zamora', 'Zam.',	'ES-ZA');
+        Location::set('Zaragoza', 'Zar.', 'ES-Z');
+
+        
+        /* Location::set('Madrid');
         Location::set('Marbella');
-        Location::set('Oporto');
+        Location::set('Oporto'); */
         
         // Categorias
         Category::set('Alojamientos enteros','alojamientosEnteros.jpg');
@@ -42,9 +94,9 @@ class DatabaseSeeder extends Seeder
         House::set('Studio Maisonnette à 100m de la Plage à Biarritz','Pierre','imagen4.jpg','2','Casa unifamiliar a 100 m de la playa (a poca distancia) de Milady, Ilbarritz Golf, Thalasso Thalmar. Terraza privada de madera con muebles de jardín (pequeños) animales domésticos bienvenidos... bajo petición ','4','4');
 
         // Detalles
-        Detail::set('3','true','4','2','1','false','1');
-        Detail::set('2','true','3','2','1','true','2');
-        Detail::set('1','true','2','1','1','false','3');
-        Detail::set('1','true','2','1','1','false','4');
+        House_Detail::set('3','true','4','2','1','false','1');
+        House_Detail::set('2','true','3','2','1','true','2');
+        House_Detail::set('1','true','2','1','1','false','3');
+        House_Detail::set('1','true','2','1','1','false','4');
     }
 }

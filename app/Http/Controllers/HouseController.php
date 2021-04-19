@@ -6,6 +6,8 @@ use App\Models\House;
 use Exception;
 use Illuminate\Http\Request;
 
+use function PHPUnit\Framework\isEmpty;
+
 class HouseController extends Controller
 {
     public function houses(){
@@ -18,13 +20,30 @@ class HouseController extends Controller
         try{
             $house = House::where('id',$id)
             ->with('details')
-            ->get();
+            ->first();
+
+            if($house ==null)
+                return response()->json([
+                    'house'=> 404
+                ]);
+
             return response()->json([
                 'house'=> $house
             ]);
         }catch(Exception $exception){
             return response()->json([
                 'message'=> $exception->getMessage()
+            ]);
+        }
+    }
+
+    public function setFilter($province){
+
+        try{
+            
+        }catch(Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
             ]);
         }
     }

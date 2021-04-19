@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HouseController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\ReservationController;
@@ -70,6 +71,7 @@ Route::group([  ], function() {
     Route::post('reservation/allReservationHouse',[ReservationController::class,'allReservationHouse']);
     Route::get('categories',[CategoryController::class, 'categories']);
     Route::get('categories/{id}',[CategoryController::class,'show']);
+    Route::get('locations',[LocationController::class, 'locations']);
   });
 
   Route::group(['middleware' => 'auth:api' ], function() {

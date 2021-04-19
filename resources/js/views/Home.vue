@@ -19,6 +19,7 @@
 <script>
 import axios from 'axios'
 import { onMounted, ref } from "vue"
+import {categories} from '@/utils/api'
 
 
 export default({
@@ -35,7 +36,10 @@ export default({
             axios.get('/api/categories')
             .then(response => {
                 categories.value = response.data.categories;
-            }) 
+            })
+            .catch(error=>{
+                console.log(error);
+            })
         })
 
         return {categories};
@@ -48,7 +52,6 @@ export default({
 .hero{
     width: 100%;
     height: 80vh;
-    padding: 0rem 4rem 8rem;
     background-color: $color-primary;
 
     img{
@@ -60,7 +63,7 @@ export default({
     span{
         color: $color-white;
         font-size: 2.5rem;
-        margin-top: 4rem;
+        padding: 2rem;
     }
 }
 

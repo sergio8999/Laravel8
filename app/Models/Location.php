@@ -15,7 +15,9 @@ class Location extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'province'
+        'name',
+        'abbreviation',
+        'cod'
     ];
 
     protected $hidden = [
@@ -24,9 +26,11 @@ class Location extends Model
         'deleted_at' 
     ];
 
-    public static function set($province){
+    public static function set($name, $abbrebiation, $cod){
         $create = [
-            'province' => $province
+            'name' => $name,
+            'abbreviation' => $abbrebiation,
+            'cod' => $cod
         ];
         return self::create($create);
     }

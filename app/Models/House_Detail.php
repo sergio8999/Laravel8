@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Detail extends Model
+class House_Detail extends Model
 {
     use HasFactory,SoftDeletes;
     
-    protected $table = 'details';
+    protected $table = 'house_details';
     protected $primaryKey = 'id';
     public $timestamps = true;
 
@@ -44,8 +44,8 @@ class Detail extends Model
         return self::create($create);
     }
 
-    //Relación muchos a uno
+    //Relación uno a uno
     public function house(){
-        return $this->belongsTo(House::class);
+        return $this->hasOne(House::class);
     }
 }

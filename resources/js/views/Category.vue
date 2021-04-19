@@ -23,6 +23,7 @@
 import axios from 'axios'
 import {  onMounted, ref } from "vue"
 import route from "@/router"
+import router from "@/router"
 
 export default ({
     name:'Category',
@@ -36,10 +37,14 @@ export default ({
         const houses = ref([]);
 
         onMounted(() => {
-             axios.get('/api/categories/'+route.currentRoute.value.params.id)
+             axios.get('/api/categories/'+ route.currentRoute.value.params.id)
             .then(response => {
-                categories.value = response.data.categories[0];
-                houses.value = response.data.categories[0].houses;
+                if(response.data.categories == 404)
+                    router.push({path:'/error404',query:{id:'2',name:'categoria'}});
+                else{
+                    categories.value = response.data.categories;
+                    houses.value = response.data.categories.houses;
+                }
             })
         })
 

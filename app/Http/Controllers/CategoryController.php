@@ -26,7 +26,13 @@ class CategoryController extends Controller
         try{
             $categories = Category::where('id',$id)
             ->with('houses')
-            ->get();
+            ->first();
+
+            if($categories == null)
+                return response()->json([
+                    'categories'=> 404
+                ]);
+
             return response()->json([
                 'categories'=> $categories
             ]);

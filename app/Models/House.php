@@ -49,7 +49,7 @@ class House extends Model
     }
 
     public function details(){
-        return $this->hasMany(Detail::class);
+        return $this->hasOne(House_Detail::class);
     }
 
     //Relación muchos a uno

@@ -6,7 +6,7 @@
     </div>
     <div class="mt-4">
       <h3>Anfitrión: {{ house.host }}</h3>
-      <div class="d-flex">
+      <div class="d-flex" v-if="details != undefined">
         <span class="ml-2">{{details.guests}} Huéspedes</span> 
         <span class="ml-2">·</span>
         <span class="ml-2">{{details.bedrooms}} dormitorio/s</span>
@@ -17,14 +17,14 @@
       </div>
       <p>{{ house.description }}</p>
       <h5>Servicios:</h5>
-      <div class="d-flex flex-column mb-4">
+      <div class="d-flex flex-column mb-4" v-if="details != undefined">
             <span v-if="details.wifi == 'true'"><i class="pi pi-wifi icon mb-3 mr-2"></i>Wifi</span>
             <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
       </div>
     </div>
     <h4>Dia llegada - salida</h4>
         <div class="row my-3">
-            <div class="col-12 col-md-7 col-lg-5">
+            <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center align-items-center">
                 <Calendar
                 v-model="value"
                 :inline="true"
@@ -34,36 +34,47 @@
                 selectionMode="range"
                 />
             </div>
-            <div class="col-4 col-md-5 col-lg-3">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
-                    </div>
-                    <select class="custom-select" id="inputGroupSelect01" v-model="selectHours1">
-                        <option v-for="hour1 in hoursArrival" :key="hour1.value" :disabled="hour1.disabled">{{hour1.value}}</option>
-                    </select>
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text input-size" for="inputGroupSelect02">Hora salida: </label>
-                    </div>
-                    <select class="custom-select" id="inputGroupSelect02" v-model="selectHours2">
-                        <option v-for="hour2 in hoursDeparture" :key="hour2.value" :disabled="hour2.disabled">{{hour2.value}}</option>
-                    </select>
-                </div>
-            </div>
 
-            <div class="col-5 col-md-4 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-7">
+
+                <div class="row mt-3 mt-md-0">
+                <div class="offset-2 col-4 offset-md-0 col-md-12 col-lg-5">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect01" v-model="selectHours1">
+                            <option v-for="hour1 in hoursArrival" :key="hour1.value" :disabled="hour1.disabled">{{hour1.value}}</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text input-size" for="inputGroupSelect02">Hora salida: </label>
+                        </div>
+                        <select class="custom-select" id="inputGroupSelect02" v-model="selectHours2">
+                            <option v-for="hour2 in hoursDeparture" :key="hour2.value" :disabled="hour2.disabled">{{hour2.value}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-4 col-md-12 offset-lg-1 col-lg-5">
                 <p><b>Subtotal ({{ house.price }}€/h):</b> {{ subtotal }}€</p>
                 <p><b>Impuestos:</b> {{ taxes }}€</p>
                 <hr />
                 <p><b>Total:</b> {{ totalPrices }}€</p>
                 <button type="submit" class="btn btn-dark" @click="setReservation">Hacer reserva</button>
             </div>
+
+            </div>
+                
+            </div>
+            
+            
+
+            
         </div>
         <button @click="prueba">Prueba</button>
     </div>
-
     <div v-else class="d-flex justify-content-center align-items-start mt-5">
         <i class="pi pi-spin pi-spinner" style="fontSize: 2rem"></i>
     </div>
@@ -112,8 +123,13 @@ export default ({
              changeToSpanish();
              axios.get('/api/house/'+route.currentRoute.value.params.id)
             .then(response => {
-                house.value = response.data.house[0];
-                details.value = response.data.house[0].details[0];
+                if(response.data.house ==  404)
+                    router.push({path:'/error404',query:{id:'2',name:'casa'}});
+                else{
+                    house.value = response.data.house;
+                    details.value = response.data.house.details;
+                }
+                
             }) 
 
             axios.post('/api/reservation/allReservationHouse',{'house_id' : route.currentRoute.value.params.id})

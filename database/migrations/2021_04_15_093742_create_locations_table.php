@@ -15,7 +15,9 @@ class CreateLocationsTable extends Migration
     {
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('province');
+            $table->string('name');
+            $table->string('abbreviation');
+            $table->string('cod');
             $table->timestamps();
             $table->softDeletes();
         });
