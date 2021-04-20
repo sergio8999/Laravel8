@@ -11,7 +11,9 @@ use function PHPUnit\Framework\isEmpty;
 class HouseController extends Controller
 {
     public function houses(){
-        $houses = House::orderBy('id','desc')->get();
+        $houses = House::orderBy('id','desc')
+        ->with('category','details','location')
+        ->get();
 
         return $houses;
     }
@@ -37,14 +39,5 @@ class HouseController extends Controller
         }
     }
 
-    public function setFilter($province){
-
-        try{
-            
-        }catch(Exception $exception){
-            return response()->json([
-                'message' => $exception->getMessage()
-            ]);
-        }
-    }
+    
 }

@@ -24,6 +24,7 @@ import axios from 'axios'
 import {  onMounted, ref } from "vue"
 import route from "@/router"
 import router from "@/router"
+import { getCategory } from '@/utils/api'
 
 export default ({
     name:'Category',
@@ -36,16 +37,19 @@ export default ({
         const categories = ref([]);
         const houses = ref([]);
 
-        onMounted(() => {
-             axios.get('/api/categories/'+ route.currentRoute.value.params.id)
-            .then(response => {
+        onMounted(async() => {
+            try{
+                let response = await getCategory(route.currentRoute.value.params.id);
                 if(response.data.categories == 404)
-                    router.push({path:'/error404',query:{id:'2',name:'categoria'}});
+                    router.push({path:'/error404',query:{id:route.currentRoute.value.params.id, name:'categoria'}});
                 else{
                     categories.value = response.data.categories;
                     houses.value = response.data.categories.houses;
                 }
-            })
+             }catch(e){
+                 console.log(e);
+             }
+             
         })
 
         return {categories, houses};

@@ -19,7 +19,8 @@
 <script>
 import axios from 'axios'
 import { onMounted, ref } from "vue"
-import {categories} from '@/utils/api'
+/* import * as api from '@/utils/api' */
+import { getCategories } from '@/utils/api'
 
 
 export default({
@@ -32,14 +33,28 @@ export default({
     setup() {
         const categories = ref([]);
 
-        onMounted(()=>{
-            axios.get('/api/categories')
+        onMounted(async()=>{
+            /* axios.get('/api/categories')
             .then(response => {
                 categories.value = response.data.categories;
             })
             .catch(error=>{
                 console.log(error);
-            })
+            }) */
+
+           /*  getCategories()
+            .then(response => {
+                categories.value = response.data.categories;
+            }) */
+            try{
+                let response = await getCategories();
+                categories.value = response.data.categories;
+
+            }catch(e){
+                console.log(e);
+            }
+            
+
         })
 
         return {categories};

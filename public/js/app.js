@@ -16506,10 +16506,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/router */ "./resources/js/router/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/router */ "./resources/js/router/index.js");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/utils/api */ "./resources/js/utils/api.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
@@ -16520,22 +16530,45 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   setup: function setup() {
-    var categories = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    var houses = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/categories/' + _router__WEBPACK_IMPORTED_MODULE_2__.default.currentRoute.value.params.id).then(function (response) {
-        if (response.data.categories == 404) _router__WEBPACK_IMPORTED_MODULE_2__.default.push({
-          path: '/error404',
-          query: {
-            id: '2',
-            name: 'categoria'
+    var categories = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    var houses = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_4__.getCategory)(_router__WEBPACK_IMPORTED_MODULE_3__.default.currentRoute.value.params.id);
+
+            case 3:
+              response = _context.sent;
+              if (response.data.categories == 404) _router__WEBPACK_IMPORTED_MODULE_3__.default.push({
+                path: '/error404',
+                query: {
+                  id: _router__WEBPACK_IMPORTED_MODULE_3__.default.currentRoute.value.params.id,
+                  name: 'categoria'
+                }
+              });else {
+                categories.value = response.data.categories;
+                houses.value = response.data.categories.houses;
+              }
+              _context.next = 10;
+              break;
+
+            case 7:
+              _context.prev = 7;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+
+            case 10:
+            case "end":
+              return _context.stop();
           }
-        });else {
-          categories.value = response.data.categories;
-          houses.value = response.data.categories.houses;
         }
-      });
-    });
+      }, _callee, null, [[0, 7]]);
+    })));
     return {
       categories: categories,
       houses: houses
@@ -16586,11 +16619,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/utils/api */ "./resources/js/utils/api.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/utils/api */ "./resources/js/utils/api.js");
 
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+/* import * as api from '@/utils/api' */
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -16599,14 +16642,35 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   setup: function setup() {
-    var categories = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/categories').then(function (response) {
-        categories.value = response.data.categories;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    });
+    var categories = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_3__.getCategories)();
+
+            case 3:
+              response = _context.sent;
+              categories.value = response.data.categories;
+              _context.next = 10;
+              break;
+
+            case 7:
+              _context.prev = 7;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+
+            case 10:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 7]]);
+    })));
     return {
       categories: categories
     };
@@ -16626,15 +16690,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var primevue_config__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! primevue/config */ "./node_modules/primevue/config/config.esm.js");
-/* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
-/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/router */ "./resources/js/router/index.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var primevue_config__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! primevue/config */ "./node_modules/primevue/config/config.esm.js");
+/* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/router */ "./resources/js/router/index.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @/utils/api */ "./resources/js/utils/api.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
@@ -16649,50 +16723,85 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   setup: function setup() {
-    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_6__.useStore)();
-    var user = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_8__.useStore)();
+    var user = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return store.state.informationUser;
     });
-    var loggedIn = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var loggedIn = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return store.state.loggedIn;
     });
-    var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_3__.useToast)();
-    var selectHours1 = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('0:00');
-    var selectHours2 = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('0:00');
-    var reservations = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    var invalidDates = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    var house = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    var details = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    var value = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
+    var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_4__.useToast)();
+    var selectHours1 = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)('0:00');
+    var selectHours2 = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)('0:00');
+    var reservations = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    var invalidDates = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    var house = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    var details = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    var value = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
 
     var changeToSpanish = function changeToSpanish() {
-      var primevue = (0,primevue_config__WEBPACK_IMPORTED_MODULE_2__.usePrimeVue)();
+      var primevue = (0,primevue_config__WEBPACK_IMPORTED_MODULE_3__.usePrimeVue)();
       primevue.config.locale.accept = 'Aceptar';
       primevue.config.locale.reject = 'Rechazar';
       primevue.config.locale.firstDayOfWeek = 1;
     };
 
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      changeToSpanish();
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/house/' + _router__WEBPACK_IMPORTED_MODULE_4__.default.currentRoute.value.params.id).then(function (response) {
-        if (response.data.house == 404) _router__WEBPACK_IMPORTED_MODULE_4__.default.push({
-          path: '/error404',
-          query: {
-            id: '2',
-            name: 'casa'
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var response, _response;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              changeToSpanish();
+              _context.prev = 1;
+              _context.next = 4;
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_7__.getHouse)(_router__WEBPACK_IMPORTED_MODULE_5__.default.currentRoute.value.params.id);
+
+            case 4:
+              response = _context.sent;
+              if (response.data.house == 404) _router__WEBPACK_IMPORTED_MODULE_5__.default.push({
+                path: '/error404',
+                query: {
+                  id: _router__WEBPACK_IMPORTED_MODULE_5__.default.currentRoute.value.params.id,
+                  name: 'casa'
+                }
+              });else {
+                house.value = response.data.house;
+                details.value = response.data.house.details;
+              }
+              _context.next = 11;
+              break;
+
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](1);
+              console.log(_context.t0);
+
+            case 11:
+              _context.prev = 11;
+              _context.next = 14;
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_7__.getReservationsHouse)(_router__WEBPACK_IMPORTED_MODULE_5__.default.currentRoute.value.params.id);
+
+            case 14:
+              _response = _context.sent;
+              reservations.value = _response.data.reservation;
+              disabledDates();
+              _context.next = 22;
+              break;
+
+            case 19:
+              _context.prev = 19;
+              _context.t1 = _context["catch"](11);
+              console.log(_context.t1);
+
+            case 22:
+            case "end":
+              return _context.stop();
           }
-        });else {
-          house.value = response.data.house;
-          details.value = response.data.house.details;
         }
-      });
-      axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation/allReservationHouse', {
-        'house_id': _router__WEBPACK_IMPORTED_MODULE_4__.default.currentRoute.value.params.id
-      }).then(function (response) {
-        reservations.value = response.data.reservation;
-        disabledDates();
-      });
-    }); // Obtener horas entre la diferencia de fechas
+      }, _callee, null, [[1, 8], [11, 19]]);
+    }))); // Obtener horas entre la diferencia de fechas
 
     var getHours = function getHours() {
       if (value.value == null || value.value[0] == null) return 0;
@@ -16735,79 +16844,130 @@ __webpack_require__.r(__webpack_exports__);
     }; // Hacer reservas con sus correspondientes comprobaciones
 
 
-    var setReservation = function setReservation() {
-      if (loggedIn.value) {
-        if (!checkDate()) toast.add({
-          severity: 'error',
-          summary: 'Error Message',
-          detail: 'Debe seleccionar dias',
-          life: 3000
-        });else if (!checkDateReservation()) {
-          toast.add({
-            severity: 'error',
-            summary: 'Error Message',
-            detail: 'Hay una o varias reservas entre esos dias',
-            life: 3000
-          });
-        } else if (totalPrices.value > 0) {
-          if (value.value[1] == null) value.value[1] = value.value[0];
-          axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation', {
-            'arrivalDay': value.value[0].toLocaleDateString('es-Es', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit'
-            }),
-            'departureDay': value.value[1].toLocaleDateString('es-Es', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit'
-            }),
-            'taxes': taxes.value,
-            'arrivalTime': selectHours1.value,
-            'departureTime': selectHours2.value,
-            'subtotal': subtotal.value,
-            'total': totalPrices.value,
-            'user_id': user.value.id,
-            'house_id': house.value.id
-          }).then(function (response) {
-            console.log(response.data);
-            _router__WEBPACK_IMPORTED_MODULE_4__.default.push('/');
-            console.log("Realizado correctamente");
-            toast.add({
-              severity: 'success',
-              summary: 'Success Message',
-              detail: 'Reserva realizada correctamente"',
-              life: 3000
-            });
-          })["catch"](function (error) {
-            console.log(error);
-          });
-        } else {
-          console.log("Error. Debe seleccionar los dias y horas correctamente");
-          toast.add({
-            severity: 'error',
-            summary: 'Error Message',
-            detail: 'Error. Debe seleccionar los dias y horas correctamente',
-            life: 3000
-          });
-        }
-      } else {
-        toast.add({
-          severity: 'error',
-          summary: 'Error Message',
-          detail: 'Debe estar logueado',
-          life: 3000
-        });
-        _router__WEBPACK_IMPORTED_MODULE_4__.default.push('/login');
-      }
-    }; // Obtener horas de llegada
+    var setReservation = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!loggedIn.value) {
+                  _context2.next = 30;
+                  break;
+                }
+
+                if (checkDate()) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                toast.add({
+                  severity: 'error',
+                  summary: 'Error Message',
+                  detail: 'Debe seleccionar dias',
+                  life: 3000
+                });
+                _context2.next = 28;
+                break;
+
+              case 5:
+                if (checkDateReservation()) {
+                  _context2.next = 9;
+                  break;
+                }
+
+                toast.add({
+                  severity: 'error',
+                  summary: 'Error Message',
+                  detail: 'Hay una o varias reservas entre esos dias',
+                  life: 3000
+                });
+                _context2.next = 28;
+                break;
+
+              case 9:
+                if (!(totalPrices.value > 0)) {
+                  _context2.next = 26;
+                  break;
+                }
+
+                if (value.value[1] == null) value.value[1] = value.value[0];
+                _context2.prev = 11;
+                _context2.next = 14;
+                return (0,_utils_api__WEBPACK_IMPORTED_MODULE_7__.setReservationHouse)(value.value[0].toLocaleDateString('es-Es', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit'
+                }), value.value[1].toLocaleDateString('es-Es', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit'
+                }), taxes.value, selectHours1.value, selectHours2.value, subtotal.value, totalPrices.value, user.value.id, house.value.id);
+
+              case 14:
+                response = _context2.sent;
+                console.log(response.data);
+                _router__WEBPACK_IMPORTED_MODULE_5__.default.push('/');
+                console.log("Realizado correctamente");
+                toast.add({
+                  severity: 'success',
+                  summary: 'Success Message',
+                  detail: 'Reserva realizada correctamente"',
+                  life: 3000
+                });
+                _context2.next = 24;
+                break;
+
+              case 21:
+                _context2.prev = 21;
+                _context2.t0 = _context2["catch"](11);
+                console.log(_context2.t0);
+
+              case 24:
+                _context2.next = 28;
+                break;
+
+              case 26:
+                console.log("Error. Debe seleccionar los dias y horas correctamente");
+                toast.add({
+                  severity: 'error',
+                  summary: 'Error Message',
+                  detail: 'Error. Debe seleccionar los dias y horas correctamente',
+                  life: 3000
+                });
+
+              case 28:
+                _context2.next = 32;
+                break;
+
+              case 30:
+                toast.add({
+                  severity: 'error',
+                  summary: 'Error Message',
+                  detail: 'Debe estar logueado',
+                  life: 3000
+                });
+                _router__WEBPACK_IMPORTED_MODULE_5__.default.push('/login');
+
+              case 32:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, null, [[11, 21]]);
+      }));
+
+      return function setReservation() {
+        return _ref2.apply(this, arguments);
+      };
+    }(); // Obtener horas de llegada
 
 
-    var hoursArrival = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var hoursArrival = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return setHours('arrival');
     }); // Obtener horas de salida
 
-    var hoursDeparture = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var hoursDeparture = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return setHours('departure');
     }); // Método para obtener las horas y si se deshabilita 
 
@@ -16854,11 +17014,11 @@ __webpack_require__.r(__webpack_exports__);
       var status = false;
       if (value.value[0] != undefined) reservations.value.forEach(function (element) {
         if (day == 'arrivalDay' || value.value[1] == undefined) {
-          if (moment__WEBPACK_IMPORTED_MODULE_5___default()(value.value[0], 'DD-MM-YYYY ' + hour).format('DD/MM/YYYY') == element.arrivalDay) {
+          if (moment__WEBPACK_IMPORTED_MODULE_6___default()(value.value[0], 'DD-MM-YYYY ' + hour).format('DD/MM/YYYY') == element.arrivalDay) {
             if (parseInt(element.arrivalTime) <= parseInt(hour) && parseInt(element.departureTime) >= parseInt(hour) || parseInt(element.arrivalTime) <= parseInt(hour) && element.arrivalDay != element.departureDay) status = true;
-          } else if (moment__WEBPACK_IMPORTED_MODULE_5___default()(value.value[0], 'DD-MM-YYYY ' + hour).format('DD/MM/YYYY') == element.departureDay && parseInt(hour) <= parseInt(element.departureTime)) status = true;
+          } else if (moment__WEBPACK_IMPORTED_MODULE_6___default()(value.value[0], 'DD-MM-YYYY ' + hour).format('DD/MM/YYYY') == element.departureDay && parseInt(hour) <= parseInt(element.departureTime)) status = true;
         } else {
-          if (moment__WEBPACK_IMPORTED_MODULE_5___default()(value.value[1], 'DD-MM-YYYY').format('DD/MM/YYYY') == element.departureDay) {
+          if (moment__WEBPACK_IMPORTED_MODULE_6___default()(value.value[1], 'DD-MM-YYYY').format('DD/MM/YYYY') == element.departureDay) {
             if (parseInt(element.arrivalTime) <= parseInt(hour) && parseInt(element.departureTime) >= parseInt(hour) && element.arrivalDay == element.departureDay || parseInt(element.departureTime) >= parseInt(hour) && element.arrivalDay != element.departureDay) status = true;
           }
         }
@@ -16887,20 +17047,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     };
 
-    var prueba = function prueba() {};
-
-    var subtotal = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var subtotal = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return house.value.price * getHours();
     });
-    var taxes = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var taxes = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return parseFloat((subtotal.value * 0.10).toFixed(2));
     });
-    var totalPrices = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var totalPrices = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return subtotal.value + taxes.value;
     });
     return {
       hoursArrival: hoursArrival,
-      prueba: prueba,
       hoursDeparture: hoursDeparture,
       selectHours1: selectHours1,
       invalidDates: invalidDates,
@@ -16932,10 +17089,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/utils/api */ "./resources/js/utils/api.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
@@ -16945,33 +17112,109 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   setup: function setup() {
-    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.useStore)();
-    var loggedIn = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
+    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_4__.useStore)();
+    var loggedIn = (0,vue__WEBPACK_IMPORTED_MODULE_2__.computed)(function () {
       return store.state.loggedIn;
     });
-    var houses = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    var locations = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
-    var selectProvince = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('Álava');
-    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)(function () {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/houses').then(function (response) {
-        houses.value = response.data;
-      });
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/locations').then(function (response) {
-        locations.value = response.data.locations;
-      });
-    });
+    var houseFilter = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)();
+    var houses = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(null);
+    var locations = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    var categories = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
+    var selectProvince = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)('Álava');
+    var selectCategory = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)('Alojamientos enteros');
+    var province = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    var categoryValue = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    var wifi = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    var pool = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var response, _response, _response2;
 
-    var setFilter = function setFilter() {
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/').then(function (response) {
-        houses.value = response.data;
-      });
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_3__.getHouses)();
+
+            case 3:
+              response = _context.sent;
+              houses.value = response.data;
+              houseFilter.value = response.data;
+              _context.next = 11;
+              break;
+
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+
+            case 11:
+              _context.prev = 11;
+              _context.next = 14;
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_3__.getLocations)();
+
+            case 14:
+              _response = _context.sent;
+              locations.value = _response.data.locations;
+              _context.next = 21;
+              break;
+
+            case 18:
+              _context.prev = 18;
+              _context.t1 = _context["catch"](11);
+              console.log(_context.t1);
+
+            case 21:
+              _context.prev = 21;
+              _context.next = 24;
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_3__.getCategories)();
+
+            case 24:
+              _response2 = _context.sent;
+              categories.value = _response2.data.categories;
+              _context.next = 31;
+              break;
+
+            case 28:
+              _context.prev = 28;
+              _context.t2 = _context["catch"](21);
+              console.log(_context.t2);
+
+            case 31:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 8], [11, 18], [21, 28]]);
+    })));
+
+    var getHouseFilter = function getHouseFilter() {
+      if (!province.value && !wifi.value && !pool.value && !categoryValue.value) {
+        houseFilter.value = houses.value;
+      } else {
+        houseFilter.value = houses.value.filter(function (house) {
+          if ((province.value ? house.location.name == selectProvince.value : true) && (wifi.value ? house.details.wifi == "true" : true) && (pool.value ? house.details.pool == "true" : true) && (categoryValue.value ? house.category.name == selectCategory.value : true)) {
+            return true;
+          }
+
+          return false;
+        });
+      }
     };
 
     return {
       loggedIn: loggedIn,
-      houses: houses,
+      selectProvince: selectProvince,
+      selectCategory: selectCategory,
+      houseFilter: houseFilter,
       locations: locations,
-      selectProvince: selectProvince
+      categories: categories,
+      province: province,
+      categoryValue: categoryValue,
+      wifi: wifi,
+      pool: pool,
+      getHouseFilter: getHouseFilter
     };
   }
 });
@@ -17125,11 +17368,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-/* harmony import */ var _composables_useUser__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/composables/useUser */ "./resources/js/composables/useUser.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _composables_useUser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/composables/useUser */ "./resources/js/composables/useUser.js");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/utils/api */ "./resources/js/utils/api.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
 
 
 
@@ -17140,26 +17393,43 @@ __webpack_require__.r(__webpack_exports__);
     return {};
   },
   setup: function setup() {
-    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_3__.useStore)();
+    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_5__.useStore)();
     /* const { user } = useUser(); */
 
-    var value = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('information');
-    var user = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(function () {
+    var value = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('information');
+    var user = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return store.state.informationUser;
     });
-    var reservations = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)([]);
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(function () {
-      /* const { user } = useUser();
-      user = user; */
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post('/api/reservation/show', {
-        'user_id': user.value.id
-      }).then(function (response) {
-        console.log(response.data.reservation);
-        reservations.value = response.data.reservation;
-      })["catch"](function (error) {
-        console.log(error);
-      });
-    });
+    var reservations = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)([]);
+    (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+      var response;
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+              _context.next = 3;
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_4__.getReservationUser)(user.value.id);
+
+            case 3:
+              response = _context.sent;
+              console.log(response.data.reservation);
+              reservations.value = response.data.reservation;
+              _context.next = 11;
+              break;
+
+            case 8:
+              _context.prev = 8;
+              _context.t0 = _context["catch"](0);
+              console.log(_context.t0);
+
+            case 11:
+            case "end":
+              return _context.stop();
+          }
+        }
+      }, _callee, null, [[0, 8]]);
+    })));
 
     var show = function show(e) {
       if (e.target.id == 'information') {
@@ -17947,11 +18217,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     onClick: _cache[4] || (_cache[4] = function () {
       return $setup.setReservation && $setup.setReservation.apply($setup, arguments);
     })
-  }, "Hacer reserva")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = function () {
-      return $setup.prueba && $setup.prueba.apply($setup, arguments);
-    })
-  }, "Prueba")])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_34, [_hoisted_35]));
+  }, "Hacer reserva")])])])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_34, [_hoisted_35]));
 });
 
 /***/ }),
@@ -18020,68 +18286,94 @@ var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 var _hoisted_7 = {
   "class": "modal-body"
 };
-var _hoisted_8 = {
-  "class": "input-group mb-3"
-};
 
-var _hoisted_9 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-  "class": "input-group-prepend"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", {
-  "class": "input-group-text",
-  "for": "inputGroupSelect01"
-}, "Provincia")], -1
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Provincia:", -1
 /* HOISTED */
 );
 
-var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
+var _hoisted_9 = {
+  "class": "d-flex justify-content-center align-items-center"
+};
+var _hoisted_10 = {
+  "class": "d-flex flex-column justify-content-center align-items-start mt-3"
+};
+
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Servicios: ", -1
+/* HOISTED */
+);
+
+var _hoisted_12 = {
+  "for": "wifi",
+  "class": "mt-1"
+};
+
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Wifi ");
+
+var _hoisted_14 = {
+  "for": "pool",
+  "class": "mt-1"
+};
+
+var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Piscina ");
+
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Categoria:", -1
+/* HOISTED */
+);
+
+var _hoisted_17 = {
+  "class": "d-flex justify-content-center align-items-center"
+};
+var _hoisted_18 = {
   "class": "modal-footer"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+};
+
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
   type: "button",
   "class": "btn btn-secondary",
   "data-dismiss": "modal"
-}, "Cancelar"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-  type: "button",
-  "class": "btn btn-primary"
-}, "Aplicar")], -1
+}, "Cerrar", -1
 /* HOISTED */
 );
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
   "class": "text-center"
 }, "Alojamientos", -1
 /* HOISTED */
 );
 
-var _hoisted_12 = {
+var _hoisted_21 = {
   "class": "d-flex flex-wrap justify-content-center"
 };
-var _hoisted_13 = {
+var _hoisted_22 = {
   "class": "divImagen"
 };
-var _hoisted_14 = {
+var _hoisted_23 = {
   "class": "card-body"
 };
-var _hoisted_15 = {
+var _hoisted_24 = {
   "class": "card-title"
 };
-var _hoisted_16 = {
+var _hoisted_25 = {
   "class": "card-text"
 };
-var _hoisted_17 = {
+var _hoisted_26 = {
   "class": "card-text"
 };
-var _hoisted_18 = {
+var _hoisted_27 = {
   "class": "d-flex justify-content-center"
 };
 
-var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ver casa");
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Ver casa");
 
-var _hoisted_20 = {
+var _hoisted_29 = {
+  key: 0
+};
+var _hoisted_30 = {
   key: 1,
   "class": "d-flex justify-content-center align-items-start mt-5"
 };
 
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "pi pi-spin pi-spinner",
   style: {
     "fontSize": "2rem"
@@ -18095,12 +18387,21 @@ var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
-  return $setup.houses.length != 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button trigger modal "), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
-    "class": "custom-select",
-    id: "inputGroupSelect01",
+  return $setup.houseFilter != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button trigger modal "), _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "checkbox",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
-      return $setup.selectProvince = $event;
+      return $setup.province = $event;
     })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $setup.province]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+    "class": "custom-select mt-1 ml-2",
+    id: "inputGroupSelect03",
+    "aria-label": "Example select with button addon",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $setup.selectProvince = $event;
+    }),
+    disabled: !$setup.province
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.locations, function (location) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
       key: location.value
@@ -18109,28 +18410,78 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     );
   }), 128
   /* KEYED_FRAGMENT */
-  ))], 512
+  ))], 8
+  /* PROPS */
+  , ["disabled"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectProvince]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    id: "wifi",
+    type: "checkbox",
+    "class": "mr-2",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $setup.wifi = $event;
+    })
+  }, null, 512
   /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectProvince]])])]), _hoisted_10])])]), _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.houses, function (house) {
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $setup.wifi]]), _hoisted_13]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("label", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    id: "pool",
+    type: "checkbox",
+    "class": "mr-2",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $setup.pool = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $setup.pool]]), _hoisted_15])]), _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+    type: "checkbox",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $setup.categoryValue = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $setup.categoryValue]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+    "class": "custom-select mt-1 ml-2",
+    id: "inputGroupSelect03",
+    "aria-label": "Example select with button addon",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $setup.selectCategory = $event;
+    }),
+    disabled: !$setup.categoryValue
+  }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.categories, function (category) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("option", {
+      key: category.value
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 1
+    /* TEXT */
+    );
+  }), 128
+  /* KEYED_FRAGMENT */
+  ))], 8
+  /* PROPS */
+  , ["disabled"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectCategory]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+    type: "button",
+    "class": "btn btn-primary",
+    "data-dismiss": "modal",
+    onClick: _cache[7] || (_cache[7] = function () {
+      return $setup.getHouseFilter && $setup.getHouseFilter.apply($setup, arguments);
+    })
+  }, "Buscar")])])])]), _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.houseFilter, function (house) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
       key: house.id,
       "class": "card m-2",
       style: {
         "width": "18rem"
       }
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
       src: "/images/".concat(house.url),
       "class": "card-img-top",
       alt: "..."
     }, null, 8
     /* PROPS */
-    , ["src"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(house.name), 1
+    , ["src"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(house.name), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(house.description), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(house.description), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(house.price) + "€/h", 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(house.price) + "€/h", 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
       to: {
         name: 'house',
         params: {
@@ -18140,7 +18491,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
       "class": "btn btn-dark"
     }, {
       "default": _withId(function () {
-        return [_hoisted_19];
+        return [_hoisted_28];
       }),
       _: 2
       /* DYNAMIC */
@@ -18150,7 +18501,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     , ["to"])])])]);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_20, [_hoisted_21]));
+  )), $setup.houseFilter.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_29, "No hay Alojamientos")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_30, [_hoisted_31]));
 });
 
 /***/ }),
@@ -19070,19 +19421,55 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.createStore)({
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ categories)
+/* harmony export */   "getCategories": () => (/* binding */ getCategories),
+/* harmony export */   "getCategory": () => (/* binding */ getCategory),
+/* harmony export */   "getHouses": () => (/* binding */ getHouses),
+/* harmony export */   "getHouse": () => (/* binding */ getHouse),
+/* harmony export */   "getLocations": () => (/* binding */ getLocations),
+/* harmony export */   "getReservationsHouse": () => (/* binding */ getReservationsHouse),
+/* harmony export */   "getReservationUser": () => (/* binding */ getReservationUser),
+/* harmony export */   "setReservationHouse": () => (/* binding */ setReservationHouse)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
-function categories() {
-  var categories = [];
-  axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/categories').then(function (response) {
-    categories.value = response.data.categories;
+function getCategories() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/categories');
+}
+function getCategory(id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/categories/' + id);
+}
+function getHouses() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/houses');
+}
+function getHouse(id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/house/' + id);
+}
+function getLocations() {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/locations');
+}
+function getReservationsHouse(id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation/allReservationHouse', {
+    'house_id': id
   });
-  return {
-    categories: categories
-  };
+}
+function getReservationUser(id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation/show', {
+    'user_id': id
+  });
+}
+function setReservationHouse(arrivalDay, departureDay, taxes, arrivalTime, departureTime, subtotal, total, user_id, house_id) {
+  return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/reservation', {
+    'arrivalDay': arrivalDay,
+    'departureDay': departureDay,
+    'taxes': taxes,
+    'arrivalTime': arrivalTime,
+    'departureTime': departureTime,
+    'subtotal': subtotal,
+    'total': total,
+    'user_id': user_id,
+    'house_id': house_id
+  });
 }
 
 /***/ }),
@@ -19321,7 +19708,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.divImagen[data-v-2e2af5b2]{\r\n        width: 100%;\n}\r\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.divImagen[data-v-2e2af5b2]{\r\n        width: 100%;\n}\ninput[type=checkbox][data-v-2e2af5b2]{\r\n        width: 1rem;\r\n        height: 1rem;\n}\r\n\r\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

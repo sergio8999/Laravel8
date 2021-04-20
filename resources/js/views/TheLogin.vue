@@ -32,8 +32,8 @@ export default ({
         }
     },
     setup(){ 
-        const email =ref('');
-        const password =ref('');
+        const email = ref('');
+        const password = ref('');
 
         const { login } = useLogin(email,password);
 

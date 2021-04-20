@@ -47,6 +47,7 @@ import { onMounted, computed, ref } from 'vue';
 import axios from 'axios'
 import { useStore } from 'vuex'
 import useUser from '@/composables/useUser'
+import { getReservationUser } from '@/utils/api'
 
 export default ({
     name:'User',
@@ -62,17 +63,17 @@ export default ({
         const user = computed(()=> store.state.informationUser);
         const reservations = ref([]);
 
-         onMounted(()=>{
+         onMounted(async()=>{
             /* const { user } = useUser();
             user = user; */
-            axios.post('/api/reservation/show',{'user_id': user.value.id})
-                .then(response => {
-                    console.log(response.data.reservation);
-                    reservations.value = response.data.reservation;
-                }) 
-                .catch(error => {
-                    console.log(error)
-                });
+
+            try{
+                let response = await getReservationUser(user.value.id);
+                console.log(response.data.reservation);
+                reservations.value = response.data.reservation;
+            }catch(e){
+                console.log(e);
+            }
         }); 
 
         const show = (e)=>{

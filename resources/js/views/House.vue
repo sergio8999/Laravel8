@@ -6,21 +6,21 @@
     </div>
     <div class="mt-4">
       <h3>Anfitrión: {{ house.host }}</h3>
-      <div class="d-flex" v-if="details != undefined">
-        <span class="ml-2">{{details.guests}} Huéspedes</span> 
-        <span class="ml-2">·</span>
-        <span class="ml-2">{{details.bedrooms}} dormitorio/s</span>
-        <span class="ml-2">·</span>
-        <span class="ml-2">{{details.beds}} cama/s</span>
-        <span class="ml-2">·</span>
-        <p class="ml-2">{{details.toilets}} baño/s</p>
-      </div>
-      <p>{{ house.description }}</p>
-      <h5>Servicios:</h5>
-      <div class="d-flex flex-column mb-4" v-if="details != undefined">
+        <div class="d-flex" v-if="details != undefined">
+            <span class="ml-2">{{details.guests}} Huéspedes</span> 
+            <span class="ml-2">·</span>
+            <span class="ml-2">{{details.bedrooms}} dormitorio/s</span>
+            <span class="ml-2">·</span>
+            <span class="ml-2">{{details.beds}} cama/s</span>
+            <span class="ml-2">·</span>
+            <p class="ml-2">{{details.toilets}} baño/s</p>
+        </div>
+        <p>{{ house.description }}</p>
+        <h5>Servicios:</h5>
+        <div class="d-flex flex-column mb-4" v-if="details != undefined">
             <span v-if="details.wifi == 'true'"><i class="pi pi-wifi icon mb-3 mr-2"></i>Wifi</span>
             <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
-      </div>
+        </div>
     </div>
     <h4>Dia llegada - salida</h4>
         <div class="row my-3">
@@ -34,46 +34,36 @@
                 selectionMode="range"
                 />
             </div>
-
             <div class="col-12 col-md-6 col-lg-7">
-
                 <div class="row mt-3 mt-md-0">
-                <div class="offset-2 col-4 offset-md-0 col-md-12 col-lg-5">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
+                    <div class="offset-2 col-4 offset-md-0 col-md-12 col-lg-5">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01" v-model="selectHours1">
+                                <option v-for="hour1 in hoursArrival" :key="hour1.value" :disabled="hour1.disabled">{{hour1.value}}</option>
+                            </select>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect01" v-model="selectHours1">
-                            <option v-for="hour1 in hoursArrival" :key="hour1.value" :disabled="hour1.disabled">{{hour1.value}}</option>
-                        </select>
-                    </div>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text input-size" for="inputGroupSelect02">Hora salida: </label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text input-size" for="inputGroupSelect02">Hora salida: </label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect02" v-model="selectHours2">
+                                <option v-for="hour2 in hoursDeparture" :key="hour2.value" :disabled="hour2.disabled">{{hour2.value}}</option>
+                            </select>
                         </div>
-                        <select class="custom-select" id="inputGroupSelect02" v-model="selectHours2">
-                            <option v-for="hour2 in hoursDeparture" :key="hour2.value" :disabled="hour2.disabled">{{hour2.value}}</option>
-                        </select>
                     </div>
-                </div>
-
-                <div class="col-4 col-md-12 offset-lg-1 col-lg-5">
-                <p><b>Subtotal ({{ house.price }}€/h):</b> {{ subtotal }}€</p>
-                <p><b>Impuestos:</b> {{ taxes }}€</p>
-                <hr />
-                <p><b>Total:</b> {{ totalPrices }}€</p>
-                <button type="submit" class="btn btn-dark" @click="setReservation">Hacer reserva</button>
-            </div>
-
-            </div>
-                
-            </div>
-            
-            
-
-            
+                    <div class="col-4 col-md-12 offset-lg-1 col-lg-5">
+                        <p><b>Subtotal ({{ house.price }}€/h):</b> {{ subtotal }}€</p>
+                        <p><b>Impuestos:</b> {{ taxes }}€</p>
+                        <hr />
+                        <p><b>Total:</b> {{ totalPrices }}€</p>
+                        <button type="submit" class="btn btn-dark" @click="setReservation">Hacer reserva</button>
+                    </div>
+                </div>   
+            </div>            
         </div>
-        <button @click="prueba">Prueba</button>
     </div>
     <div v-else class="d-flex justify-content-center align-items-start mt-5">
         <i class="pi pi-spin pi-spinner" style="fontSize: 2rem"></i>
@@ -89,6 +79,7 @@ import route from "@/router"
 import router from "@/router"
 import { useStore } from 'vuex'
 import moment from 'moment'
+import { getHouse, getReservationsHouse, setReservationHouse } from '@/utils/api'
 
 export default ({
     name:'House',
@@ -119,25 +110,29 @@ export default ({
             primevue.config.locale.firstDayOfWeek=1;
         }
 
-        onMounted(() => {
+        onMounted(async() => {
              changeToSpanish();
-             axios.get('/api/house/'+route.currentRoute.value.params.id)
-            .then(response => {
+
+            try{
+                let response = await getHouse(route.currentRoute.value.params.id)
                 if(response.data.house ==  404)
-                    router.push({path:'/error404',query:{id:'2',name:'casa'}});
+                    router.push({path:'/error404',query:{id:route.currentRoute.value.params.id,name:'casa'}});
                 else{
                     house.value = response.data.house;
                     details.value = response.data.house.details;
                 }
-                
-            }) 
+            }catch(e){
+                console.log(e);
+            }
 
-            axios.post('/api/reservation/allReservationHouse',{'house_id' : route.currentRoute.value.params.id})
-            .then(response => {
+            try{
+                let response = await getReservationsHouse(route.currentRoute.value.params.id);
                 reservations.value = response.data.reservation;
                 disabledDates();
-            })
-
+            }catch(e){
+                console.log(e);
+            }
+            
         })
 
         // Obtener horas entre la diferencia de fechas
@@ -202,7 +197,7 @@ export default ({
         };
 
         // Hacer reservas con sus correspondientes comprobaciones
-        const setReservation = ()=>{
+        const setReservation = async()=>{
             if(loggedIn.value){
                 if(!checkDate())
                     toast.add({severity:'error', summary: 'Error Message', detail:'Debe seleccionar dias', life: 3000}); 
@@ -212,26 +207,26 @@ export default ({
                     if(value.value[1] == null)
                         value.value[1] = value.value[0];
 
-                    axios.post('/api/reservation',{
-                        'arrivalDay' : value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                        'departureDay' : value.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                        'taxes' : taxes.value,
-                        'arrivalTime' : selectHours1.value,
-                        'departureTime' : selectHours2.value,
-                        'subtotal' : subtotal.value,
-                        'total' : totalPrices.value,
-                        'user_id' : user.value.id,
-                        'house_id' : house.value.id
-                    })
-                    .then(response => {
+                    try{
+                        let response = await setReservationHouse(value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
+                                                            value.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
+                                                            taxes.value,
+                                                            selectHours1.value,
+                                                            selectHours2.value,
+                                                            subtotal.value,
+                                                            totalPrices.value,
+                                                            user.value.id,
+                                                            house.value.id)
+                                
                         console.log(response.data);
                         router.push('/');
                         console.log("Realizado correctamente");
                         toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente"', life: 3000});
-                    }) 
-                    .catch(error => {
-                        console.log(error)
-                    });
+
+                    }catch(e){
+                        console.log(e);
+                    }
+
                     
                     }else{
                         console.log("Error. Debe seleccionar los dias y horas correctamente");
@@ -326,10 +321,6 @@ export default ({
             });
         };
 
-        const prueba = ()=>{
-        
-        }
-
         const subtotal = computed(()=>{
             return house.value.price * getHours();
         });
@@ -342,7 +333,7 @@ export default ({
             return subtotal.value + taxes.value;
         });
 
-        return {hoursArrival, prueba, hoursDeparture, selectHours1, invalidDates, selectHours2, value, house, details, subtotal, taxes, totalPrices, setReservation};
+        return {hoursArrival, hoursDeparture, selectHours1, invalidDates, selectHours2, value, house, details, subtotal, taxes, totalPrices, setReservation};
     },
     mounted(){
         
