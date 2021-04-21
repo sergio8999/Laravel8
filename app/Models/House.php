@@ -19,6 +19,7 @@ class House extends Model
         'host',
         'url',
         'price',
+        'url',
         'description',
         'category_id',
         'location_id'
@@ -30,12 +31,12 @@ class House extends Model
         'deleted_at' 
     ];
 
-    public static function set($name, $host, $url, $price, $description, $category_id, $location_id){
+    public static function set($name, $host, $price, $url, $description, $category_id, $location_id){
         $create = [
             'name' => $name,
             'host' => $host,
-            'url' => $url,
             'price' => $price,
+            'url' =>$url,
             'description' => $description,
             'category_id' => $category_id,
             'location_id' => $location_id
@@ -46,6 +47,10 @@ class House extends Model
     //Relación uno a muchos
     public function reservations(){
         return $this->hasMany(Reservation::class);
+    }
+
+    public function images(){
+        return $this->hasMany(House_Images::class);
     }
 
     public function details(){

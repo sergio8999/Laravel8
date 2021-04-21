@@ -17,9 +17,9 @@ class CreateHousesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('host');
-            $table->string('url');
             $table->double('price');
             $table->text('description');
+            $table->text('url');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->unsignedBigInteger('location_id')->nullable();
             $table->timestamps();

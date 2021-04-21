@@ -7,7 +7,7 @@
         <h2 class="mt-5">Vive donde quieras</h2>
         <div class="row d-flex justify-content-center align-items-center my-5">
                 <div class="categories-category col-12 col-md-5 col-lg-3 mt-3 mt-md-4 mt-lg-0" v-for="category in categories" :key="category.id">
-                    <router-link :to="{name:'category',params:{id:category.id}}">
+                    <router-link :to="{name:'category',params:{id:category.id},query:{name:category.name}}">
                         <img class="categories-img" :src="`/images/${category.url}`" alt="">
                         <span class="categories-text">{{category.name}}</span>
                     </router-link>
@@ -101,6 +101,5 @@ export default({
             font-size: 1.2rem;
             font-weight: bold;
         }        
-
     }    
 </style>

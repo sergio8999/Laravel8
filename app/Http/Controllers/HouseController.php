@@ -21,7 +21,7 @@ class HouseController extends Controller
     public function show($id){ 
         try{
             $house = House::where('id',$id)
-            ->with('details')
+            ->with('details','images')
             ->first();
 
             if($house ==null)
@@ -39,5 +39,25 @@ class HouseController extends Controller
         }
     }
 
-    
+    public function showHouseCategory($id){ 
+        try{
+            $houses = House::where('category_id',$id)
+            ->with('category','details','location','images')
+            ->get();
+
+            if($houses ==null)
+                return response()->json([
+                    'houses'=> 404
+                ]);
+
+            return response()->json([
+                'houses'=> $houses
+            ]);
+        }catch(Exception $exception){
+            return response()->json([
+                'message'=> $exception->getMessage()
+            ]);
+        }
+    }
+
 }

@@ -1,10 +1,17 @@
 <template>
     <div v-if="houseFilter !=null">
 
+        <div class="d-flex align-items-center mt-5 ml-5">
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" @click="filterActivated = false">
+                Filtar por 
+            </button>
+            <p class="ml-2 filter" v-if="province && filterActivated">Provincia <span id="provinceFilter" @click="deleteFilter">&times;</span></p>
+            <p class="ml-2 filter" v-if="wifi && filterActivated">Wifi <span id="wifiFilter" @click="deleteFilter">&times;</span></p>
+            <p class="ml-2 filter" v-if="pool && filterActivated">Piscina <span id="poolFilter" @click="deleteFilter">&times;</span></p>
+            <p class="ml-2 filter" v-if="categoryValue && filterActivated">categoria <span id="categoryFilter" @click="deleteFilter">&times;</span></p>
+        </div>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-dark mt-5 ml-5 " data-toggle="modal" data-target="#exampleModal">
-        Filtar por 
-        </button>
+        
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -42,7 +49,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"  @click="filterActivated = true">Cerrar</button>
                         <button type="button" class="btn btn-primary" data-dismiss="modal" @click="getHouseFilter">Buscar</button>
                     </div>
                 </div>
@@ -53,7 +60,7 @@
         <div class="d-flex flex-wrap justify-content-center">
             <div v-for="house in houseFilter" :key="house.id" class="card m-2" style="width: 18rem;">
                 <div class="divImagen">
-                    <img :src="`/images/${house.url}`" class="card-img-top" alt="...">
+                    <img :src="`/images/${house.url}`" class="card-img-top" :alt="house.name">
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{house.name}}</h5>
@@ -73,7 +80,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { useStore } from 'vuex'
 import {computed, onMounted, ref} from 'vue'
 import { getHouses, getLocations, getCategories } from '@/utils/api'
@@ -94,6 +100,7 @@ export default ({
         const categories = ref([]);
         const selectProvince = ref('Álava');
         const selectCategory = ref('Alojamientos enteros');
+        const filterActivated = ref(false);
         const province = ref(false);
         const categoryValue = ref(false);
         const wifi = ref(false);
@@ -127,7 +134,9 @@ export default ({
         const getHouseFilter = ()=>{
             if(!province.value && !wifi.value && !pool.value && !categoryValue.value){
                 houseFilter.value = houses.value;
+                filterActivated.value = false;
             }else{
+                filterActivated.value = true;
                 houseFilter.value = houses.value.filter((house)=>{
                     if((province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true)){
                         return true;
@@ -136,15 +145,31 @@ export default ({
                     return false;
                 });
             }
-            
         }
 
-        return { loggedIn ,selectProvince, selectCategory, houseFilter, locations, categories, province, categoryValue, wifi, pool, getHouseFilter};
+        const deleteFilter = (e)=>{
+            if(e.target.id == "provinceFilter"){
+                province.value = false;
+                getHouseFilter();
+            }else if(e.target.id == "wifiFilter"){
+                wifi.value = false;
+                getHouseFilter();
+            }else if(e.target.id == "poolFilter"){
+                pool.value = false;
+                getHouseFilter();
+            }else if(e.target.id == "categoryFilter"){
+                categoryValue.value = false;
+                getHouseFilter();
+            }
+        }
+
+        return { loggedIn ,selectProvince, selectCategory, houseFilter, locations, categories,filterActivated, province, categoryValue, wifi, pool, getHouseFilter, deleteFilter};
     },
 
 })
 </script>
-<style scoped>
+<style scoped lang = "scss">
+@import '../../scss/app.scss';
 
     .divImagen{
         width: 100%;
@@ -154,5 +179,24 @@ export default ({
         width: 1rem;
         height: 1rem;
     }
+
+    .filter{
+        background-color: green;
+        color: $color-white;
+        padding: .1rem 0.2rem;
+        font-size: .7rem;
+        border: green 1px solid;
+        border-radius: 5px 5px;
+        transition: all 0.5s ease;
+        
+        span{
+            cursor: pointer;
+        }
+
+        &:hover{
+            background-color: $color-white;
+            color: green;
+        }
+    } 
 
 </style>

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Detail;
 use App\Models\House;
 use App\Models\House_Detail;
+use App\Models\House_Images;
 use App\Models\Location;
 use Illuminate\Database\Seeder;
 
@@ -88,11 +89,23 @@ class DatabaseSeeder extends Seeder
         Category::set('Por mascotas','mascotas.jpg');
         
         // Casas
-        House::set('Estudio moderno en el centro de Granada','Alejandro','imagen1.webp','2','Confortable, hogareño y funcional estudio Ideal para disfrutar de su estancia en pleno corazón de Granada. Se encuentra en edificio en el centro de Granada. Localizado en Puerta Real, donde se encuentran los lugares más emblemáticos de la ciudad.','2','1');
-        House::set('La Bolina is a unique experience','Timsam','imagen2.webp','3','Construido, decorado y amueblado por un escultor y su esposa pintora con gran atención al detalle. Una piscina infinita da a través del valle al pueblo blanco de Frigiliana descansando en la base de las montañas de Almijara y la reserva natural.','1','2');
-        House::set('Cabaña LovelyMemories','LovelyMemories','imagen3.jpg','4','Paraíso significa Paraíso en portugués. Nuestra propiedad está situada en Paradise Street y no podría ser mejor, ya que Paraiso 331 es realmente un paraíso en el centro de la ciudad de Oporto, a sólo 10 minutos a pie del centro de la ciudad.','3','5');
-        House::set('Studio Maisonnette à 100m de la Plage à Biarritz','Pierre','imagen4.jpg','2','Casa unifamiliar a 100 m de la playa (a poca distancia) de Milady, Ilbarritz Golf, Thalasso Thalmar. Terraza privada de madera con muebles de jardín (pequeños) animales domésticos bienvenidos... bajo petición ','4','4');
-
+        House::set('Estudio moderno en el centro de Granada','Alejandro','2','casa1i1.jpg','Confortable, hogareño y funcional estudio Ideal para disfrutar de su estancia en pleno corazón de Granada. Se encuentra en edificio en el centro de Granada. Localizado en Puerta Real, donde se encuentran los lugares más emblemáticos de la ciudad.','2','1');
+        House::set('La Bolina is a unique experience','Timsam','3','casa2i1.jpg','Construido, decorado y amueblado por un escultor y su esposa pintora con gran atención al detalle. Una piscina infinita da a través del valle al pueblo blanco de Frigiliana descansando en la base de las montañas de Almijara y la reserva natural.','1','2');
+        House::set('Cabaña LovelyMemories','LovelyMemories','4', 'imagen3.jpg','Paraíso significa Paraíso en portugués. Nuestra propiedad está situada en Paradise Street y no podría ser mejor, ya que Paraiso 331 es realmente un paraíso en el centro de la ciudad de Oporto, a sólo 10 minutos a pie del centro de la ciudad.','3','5');
+        House::set('Studio Maisonnette à 100m de la Plage à Biarritz','Pierre','2', 'imagen4.jpg','Casa unifamiliar a 100 m de la playa (a poca distancia) de Milady, Ilbarritz Golf, Thalasso Thalmar. Terraza privada de madera con muebles de jardín (pequeños) animales domésticos bienvenidos... bajo petición ','4','4');
+        House::set('Studio Maisonnette à 100m de la Plage à Biarritz','Pierre','2', 'imagen4.jpg','Casa unifamiliar a 100 m de la playa (a poca distancia) de Milady, Ilbarritz Golf, Thalasso Thalmar. Terraza privada de madera con muebles de jardín (pequeños) animales domésticos bienvenidos... bajo petición ','1','4');
+        
+        // Imagenes
+        House_Images::set('casa1i2.jpg',1);
+        House_Images::set('casa1i3.jpg',1);
+        House_Images::set('casa1i4.jpg',1);
+        House_Images::set('casa2i2.jpg',2);
+        House_Images::set('casa2i3.jpg',2);
+        House_Images::set('casa2i4.jpg',2);
+        House_Images::set('imagen3.jpg',3);
+        House_Images::set('imagen4.jpg',4);
+        House_Images::set('imagen4.jpg',5);
+        
         // Detalles
         House_Detail::set('3','true','4','2','1','false','1');
         House_Detail::set('2','true','3','2','1','true','2');

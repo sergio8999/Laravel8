@@ -18,6 +18,10 @@ export function getHouse(id){
     return axios.get('/api/house/'+ id);
 }
 
+export function getHouseCategory(id){
+    return axios.get('/api/category/'+ id);
+}
+
 export function getLocations(){
     return axios.get('/api/locations');
 }

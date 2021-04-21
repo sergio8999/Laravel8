@@ -1,8 +1,34 @@
 <template>
   <div class="container" v-if="house.length !=0">
     <div class="d-flex flex-column justify-content-center align-items-center">
-      <h1>{{ house.name }}</h1>
-      <img :src="`/images/${house.url}`" alt="" />
+      <h1 class="mt-3">{{ house.name }}</h1>
+
+        <!-- Carousel -->
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" :data-slide-to="0" class="active"></li>
+                <li v-for="number in sizeCarousel" :key="number" data-target="#carouselExampleIndicators" :data-slide-to="number"></li>
+            </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active" >
+                <img :src="`/images/${house.url}`" class="d-block w-100" alt="...">
+            </div>
+
+            <div v-for="image in images" :key="image.id" class="carousel-item">
+                <img :src="`/images/${image.url}`" class="d-block w-100" alt="...">
+            </div>
+
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+      
     </div>
     <div class="mt-4">
       <h3>Anfitrión: {{ house.host }}</h3>
@@ -22,6 +48,7 @@
             <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
         </div>
     </div>
+
     <h4>Dia llegada - salida</h4>
         <div class="row my-3">
             <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center align-items-center">
@@ -100,7 +127,9 @@ export default ({
         const invalidDates =ref([]);
 
         const house = ref([]);
+        const sizeCarousel = ref([]);
         const details = ref([]);
+        const images = ref([]);
         const value = ref([]);
 
         const changeToSpanish = () => {
@@ -120,6 +149,8 @@ export default ({
                 else{
                     house.value = response.data.house;
                     details.value = response.data.house.details;
+                    sizeCarousel.value = setSizeCarousel();
+                    images.value = response.data.house.images;
                 }
             }catch(e){
                 console.log(e);
@@ -189,12 +220,20 @@ export default ({
                 if(dateCalendar1.getTime() <= dateReservation1.getTime() && dateCalendar2.getTime() >= dateReservation1.getTime()){
                     status = false;  
                 }
-                    
         
             });  
         
             return status;
         };
+
+
+        const setSizeCarousel = ()=>{
+            let size = [];
+            for(let i=1;i<=house.value.images.length;i++){
+                    size.push(i);
+            }
+            return size;
+        }
 
         // Hacer reservas con sus correspondientes comprobaciones
         const setReservation = async()=>{
@@ -333,7 +372,7 @@ export default ({
             return subtotal.value + taxes.value;
         });
 
-        return {hoursArrival, hoursDeparture, selectHours1, invalidDates, selectHours2, value, house, details, subtotal, taxes, totalPrices, setReservation};
+        return {hoursArrival, hoursDeparture, selectHours1, invalidDates, selectHours2, value, house, details, subtotal, taxes, totalPrices, setReservation, sizeCarousel, images};
     },
     mounted(){
         

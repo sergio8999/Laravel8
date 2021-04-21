@@ -44,7 +44,6 @@
 
 <script>
 import { onMounted, computed, ref } from 'vue';
-import axios from 'axios'
 import { useStore } from 'vuex'
 import useUser from '@/composables/useUser'
 import { getReservationUser } from '@/utils/api'

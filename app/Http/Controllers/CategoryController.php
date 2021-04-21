@@ -25,7 +25,7 @@ class CategoryController extends Controller
     public function show($id){ 
         try{
             $categories = Category::where('id',$id)
-            ->with('houses')
+            ->with('houses','details','location')
             ->first();
 
             if($categories == null)
