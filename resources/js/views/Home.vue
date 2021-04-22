@@ -78,7 +78,6 @@ export default({
     span{
         color: $color-white;
         font-size: 2.5rem;
-        padding: 2rem;
     }
 }
 

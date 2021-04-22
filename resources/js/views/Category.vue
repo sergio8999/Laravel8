@@ -48,24 +48,17 @@
             </div>
         </div>
 
-         <h1 class="text-center">{{category}}</h1> 
-        <div class="d-flex flex-wrap justify-content-center">
-            <div v-for="house in houseFilter" :key="house.id" class="card m-2" style="width: 18rem;">
-                <div class="divImagen">
-                    <img :src="`/images/${house.url}`" class="card-img-top" alt="...">
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">{{house.name}}</h5>
-                    <p class="card-text">{{house.description}}</p>
-                    <p class="card-text">{{house.price}}€/h</p>
-                    <div class="d-flex justify-content-center">
-                        <router-link :to="{name:'house',params:{id:house.id}}" class="btn btn-dark">Ver casa</router-link>
-                    </div>    
-                </div>
+         <h1 class="tittle">{{category}}</h1>
+        
+        <!-- Card -->
+        <div class="row d-flex justify-content-center cards">
+           <div class="col-10 col-lg-5 m-3" v-for="house in houseFilter" :key="house.id">
+               <card-house :house="house" />
             </div>
-            <p v-if="houseFilter.length == 0">No hay Alojamientos</p>
-        </div>
-         <button @click="prueba">Prueba</button>
+       </div>
+
+       <p class="text-center" v-if="houseFilter.length == 0">No hay Alojamientos</p>
+
     </div>
     <div v-else class="d-flex justify-content-center align-items-start mt-5">
         <i class="pi pi-spin pi-spinner" style="fontSize: 2rem"></i>
@@ -73,6 +66,7 @@
 </template>
 
 <script>
+import cardHouse from '../components/CardHouse.vue'
 import { useStore } from 'vuex'
 import route from "@/router"
 import {computed, onMounted, ref } from 'vue'
@@ -80,6 +74,9 @@ import { getHouseCategory, getLocations } from '@/utils/api'
 
 export default ({
     name:'Category',
+    components:{
+        cardHouse
+    },
     data(){
         return {
            
@@ -160,7 +157,7 @@ export default ({
 <style scoped lang = "scss">
 @import '../../scss/app.scss';
 
-    .divImagen{
+    .cards{
         width: 100%;
     }
 
@@ -169,12 +166,17 @@ export default ({
         height: 1rem;
     }
 
+    .tittle{
+        text-align: center;
+        font-family: $noto-serif;
+    }
+
     .filter{
-        background-color: green;
+        background-color: $color-blue;
         color: $color-white;
         padding: .1rem 0.2rem;
         font-size: .7rem;
-        border: green 1px solid;
+        border: $color-blue 1px solid;
         border-radius: 5px 5px;
         transition: all 0.5s ease;
         
@@ -184,7 +186,7 @@ export default ({
 
         &:hover{
             background-color: $color-white;
-            color: green;
+            color: $color-blue;
         }
     } 
 

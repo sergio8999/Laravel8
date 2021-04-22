@@ -1,7 +1,7 @@
 <template>
   <div class="container" v-if="house.length !=0">
     <div class="d-flex flex-column justify-content-center align-items-center">
-      <h1 class="mt-3">{{ house.name }}</h1>
+      <h1 class="tittle mt-3">{{ house.name }}</h1>
 
         <!-- Carousel -->
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
@@ -385,7 +385,14 @@ export default ({
     }
 })
 </script>
-<style scoped>
+<style scoped lang="scss">
+@import '../../scss/app.scss';
+
+    .tittle{
+        text-align: center;
+        font-family: $noto-serif;
+    }
+
     img {
         width: auto;
         height: 30rem;
@@ -402,4 +409,5 @@ export default ({
         height: 1.7rem;
         font-size: 1.5rem;
     }
+
 </style>

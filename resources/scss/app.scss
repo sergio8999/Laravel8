@@ -1,3 +1,15 @@
-$color-primary:#000000;
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
+$noto-serif: 'Noto Serif', serif;
+$source-sans: 'Source Sans Pro', sans-serif;
+
+body{
+    font-family: $source-sans;
+}
+
+$color-primary: #000000;
 $color-white: #f1f1f1;
-$color-footer : #F7F7F7;
+$color-footer: #F7F7F7;
+$color-blue: #007bff;
+$color-grey: #343a40;
