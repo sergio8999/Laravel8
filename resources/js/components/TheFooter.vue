@@ -42,9 +42,9 @@
                 <span class="ml-2">Datos de la empresa</span>
             </div>
             <div class="col-12 col-lg-4 d-flex mt-5 mt-md-0 mr-lg-5 footer-information-socialNetwork justify-content-center justify-content-lg-end order-0 order-lg-1">
-                <span class="ml-2"><i class="pi pi-facebook icon mb-3 mr-2 icon"></i></span>
-                <span class="ml-2"><i class="pi pi-twitter icon mb-3 mr-2 icon"></i></span>
-                <span class="ml-2"><i class="pi pi-google icon mb-3 mr-2 icon"></i></span>
+                <span class="ml-2"><i class="pi pi-facebook icon mb-3 mr-2"></i></span>
+                <span class="ml-2"><i class="pi pi-twitter icon mb-3 mr-2"></i></span>
+                <span class="ml-2"><i class="pi pi-google icon mb-3 mr-2"></i></span>
             </div>
         </div>
 </template>

@@ -58,11 +58,13 @@
         </div>
 
         <h1 class="tittle">Alojamientos</h1>
- 
        <div class="row d-flex justify-content-center cards">
-           <div class="col-10 col-lg-5 m-3" v-for="house in houseFilter" :key="house.id">
-               <card-house :house="house" />
-            </div>
+
+           <transition-group name="list" appear>
+                <div class="col-10 col-lg-5 m-3" v-for="house in houseFilter" :key="house.id">
+                    <card-house :house="house" />
+                </div>
+            </transition-group>
        </div>
 
        <p class="text-center" v-if="houseFilter.length == 0">No hay Alojamientos</p>
@@ -135,12 +137,8 @@ export default ({
             }else{
                 filterActivated.value = true;
                 houseFilter.value = houses.value.filter((house)=>{
-                    if((province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true)){
-                        return true;
-                    }
-                    
-                    return false;
-                });
+                    return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true);
+                })
             }
         }
 
@@ -202,5 +200,17 @@ export default ({
             color: $color-blue;
         }
     } 
+
+    .list-enter-active{
+        transition: all 3s;
+    }
+
+    .list-leave-active{
+        transition: all 1s;
+    }
+
+    .list-enter-from, .list-leave-to{
+        opacity: 0;
+    }
 
 </style>

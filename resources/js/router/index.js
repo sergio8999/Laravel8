@@ -10,7 +10,8 @@ import About from '@/views/About.vue'
 import SignUp from '@/views/SignUp.vue'
 import Login from '@/views/TheLogin.vue'
 import User from '@/views/User.vue'
-import Error404 from '@/views/Error404.vue'
+import error404 from '@/views/404.vue'
+import NotFound from '@/views/404.vue'
 
 const routes = [
     { path: '/', name:'home',component: Home },
@@ -23,7 +24,8 @@ const routes = [
     { path: '/login', name:'login', component: Login },
     { path: '/user', name:'user', component: User, meta: { requiresAuth: true} },
     { path: '/about', name:'about', component: About },
-    { path: '/error404', name:'error', component: Error404 },
+    { path: '/404', name:'404', component: error404 },
+    { path: '/:NotFound(.*)*', name:'404', component: NotFound },
   ]
 
   const router = createRouter({

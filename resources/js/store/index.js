@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 
 // Create a new store instance.
+
 const store = createStore({
   state(){
       return{
@@ -12,7 +13,6 @@ const store = createStore({
       }      
   },
   mutations:{
-
     setInformationLogin(state,information){
       state.informationLogin = information;
     },
@@ -31,28 +31,28 @@ const store = createStore({
   actions:{
 
     async login({commit},infor) {
-          let res = await axios.post('/api/login',infor)
-          let information = await res.data;
-          let loggedIn = true;
-          console.log(information);
-          commit('setInformationLogin',information);
-          commit('setLoggedIn',loggedIn);
-          return res;
+      try{
+        let response = await axios.post('/api/login',infor)
+        let loggedIn = true; 
+        commit('setInformationLogin',response.data);
+        commit('setLoggedIn',loggedIn);
+      }catch(e){
+        console.log(e);
+      }
+      
   },
 
     async user({commit,state}) {
 
-        let res = await axios.get('/api/user',{headers: {Authorization: 'Bearer ' + state.informationLogin.access_token}});
-        let information = await res.data;
-        console.log(information);
-        commit('setInformationUser',information);
+        let response = await axios.get('/api/user',{headers: {Authorization: 'Bearer ' + state.informationLogin.access_token}});
+        console.log(response.data);
+        commit('setInformationUser',response.data);
     },
 
     async logout({commit,state}) {
-        let res = await axios.get('/api/logout',{headers: {Authorization: 'Bearer ' + state.informationLogin.access_token}})
-        let information = await res.data;
+        let response = await axios.get('/api/logout',{headers: {Authorization: 'Bearer ' + state.informationLogin.access_token}})
         let loggedIn = false;
-        commit('setInformationLogout',information);
+        commit('setInformationLogout',response.data);
         commit('setLoggedIn',loggedIn);
     }
   }

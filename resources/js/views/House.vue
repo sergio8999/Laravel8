@@ -6,7 +6,7 @@
         <!-- Carousel -->
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators" :data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators carousel" :data-slide-to="0" class="active"></li>
                 <li v-for="number in sizeCarousel" :key="number" data-target="#carouselExampleIndicators" :data-slide-to="number"></li>
             </ol>
         <div class="carousel-inner">
@@ -145,7 +145,7 @@ export default ({
             try{
                 let response = await getHouse(route.currentRoute.value.params.id)
                 if(response.data.house ==  404)
-                    router.push({path:'/error404',query:{id:route.currentRoute.value.params.id,name:'casa'}});
+                    router.push({path:'/404',query:{id:route.currentRoute.value.params.id,name:'casa'}});
                 else{
                     house.value = response.data.house;
                     details.value = response.data.house.details;
@@ -387,6 +387,10 @@ export default ({
 </script>
 <style scoped lang="scss">
 @import '../../scss/app.scss';
+
+    .carousel{
+        width: 60%;
+    }
 
     .tittle{
         text-align: center;

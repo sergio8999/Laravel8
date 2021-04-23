@@ -51,11 +51,13 @@
          <h1 class="tittle">{{category}}</h1>
         
         <!-- Card -->
-        <div class="row d-flex justify-content-center cards">
-           <div class="col-10 col-lg-5 m-3" v-for="house in houseFilter" :key="house.id">
-               <card-house :house="house" />
-            </div>
+        <transition-group name="list" appear>
+            <div class="row d-flex justify-content-center cards">
+            <div class="col-10 col-lg-5 m-3" v-for="house in houseFilter" :key="house.id">
+                <card-house :house="house" />
+                </div>
        </div>
+        </transition-group>
 
        <p class="text-center" v-if="houseFilter.length == 0">No hay Alojamientos</p>
 
@@ -69,8 +71,9 @@
 import cardHouse from '../components/CardHouse.vue'
 import { useStore } from 'vuex'
 import route from "@/router"
+import router from "@/router"
 import {computed, onMounted, ref } from 'vue'
-import { getHouseCategory, getLocations } from '@/utils/api'
+import { getHouseCategory, getLocations, getCategories } from '@/utils/api'
 
 export default ({
     name:'Category',
@@ -100,10 +103,24 @@ export default ({
         
         onMounted(async()=>{
 
+            getCategories
+
+            try{
+                let response = await getCategories();
+                    if(route.currentRoute.value.params.id > response.data.categories.length)
+                        router.push({path:'/404',query:{id:route.currentRoute.value.params.id,name:'categoria'}});
+                
+                
+            }catch(e){
+                console.log(e);
+            }
+
             try{
                 let response = await getHouseCategory(route.currentRoute.value.params.id);
-                houses.value = response.data.houses;
-                houseFilter.value = response.data.houses;
+                    houses.value = response.data.houses;
+                    houseFilter.value = response.data.houses;
+                
+                
             }catch(e){
                 console.log(e);
             }
@@ -124,12 +141,9 @@ export default ({
             }else{
                 filterActivated.value = true;
                 houseFilter.value = houses.value.filter((house)=>{
-                    if((province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true)){
+                    (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true);
                         return true;
-                    }
-                    
-                    return false;
-                });
+                })
             }
         }
 
@@ -189,5 +203,17 @@ export default ({
             color: $color-blue;
         }
     } 
+
+    .list-enter-active{
+        transition: all 3s;
+    }
+
+    .list-leave-active{
+        transition: all 1s;
+    }
+
+    .list-enter-from, .list-leave-to{
+        opacity: 0;
+    }
 
 </style>

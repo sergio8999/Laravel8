@@ -45,7 +45,7 @@ class HouseController extends Controller
             ->with('category','details','location','images')
             ->get();
 
-            if($houses ==null)
+            if($houses == null )
                 return response()->json([
                     'houses'=> 404
                 ]);
