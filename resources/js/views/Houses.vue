@@ -1,6 +1,13 @@
 <template>
     <div v-if="houseFilter !=null">
 
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item active" aria-current="page">Houses</li>
+            </ol>
+        </nav>
 
         <div class="d-flex align-items-center mt-5 ml-5">
             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" @click="filterActivated = false">
@@ -11,8 +18,6 @@
             <p class="ml-2 filter" v-if="pool && filterActivated">Piscina <span id="poolFilter" @click="deleteFilter">&times;</span></p>
             <p class="ml-2 filter" v-if="categoryValue && filterActivated">categoria <span id="categoryFilter" @click="deleteFilter">&times;</span></p>
         </div>
-        <!-- Button trigger modal -->
-        
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -79,6 +84,7 @@ import { useStore } from 'vuex'
 import {computed, onMounted, ref} from 'vue'
 import { getHouses, getLocations, getCategories } from '@/utils/api'
 import cardHouse from '../components/CardHouse.vue'
+import { getLogin } from '@/utils/checkLogin'
 
 export default ({
     name:'Houses',
@@ -106,6 +112,8 @@ export default ({
         const pool = ref(false);
         
         onMounted(async()=>{
+
+            getLogin();
 
             try{
                 let response = await getHouses();
@@ -211,6 +219,10 @@ export default ({
 
     .list-enter-from, .list-leave-to{
         opacity: 0;
+    }
+
+    .p-datepicker table td > span.p-highlight{
+        background-color: red !important;;
     }
 
 </style>

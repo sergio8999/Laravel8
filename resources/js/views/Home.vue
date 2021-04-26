@@ -23,6 +23,8 @@ import axios from 'axios'
 import { onMounted, ref } from "vue"
 /* import * as api from '@/utils/api' */
 import { getCategories } from '@/utils/api'
+import { getLogin } from '@/utils/checkLogin'
+import { useStore } from 'vuex'
 
 
 export default({
@@ -34,6 +36,7 @@ export default({
     },
     setup() {
         const categories = ref([]);
+        const store = useStore();
 
         onMounted(async()=>{
             /* axios.get('/api/categories')
@@ -48,6 +51,9 @@ export default({
             .then(response => {
                 categories.value = response.data.categories;
             }) */
+            
+            getLogin();
+
             try{
                 let response = await getCategories();
                 categories.value = response.data.categories;
@@ -56,7 +62,6 @@ export default({
                 console.log(e);
             }
             
-
         })
 
         return {categories};

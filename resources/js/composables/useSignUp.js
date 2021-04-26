@@ -8,7 +8,7 @@ export default function useSignUp(name,email,password) {
     const toast = useToast();
     
     const signUp = async ()=>{
-       
+
         try{
             if(name.value == "")
                 toast.add({severity:'warn', summary: 'Error Message', detail:'El campo nombre debe tener un valor', life: 3000}); 
@@ -17,12 +17,17 @@ export default function useSignUp(name,email,password) {
             else if(password.value == "")
                 toast.add({severity:'warn', summary: 'Error Message', detail:'El campo password debe tener un valor', life: 3000});  
             else{
+                store.state.disabledButton = false;
                 let res = await axios.post('/api/signUp',{'name':name.value,'email':email.value,'password':password.value});
-                console.log(res.data.message);
-                router.push('/');
+                toast.add({severity:'success', summary: 'Felicidades!', detail:'Se ha registrado correctamente' + email.value, life: 3000}); 
+                await store.dispatch('login',{'email':email.value,'password':password.value});
+                await store.dispatch('user');
+                router.push('/user');
+                store.state.disabledButton = true;
             }     
         }catch(e){
-            console.log(e.response)
+            toast.add({severity:'error', summary: 'Error Message', detail:e.response.data.errors.email, life: 3000});  
+            store.state.disabledButton = true;
         }
     };
   

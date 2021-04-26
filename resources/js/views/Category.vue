@@ -1,6 +1,14 @@
 <template>
     <div v-if="houseFilter !=null">
 
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item active" aria-current="page">Houses</li>
+            </ol>
+        </nav>
+
         <div class="d-flex align-items-center mt-5 ml-5">
             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" @click="filterActivated = false">
                 Filtar por 
@@ -74,6 +82,7 @@ import route from "@/router"
 import router from "@/router"
 import {computed, onMounted, ref } from 'vue'
 import { getHouseCategory, getLocations, getCategories } from '@/utils/api'
+import { getLogin } from '@/utils/checkLogin'
 
 export default ({
     name:'Category',
@@ -103,7 +112,7 @@ export default ({
         
         onMounted(async()=>{
 
-            getCategories
+            getLogin();
 
             try{
                 let response = await getCategories();

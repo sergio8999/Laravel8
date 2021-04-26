@@ -51,6 +51,9 @@ export default ({
         const loggedIn = computed(()=> store.state.loggedIn);
         const logout = ()=>{
             store.dispatch('logout');
+            sessionStorage.removeItem('informationLogin');
+            sessionStorage.removeItem('loggedIn');
+            sessionStorage.removeItem('informationUser');
         }
         return {loggedIn,logout};
     },

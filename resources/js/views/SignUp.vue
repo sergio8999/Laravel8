@@ -14,7 +14,7 @@
                 <label for="exampleInputPassword1">Contraseña</label>
                 <input type="password" class="form-control" id="exampleInputPassword1" v-model="password" placeholder="Contraseña">
             </div>
-            <button type="submit" class="btn btn-dark btn-size">Sign up</button>
+            <button type="submit" class="btn btn-dark btn-size" :disabled="disabledButton">Sign up</button>
         </form>
         <span class="my-3">o usa una de estas opciones</span>
         <div class="social-network d-flex justify-content-around">
@@ -34,7 +34,9 @@
 
 <script>
 import useSignUp from '@/composables/useSignUp'
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useStore } from 'vuex'
+import { getLogin } from '@/utils/checkLogin'
 
 
 export default ({
@@ -45,13 +47,19 @@ export default ({
         }
     },
     setup(){
+        const store = useStore();
         const name =ref('');
         const email =ref('');
         const password =ref('');
 
+        onMounted(()=>{
+            getLogin();
+        });
+
+        const disabledButton = computed(()=>store.state.disabledButton);
         const { signUp } = useSignUp(name,email,password);
 
-        return {signUp, name, email, password};
+        return { signUp, name, email, password, disabledButton };
     },
     methods:{
             

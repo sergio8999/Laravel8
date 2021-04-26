@@ -1,96 +1,107 @@
 <template>
-  <div class="container" v-if="house.length !=0">
-    <div class="d-flex flex-column justify-content-center align-items-center">
-      <h1 class="tittle mt-3">{{ house.name }}</h1>
+    <div v-if="house.length !=0">
 
-        <!-- Carousel -->
-        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                <li data-target="#carouselExampleIndicators carousel" :data-slide-to="0" class="active"></li>
-                <li v-for="number in sizeCarousel" :key="number" data-target="#carouselExampleIndicators" :data-slide-to="number"></li>
+      <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item"><router-link to="/houses">Houses</router-link></li>
+                <li class="breadcrumb-item active" aria-current="page">House {{house.id}}</li>
             </ol>
-        <div class="carousel-inner">
-            <div class="carousel-item active" >
-                <img :src="`/images/${house.url}`" class="d-block w-100" alt="...">
-            </div>
+        </nav>
+        <div class="container">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+            <h1 class="tittle mt-3">{{ house.name }}</h1>
 
-            <div v-for="image in images" :key="image.id" class="carousel-item">
-                <img :src="`/images/${image.url}`" class="d-block w-100" alt="...">
-            </div>
-
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div>
-      
-    </div>
-    <div class="mt-4">
-      <h3>Anfitrión: {{ house.host }}</h3>
-        <div class="d-flex" v-if="details != undefined">
-            <span class="ml-2">{{details.guests}} Huéspedes</span> 
-            <span class="ml-2">·</span>
-            <span class="ml-2">{{details.bedrooms}} dormitorio/s</span>
-            <span class="ml-2">·</span>
-            <span class="ml-2">{{details.beds}} cama/s</span>
-            <span class="ml-2">·</span>
-            <p class="ml-2">{{details.toilets}} baño/s</p>
-        </div>
-        <p>{{ house.description }}</p>
-        <h5>Servicios:</h5>
-        <div class="d-flex flex-column mb-4" v-if="details != undefined">
-            <span v-if="details.wifi == 'true'"><i class="pi pi-wifi icon mb-3 mr-2"></i>Wifi</span>
-            <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
-        </div>
-    </div>
-
-    <h4>Dia llegada - salida</h4>
-        <div class="row my-3">
-            <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center align-items-center">
-                <Calendar
-                v-model="value"
-                :inline="true"
-                :disabledDates="invalidDates"
-                :min-date="new Date()"
-                :stepMinute="60"
-                selectionMode="range"
-                />
-            </div>
-            <div class="col-12 col-md-6 col-lg-7">
-                <div class="row mt-3 mt-md-0">
-                    <div class="offset-2 col-4 offset-md-0 col-md-12 col-lg-5">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
-                            </div>
-                            <select class="custom-select" id="inputGroupSelect01" v-model="selectHours1">
-                                <option v-for="hour1 in hoursArrival" :key="hour1.value" :disabled="hour1.disabled">{{hour1.value}}</option>
-                            </select>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <label class="input-group-text input-size" for="inputGroupSelect02">Hora salida: </label>
-                            </div>
-                            <select class="custom-select" id="inputGroupSelect02" v-model="selectHours2">
-                                <option v-for="hour2 in hoursDeparture" :key="hour2.value" :disabled="hour2.disabled">{{hour2.value}}</option>
-                            </select>
-                        </div>
+                <!-- Carousel -->
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselExampleIndicators carousel" :data-slide-to="0" class="active"></li>
+                        <li v-for="number in sizeCarousel" :key="number" data-target="#carouselExampleIndicators" :data-slide-to="number"></li>
+                    </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" >
+                        <img :src="`/images/${house.url}`" class="d-block w-100" alt="...">
                     </div>
-                    <div class="col-4 col-md-12 offset-lg-1 col-lg-5">
-                        <p><b>Subtotal ({{ house.price }}€/h):</b> {{ subtotal }}€</p>
-                        <p><b>Impuestos:</b> {{ taxes }}€</p>
-                        <hr />
-                        <p><b>Total:</b> {{ totalPrices }}€</p>
-                        <button type="submit" class="btn btn-dark" @click="setReservation">Hacer reserva</button>
+
+                    <div v-for="image in images" :key="image.id" class="carousel-item">
+                        <img :src="`/images/${image.url}`" class="d-block w-100" alt="...">
                     </div>
-                </div>   
-            </div>            
-        </div>
+
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            
+            </div>
+            <div class="mt-4">
+            <h3>Anfitrión: {{ house.host }}</h3>
+                <div class="d-flex" v-if="details != undefined">
+                    <span class="ml-2">{{details.guests}} Huéspedes</span> 
+                    <span class="ml-2">·</span>
+                    <span class="ml-2">{{details.bedrooms}} dormitorio/s</span>
+                    <span class="ml-2">·</span>
+                    <span class="ml-2">{{details.beds}} cama/s</span>
+                    <span class="ml-2">·</span>
+                    <span class="ml-2">{{details.toilets}} baño/s</span>
+                </div>
+                <p>{{ house.description }}</p>
+                <h5>Servicios:</h5>
+                <div class="d-flex flex-column mb-4" v-if="details != undefined">
+                    <span v-if="details.wifi == 'true'"><i class="pi pi-wifi icon mb-3 mr-2"></i>Wifi</span>
+                    <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
+                </div>
+            </div>
+
+            <h4>Dia llegada - salida</h4>
+                <div class="row my-3">
+                    <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center align-items-center">
+                        <Calendar
+                        v-model="value"
+                        :inline="true"
+                        :disabledDates="invalidDates"
+                        :min-date="new Date()"
+                        :stepMinute="60"
+                        selectionMode="range"
+                        />
+                    </div>
+                    <div class="col-12 col-md-6 col-lg-7">
+                        <div class="row mt-3 mt-md-0">
+                            <div class="offset-2 col-4 offset-md-0 col-md-12 col-lg-5">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
+                                    </div>
+                                    <select class="custom-select" id="inputGroupSelect01" v-model="selectHours1">
+                                        <option v-for="hour1 in hoursArrival" :key="hour1.value" :disabled="hour1.disabled">{{hour1.value}}</option>
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <label class="input-group-text input-size" for="inputGroupSelect02">Hora salida: </label>
+                                    </div>
+                                    <select class="custom-select" id="inputGroupSelect02" v-model="selectHours2">
+                                        <option v-for="hour2 in hoursDeparture" :key="hour2.value" :disabled="hour2.disabled">{{hour2.value}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-4 col-md-12 offset-lg-1 col-lg-5">
+                                <p><b>Subtotal ({{ house.price }}€/h):</b> {{ subtotal }}€</p>
+                                <p><b>Impuestos:</b> {{ taxes }}€</p>
+                                <hr />
+                                <p><b>Total:</b> {{ totalPrices }}€</p>
+                                <button type="submit" class="btn btn-dark" @click="setReservation">Hacer reserva</button>
+                            </div>
+                        </div>   
+                    </div>            
+                </div>
+        </div>    
     </div>
     <div v-else class="d-flex justify-content-center align-items-start mt-5">
         <i class="pi pi-spin pi-spinner" style="fontSize: 2rem"></i>
@@ -107,6 +118,7 @@ import router from "@/router"
 import { useStore } from 'vuex'
 import moment from 'moment'
 import { getHouse, getReservationsHouse, setReservationHouse } from '@/utils/api'
+import { getLogin } from '@/utils/checkLogin'
 
 export default ({
     name:'House',
@@ -140,7 +152,9 @@ export default ({
         }
 
         onMounted(async() => {
-             changeToSpanish();
+            changeToSpanish();
+            getLogin();
+             
 
             try{
                 let response = await getHouse(route.currentRoute.value.params.id)
@@ -236,7 +250,7 @@ export default ({
         }
 
         // Hacer reservas con sus correspondientes comprobaciones
-        const setReservation = async()=>{
+        const setReservation = ()=>{
             if(loggedIn.value){
                 if(!checkDate())
                     toast.add({severity:'error', summary: 'Error Message', detail:'Debe seleccionar dias', life: 3000}); 
@@ -246,7 +260,7 @@ export default ({
                     if(value.value[1] == null)
                         value.value[1] = value.value[0];
 
-                    try{
+                    /* try{
                         let response = await setReservationHouse(value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
                                                             value.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
                                                             taxes.value,
@@ -264,9 +278,28 @@ export default ({
 
                     }catch(e){
                         console.log(e);
-                    }
+                    } */
 
-                    
+                    router.push({
+                        name: "confirmPayment",
+                        params:{
+                            arrivalDay:value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
+                            departureDay:value.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
+                            taxes:taxes.value,
+                            arrivalTime:selectHours1.value,
+                            departureTime:selectHours2.value,
+                            subtotal:subtotal.value,
+                            totalPrices:totalPrices.value,
+                            user:user.value.id,
+                            house:house.value.id,
+                            name:house.value.name,
+                            price:house.value.price,
+                            beds:details.value.beds,
+                            toilets:details.value.toilets,
+                            image:house.value.url
+                        }
+                    });
+
                     }else{
                         console.log("Error. Debe seleccionar los dias y horas correctamente");
                         toast.add({severity:'error', summary: 'Error Message', detail:'Error. Debe seleccionar los dias y horas correctamente', life: 3000});
@@ -361,7 +394,7 @@ export default ({
         };
 
         const subtotal = computed(()=>{
-            return house.value.price * getHours();
+            return parseFloat((house.value.price * getHours()).toFixed(2));
         });
 
         const taxes = computed(()=>{
@@ -369,7 +402,7 @@ export default ({
         });
 
         const totalPrices = computed(()=>{
-            return subtotal.value + taxes.value;
+            return parseFloat((subtotal.value + taxes.value).toFixed(2));
         });
 
         return {hoursArrival, hoursDeparture, selectHours1, invalidDates, selectHours2, value, house, details, subtotal, taxes, totalPrices, setReservation, sizeCarousel, images};

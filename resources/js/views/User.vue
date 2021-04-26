@@ -47,6 +47,7 @@ import { onMounted, computed, ref } from 'vue';
 import { useStore } from 'vuex'
 import useUser from '@/composables/useUser'
 import { getReservationUser } from '@/utils/api'
+import { getLogin } from '@/utils/checkLogin'
 
 export default ({
     name:'User',
@@ -65,6 +66,8 @@ export default ({
          onMounted(async()=>{
             /* const { user } = useUser();
             user = user; */
+
+            getLogin();
 
             try{
                 let response = await getReservationUser(user.value.id);

@@ -10,6 +10,7 @@ const store = createStore({
         informationLogin:[],
         informationUser:[],
         informationLogout:[],
+        disabledButton:false
       }      
   },
   mutations:{
@@ -36,6 +37,8 @@ const store = createStore({
         let loggedIn = true; 
         commit('setInformationLogin',response.data);
         commit('setLoggedIn',loggedIn);
+        sessionStorage.setItem('informationLogin',JSON.stringify(response.data)); 
+        sessionStorage.setItem('loggedIn',JSON.stringify({'loggedIn':true})); 
       }catch(e){
         console.log(e);
       }
@@ -47,6 +50,7 @@ const store = createStore({
         let response = await axios.get('/api/user',{headers: {Authorization: 'Bearer ' + state.informationLogin.access_token}});
         console.log(response.data);
         commit('setInformationUser',response.data);
+        sessionStorage.setItem('informationUser',JSON.stringify(response.data));
     },
 
     async logout({commit,state}) {

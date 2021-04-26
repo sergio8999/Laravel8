@@ -12,6 +12,7 @@ import Login from '@/views/TheLogin.vue'
 import User from '@/views/User.vue'
 import error404 from '@/views/404.vue'
 import NotFound from '@/views/404.vue'
+import ConfirmPayment from '@/views/ConfirmPayment.vue'
 
 const routes = [
     { path: '/', name:'home',component: Home },
@@ -25,6 +26,7 @@ const routes = [
     { path: '/user', name:'user', component: User, meta: { requiresAuth: true} },
     { path: '/about', name:'about', component: About },
     { path: '/404', name:'404', component: error404 },
+    { path: '/confirmPayment', name:'confirmPayment', component: ConfirmPayment },
     { path: '/:NotFound(.*)*', name:'404', component: NotFound },
   ]
 
@@ -35,7 +37,7 @@ const routes = [
 
   router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if(!store.state.loggedIn) {
+        if(!store.state.loggedIn && sessionStorage.getItem('loggedIn') == undefined) {
             next("/login");
         } else {
             next();
