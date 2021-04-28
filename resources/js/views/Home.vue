@@ -1,10 +1,11 @@
 <template>
-    <div class="hero d-flex flex-column align-items-center">
-        <img src="/images/hero.jpg" alt="hero">
-        <span>Todo es posible gracias a los anfitriones</span>
-    </div>
-    <div class="categories">
-        <h2 class="mt-5">Vive donde quieras</h2>
+    <div v-if="categories.length != 0">
+        <div class="hero d-flex flex-column align-items-center">
+            <img src="/images/hero.jpg" alt="hero">
+            <span>Todo es posible gracias a los anfitriones</span>
+        </div>
+        <div class="categories">
+            <h2 class="mt-5">Vive donde quieras</h2>
             <div class="row d-flex justify-content-center align-items-center my-5">
                 <transition-group name="list" appear>
                     <div class="categories-category col-12 col-md-5 col-lg-3 mt-3 mt-md-4 mt-lg-0" v-for="category in categories" :key="category.id">
@@ -14,7 +15,11 @@
                         </router-link>
                     </div>
                 </transition-group>
-            </div>       
+            </div> 
+        </div>
+    </div> 
+    <div v-else class="d-flex justify-content-center align-items-start mt-5">
+        <i class="pi pi-spin pi-spinner" style="fontSize: 2rem"></i>
     </div>
 </template>
 
@@ -111,7 +116,7 @@ export default({
     }    
 
     .list-enter-active, .list-leave-active{
-        transition: all 3s;
+        transition: all 4s;
     }
 
     .list-enter-to,

@@ -22,7 +22,7 @@
         </div>
 
         <div class="row">
-            <div class="col-2">
+            <div class="col-3">
                 <ul>
                     <li @click="show" id="information" class="sidebar p-2">Información usuario</li>
                     <li @click="show" id="reservation" class="sidebar p-2">Reservas</li>
@@ -144,7 +144,9 @@ export default ({
 })
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import '../../scss/app.scss';
+
     .sidebar{
         font-size: 1.3rem;
         list-style: none;
@@ -158,6 +160,22 @@ export default ({
     .btn-delete{
         width: 3rem;
         height: 3rem;
+        background-color: $color-red;
+        border: 1px solid $color-red;
+        transition: all 0.5s ease;
+
+        &:hover{
+            background-color : $color-white;
+        }
+
+        &:hover svg{
+            color: $color-red;
+        }
+
+        svg{
+            color:$color-white;
+
+        }
     }
 
     .list-enter-active{
