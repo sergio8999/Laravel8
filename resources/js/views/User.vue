@@ -137,8 +137,10 @@ export default ({
         }
 
         const checkDateDelete = (arrivalDay, arrivalTime)=>{
-            console.log(moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm')+" "+ moment().format('DD/MM/YYYY HH:mm'),moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm') > moment().format('DD/MM/YYYY HH:mm'));
-            return moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm') > moment().format('DD/MM/YYYY HH:mm');
+             let a  = moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('YYYY/MM/DD HH:mm'); 
+            let b = moment( new Date(),'YYYY/MM/DD HH:mm').format('YYYY/MM/DD HH:mm');
+             console.log(moment(a,'YYYY/MM/DD HH:mm').isAfter(b,'hour'))
+            return moment(a,'YYYY/MM/DD HH:mm').isAfter(b,'hour');
         }
 
         const destroyReservation = async()=>{

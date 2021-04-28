@@ -22229,8 +22229,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
 
     var checkDateDelete = function checkDateDelete(arrivalDay, arrivalTime) {
-      console.log(moment__WEBPACK_IMPORTED_MODULE_6___default()(arrivalDay + " " + arrivalTime, 'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm') + " " + moment__WEBPACK_IMPORTED_MODULE_6___default()().format('DD/MM/YYYY HH:mm'), moment__WEBPACK_IMPORTED_MODULE_6___default()(arrivalDay + " " + arrivalTime, 'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm') > moment__WEBPACK_IMPORTED_MODULE_6___default()().format('DD/MM/YYYY HH:mm'));
-      return moment__WEBPACK_IMPORTED_MODULE_6___default()(arrivalDay + " " + arrivalTime, 'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm') > moment__WEBPACK_IMPORTED_MODULE_6___default()().format('DD/MM/YYYY HH:mm');
+      var a = moment__WEBPACK_IMPORTED_MODULE_6___default()(arrivalDay + " " + arrivalTime, 'DD/MM/YYYY HH:mm').format('YYYY/MM/DD HH:mm');
+      var b = moment__WEBPACK_IMPORTED_MODULE_6___default()(new Date(), 'YYYY/MM/DD HH:mm').format('YYYY/MM/DD HH:mm');
+      console.log(moment__WEBPACK_IMPORTED_MODULE_6___default()(a, 'YYYY/MM/DD HH:mm').isAfter(b, 'hour'));
+      return moment__WEBPACK_IMPORTED_MODULE_6___default()(a, 'YYYY/MM/DD HH:mm').isAfter(b, 'hour');
     };
 
     var destroyReservation = /*#__PURE__*/function () {
