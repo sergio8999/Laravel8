@@ -9,14 +9,15 @@
             </ol>
         </nav>
 
-        <div class="d-flex align-items-center mt-5 ml-5">
-            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModal" @click="filterActivated = false">
+        <div class="d-flex align-items-center justify-content-center justify-content-lg-start mt-5 ml-lg-5">
+            <button type="button" class="btn btn-dark btn-size" data-toggle="modal" data-target="#exampleModal" @click="filterActivated = false">
                 Filtar por 
             </button>
             <p class="ml-2 filter" v-if="province && filterActivated">Provincia <span id="provinceFilter" @click="deleteFilter">&times;</span></p>
             <p class="ml-2 filter" v-if="wifi && filterActivated">Wifi <span id="wifiFilter" @click="deleteFilter">&times;</span></p>
             <p class="ml-2 filter" v-if="pool && filterActivated">Piscina <span id="poolFilter" @click="deleteFilter">&times;</span></p>
             <p class="ml-2 filter" v-if="categoryValue && filterActivated">categoria <span id="categoryFilter" @click="deleteFilter">&times;</span></p>
+            <p class="ml-2 filter" v-if="countGuest >0 && filterActivated">Guest <span id="guestFilter" @click="deleteFilter">&times;</span></p>
         </div>
 
         <!-- Modal -->
@@ -46,13 +47,21 @@
                                 <input id="pool" type="checkbox" class="mr-2" v-model="pool">Piscina
                             </label>
                         </div>
-                        <span>Categoria:</span>
+
                         <div class="d-flex justify-content-center align-items-center">   
                             <input type="checkbox" v-model="categoryValue">
                             <select class="custom-select mt-1 ml-2" id="inputGroupSelect03" aria-label="Example select with button addon"  v-model="selectCategory " :disabled="!categoryValue">
                                 <option v-for="category in categories" :key="category.value" >{{category.name}}</option>
                             </select>
                         </div>
+                        
+                        <div class="d-flex flex-row align-items-center mt-3">   
+                            <p class="m-0 mr-2">Huéspedes (min.):</p>
+                            <button class="btn-round d-flex justify-content-center align-items-center mx-1" @click="decrementGuest" :disabled="countGuest ==0"><b>-</b></button>              
+                            <input class="m-0 mx-1 input-count" v-model="countGuest" disabled>
+                            <button class="btn-round d-flex justify-content-center align-items-center mx-1" @click="incrementGuest"><b>+</b></button>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"  @click="filterActivated = true">Cerrar</button>
@@ -66,7 +75,7 @@
        <div class="row d-flex justify-content-center cards">
 
            <transition-group name="list" appear>
-                <div class="col-10 col-lg-5 m-3" v-for="house in houseFilter" :key="house.id">
+                <div class="col-10 col-lg-5 m-lg-3 mt-4" v-for="house in houseFilter" :key="house.id">
                     <card-house :house="house" />
                 </div>
             </transition-group>
@@ -103,6 +112,7 @@ export default ({
         const houses = ref(null);
         const locations = ref([]);
         const categories = ref([]);
+        const countGuest = ref(0);
         const selectProvince = ref('Álava');
         const selectCategory = ref('Alojamientos enteros');
         const filterActivated = ref(false);
@@ -139,13 +149,13 @@ export default ({
         })
 
         const getHouseFilter = ()=>{
-            if(!province.value && !wifi.value && !pool.value && !categoryValue.value){
+            if(!province.value && !wifi.value && !pool.value && !categoryValue.value && countGuest.value == 0){
                 houseFilter.value = houses.value;
                 filterActivated.value = false;
             }else{
                 filterActivated.value = true;
                 houseFilter.value = houses.value.filter((house)=>{
-                    return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true);
+                    return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true && (countGuest.value > 0 ? countGuest.value <= house.details.guests:true));
                 })
             }
         }
@@ -163,11 +173,23 @@ export default ({
             }else if(e.target.id == "categoryFilter"){
                 categoryValue.value = false;
                 getHouseFilter();
+            }else if(e.target.id == "guestFilter"){
+                countGuest.value = 0;
+                getHouseFilter();
             }
         }
 
+        const incrementGuest = ()=>{
+            countGuest.value +=1;
+        }
 
-        return { loggedIn ,selectProvince, selectCategory, houseFilter, locations, categories,filterActivated, province, categoryValue, wifi, pool, getHouseFilter, deleteFilter};
+        const decrementGuest = ()=>{
+            if(countGuest.value >0)
+            countGuest.value -=1;
+        }
+
+
+        return { loggedIn ,selectProvince, selectCategory, houseFilter, locations, categories,filterActivated, province, categoryValue, wifi, pool, getHouseFilter, deleteFilter, countGuest ,incrementGuest , decrementGuest };
     },
 
 })
@@ -175,14 +197,43 @@ export default ({
 <style scoped lang = "scss">
 @import '../../scss/app.scss';
 
-    .cards{
+    /* .cards{
         width: 100%;
-    }
+    } */
 
 
     input[type=checkbox]{
         width: 1rem;
         height: 1rem;
+    }
+
+    .btn-size{
+        width: 90%;
+        @media (min-width: 960px) {
+            width: 10rem;
+        }
+    }
+
+    .btn-round{
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: white;
+        border: 1px solid #8b8585;
+        border-radius: 50%;
+        color: #8b8585;
+        transition: all 1s ease;
+
+        &:hover:enabled{
+            border: 1px solid black;
+            color: black
+        }
+    }
+
+    .input-count{
+        width: 1rem;
+        background-color: white;
+        border: 0;
+        font-size: 1.5rem;
     }
 
     .tittle{

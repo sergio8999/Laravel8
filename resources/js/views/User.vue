@@ -48,13 +48,28 @@
                                 </div>
                                 <div :id="`Collapse${reservation.id}`" class="collapse show" :aria-labelledby="`heading${reservation.id}`" data-parent="#accordionExample">
                                     <div class="card-body d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <p><b>Dia llegada: </b>{{reservation.arrivalDay}}</p>
-                                            <p><b>Dia salida: </b>{{reservation.departureDay}}</p>
-                                            <p><b>Hora salida: </b>{{reservation.arrivalTime}}</p>
-                                            <p><b>Dia salida: </b>{{reservation.departureTime}}</p>
+                                        <div class="resume">
+                                            <div class="d-flex justify-content-around row">
+                                                <div class="col-6">
+                                                    <p><b>Dia llegada: </b>{{reservation.arrivalDay}}</p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p><b>Dia salida: </b>{{reservation.departureDay}}</p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p><b>Hora llegada: </b>{{reservation.arrivalTime}}</p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <p><b>Hora salida: </b>{{reservation.departureTime}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="mt-2">
+                                                <p><b>Subtotal: </b>{{reservation.subtotal}}€</p>
+                                                <p><b>Impuestos: </b>{{reservation.taxes}}€</p>
+                                                <p><b>Precio total: </b>{{reservation.total}}€</p>
+                                            </div>
                                         </div>
-                                        <button class="d-flex justify-content-center align-items-center btn-delete" v-tooltip="'Eliminar'" @click="getIdReservation(reservation.id,index)"  data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt"></i></button>
+                                        <button v-if="checkDateDelete(reservation.arrivalDay,reservation.arrivalTime)" class="d-flex justify-content-center align-items-center btn-delete" v-tooltip="'Eliminar'" @click="getIdReservation(reservation.id,index)"  data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -100,9 +115,12 @@ export default ({
             try{
                 let response = await getReservationUser(user.value.id);
                 reservations.value = response.data.reservation;
-            }catch(e){
+                console.log(moment(reservations.value[0].arrivalDay+" "+reservations.value[0].arrivalTime,'DD-MM-YYYY HH:mm').format('DD-MM-YYYY HH:mm') < moment().format('DD-MM-YYYY HH:mm'))
+            }catch(e){console.log(moment().format('DD-MM-YYYY HH:mm'));
                 console.log(e);
             }
+            
+            
         }); 
 
         const show = (e)=>{
@@ -116,6 +134,11 @@ export default ({
         const getIdReservation = (reservation,index)=>{
             idReservation.value = reservation;
             indexReservation.value  = index;
+        }
+
+        const checkDateDelete = (arrivalDay, arrivalTime)=>{
+            console.log(moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm')+" "+ moment().format('DD/MM/YYYY HH:mm'),moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm') > moment().format('DD/MM/YYYY HH:mm'));
+            return moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('DD/MM/YYYY HH:mm') > moment().format('DD/MM/YYYY HH:mm');
         }
 
         const destroyReservation = async()=>{
@@ -133,7 +156,7 @@ export default ({
         }
 
         
-        return { user, show, value, reservations, destroyReservation, disabledButton, getIdReservation };
+        return { user, show, value, reservations, destroyReservation, disabledButton, getIdReservation, checkDateDelete };
     }, 
     methods:{
 
@@ -155,6 +178,10 @@ export default ({
     .sidebar:hover{
         color: white;
         background-color: #343a40;
+    }
+
+    .resume{
+        width:50%;
     }
 
     .btn-delete{

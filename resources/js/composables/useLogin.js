@@ -16,7 +16,7 @@ export default function useLogin(email,password) {
                 store.state.disabledButton = true;
                 await store.dispatch('login',{'email':email.value,'password':password.value});
                 await store.dispatch('user');
-                toast.add({severity:'success', summary: 'Bienvenido!', detail:'Se ha logueado correctamente' + email.value, life: 3000});
+                toast.add({severity:'success', summary: 'Bienvenido!', detail:'Se ha logueado  ' + email.value, life: 3000});
                 router.push('/user');
                 store.state.disabledButton = false;
             }

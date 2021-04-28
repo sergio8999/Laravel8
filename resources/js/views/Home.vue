@@ -2,7 +2,7 @@
     <div v-if="categories.length != 0">
         <div class="hero d-flex flex-column align-items-center">
             <img src="/images/hero.jpg" alt="hero">
-            <span>Todo es posible gracias a los anfitriones</span>
+            <span class="p-2 text-center">Todo es posible gracias a los anfitriones</span>
         </div>
         <div class="categories">
             <h2 class="mt-5">Vive donde quieras</h2>
@@ -58,15 +58,12 @@ export default({
             }) */
             
             getLogin();
-
-            try{
+                try{
                 let response = await getCategories();
                 categories.value = response.data.categories;
-
-            }catch(e){
-                console.log(e);
-            }
-            
+                }catch(e){
+                    console.log(e);
+                }            
         })
 
         return {categories};
@@ -76,27 +73,35 @@ export default({
 
 <style scoped lang="scss">
 @import '../../scss/app.scss';
-.hero{
-    width: 100%;
-    height: 80vh;
-    background-color: $color-primary;
-
-    img{
+    .hero{
         width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+        height: 80vh;
+        background-color: $color-primary;
 
-    span{
-        color: $color-white;
-        font-size: 2.5rem;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        span{
+            color: $color-white;
+            font-size: 2.5rem;
+        }
     }
-}
 
     .categories{
         width: 80%;
         margin: auto;
         min-height: 30rem;;
+
+        h2{
+            text-align: center;
+
+            @media (min-width: 960px) {
+                text-align: left;
+            }
+        }
 
         &-img{
             width: 100%;
@@ -112,6 +117,12 @@ export default({
             color: black;
             font-size: 1.2rem;
             font-weight: bold;
+            display: block;
+            text-align: center;
+
+            @media (min-width: 960px) {
+                display: inline-block;
+            }
         }        
     }    
 

@@ -41,8 +41,8 @@
             
             </div>
             <div class="mt-4">
-            <h3>Anfitrión: {{ house.host }}</h3>
-                <div class="d-flex" v-if="details != undefined">
+            <h3 class="text-center text-md-left">Anfitrión: {{ house.host }}</h3>
+                <div class="d-flex justify-content-center justify-content-md-start" v-if="details != undefined">
                     <span class="ml-2">{{details.guests}} Huéspedes</span> 
                     <span class="ml-2">·</span>
                     <span class="ml-2">{{details.bedrooms}} dormitorio/s</span>
@@ -51,15 +51,15 @@
                     <span class="ml-2">·</span>
                     <span class="ml-2">{{details.toilets}} baño/s</span>
                 </div>
-                <p>{{ house.description }}</p>
-                <h5>Servicios:</h5>
-                <div class="d-flex flex-column mb-4" v-if="details != undefined">
+                <p class="text-center text-md-left">{{ house.description }}</p>
+                <h5 class="text-center text-md-left">Servicios:</h5>
+                <div class="d-flex flex-column mb-4 align-items-center align-content-md-center" v-if="details != undefined">
                     <span v-if="details.wifi == 'true'"><i class="pi pi-wifi icon mb-3 mr-2"></i>Wifi</span>
                     <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
                 </div>
             </div>
 
-            <h4>Dia llegada - salida</h4>
+            <h4 class="text-center text-md-left">Dia llegada - salida</h4>
                 <div class="row my-3">
                     <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center align-items-center">
                         <Calendar
@@ -73,7 +73,7 @@
                     </div>
                     <div class="col-12 col-md-6 col-lg-7">
                         <div class="row mt-3 mt-md-0">
-                            <div class="offset-2 col-4 offset-md-0 col-md-12 col-lg-5">
+                            <div class="offset-1 col-10 offset-md-0 col-md-12 col-lg-5">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <label class="input-group-text input-size" for="inputGroupSelect01">Hora llegada: </label>
@@ -91,10 +91,9 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-4 col-md-12 offset-lg-1 col-lg-5">
+                            <div class="col-12 col-md-12 offset-lg-1 col-lg-5 d-flex flex-column align-items-center align-items-md-start">
                                 <p><b>Subtotal ({{ house.price }}€/h):</b> {{ subtotal }}€</p>
                                 <p><b>Impuestos:</b> {{ taxes }}€</p>
-                                <hr />
                                 <p><b>Total:</b> {{ totalPrices }}€</p>
                                 <button type="submit" class="btn btn-dark" @click="setReservation">Hacer reserva</button>
                             </div>
@@ -149,6 +148,11 @@ export default ({
             primevue.config.locale.accept = 'Aceptar';
             primevue.config.locale.reject = 'Rechazar';
             primevue.config.locale.firstDayOfWeek=1;
+            primevue.config.locale.dayNames= ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+            primevue.config.locale.dayNamesShort= ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sáb"];
+            primevue.config.locale.dayNamesMin= ["Do","Lu","Ma","Mi","Ju","Vi","Sa"];
+            primevue.config.locale.monthNames= ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+            primevue.config.locale.monthNamesShort= ["Ene", "Feb", "Mar", "Abr", "May", "Jun","Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
         }
 
         onMounted(async() => {
@@ -430,10 +434,10 @@ export default ({
         font-family: $noto-serif;
     }
 
-    img {
+ /*    img {
         width: auto;
         height: 30rem;
-    }
+    } */
     .special-day {
         text-decoration: line-through;
     }

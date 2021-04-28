@@ -5,7 +5,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
                 <li class="breadcrumb-item"><router-link to="/houses">Houses</router-link></li>
-                <li class="breadcrumb-item"><router-link :to="'/house/'+ reservationData.house">Houses {{reservationData.house}}</router-link></li>
+                <li class="breadcrumb-item"><router-link :to="'/house/'+ reservationData.idHouse">House {{reservationData.idHouse}}</router-link></li>
                 <li class="breadcrumb-item active" aria-current="page">Confirmar reserva </li>
             </ol>
         </nav>
@@ -41,7 +41,7 @@
                     </select>
 
                     <h4 class="my-4">Politica de cancelación</h4>
-                    <p>Cancela antes del 29 abr. a las 2:00 PM y consigue un reembolso del 50%, menos la primera noche y la tarifa de servicio. Más información</p>
+                    <p>Cancela antes del {{getDayCancelation}} a las {{reservationData.arrivalTime}} PM y consigue un reembolso del 50%, menos la primera noche y la tarifa de servicio. Más información</p>
                     <p class="mt-2">Asegúrate de que la política de cancelación de este anfitrión te venga bien. Es posible que nuestra Política de Causas de Fuerza Mayor no cubra las interrupciones del viaje causadas por eventos conocidos, como la COVID-19, o por eventos previsibles, como condiciones meteorológicas adversas habituales.</p>
                     <button type="button" class="btn btn-dark" @click="setReservation" :disabled="disabledButton">Confirmar y pagar</button>
                 </div>
@@ -79,11 +79,12 @@
 <script>
 import route from "@/router"
 import router from "@/router"
-import { onMounted,ref } from "vue"
+import { onMounted, ref, computed } from "vue"
 import { getLogin } from '@/utils/checkLogin'
 import { setReservationHouse, sendEmail } from '@/utils/api'
 import { useToast } from "primevue/usetoast"
 import { useStore } from 'vuex'
+import moment from "moment"
 
 export default ({
     name: 'ConfirmPayment',
@@ -96,8 +97,13 @@ export default ({
         onMounted(()=>{
             reservationData.value = route.currentRoute.value.params;
             getLogin();
+            /* console.log(moment(reservationData.value.arrivalDay+" "+reservationData.value.arrivalTime,'DD-MM-YYYY HH:mm').subtract(2,'days').format('DD/MM/YYYY HH:mm')) */
 
         });
+
+        const getDayCancelation = computed(()=>{
+            return moment(reservationData.value.arrivalDay,'DD-MM-YYYY').subtract(2,'days').format('DD/MM/YYYY');
+        })
 
         const setReservation = async()=>{
             disabledButton.value =true;
@@ -137,7 +143,7 @@ export default ({
             }
         }
 
-        return { reservationData, setReservation, disabledButton }
+        return { reservationData, setReservation, disabledButton, getDayCancelation }
     },
 })
 </script>
