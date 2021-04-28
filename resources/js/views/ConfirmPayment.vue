@@ -29,8 +29,8 @@
 
                     <input type="text" class="form-control mt-2" placeholder="Número de tarjeta" aria-label="Username" aria-describedby="basic-addon1">
                     <div class="d-flex flex-row">
-                        <input type="text" class="form-control mt-2 caducidad" placeholder="Caducidad" aria-label="Caducidad" aria-describedby="basic-addon1">
-                        <input type="text" class="form-control mt-2 cvv" placeholder="CVV" aria-label="CVV" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control caducidad" placeholder="Caducidad" aria-label="Caducidad" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control cvv" placeholder="CVV" aria-label="CVV" aria-describedby="basic-addon1">
                     </div>
                     <input type="text" class="form-control mt-2" placeholder="Código Postal" aria-label="CodigoPostal" aria-describedby="basic-addon1">
                     <select class="custom-select mt-2" id="inputGroupSelect02">
@@ -43,7 +43,7 @@
                     <h4 class="my-4">Politica de cancelación</h4>
                     <p>Cancela antes del 29 abr. a las 2:00 PM y consigue un reembolso del 50%, menos la primera noche y la tarifa de servicio. Más información</p>
                     <p class="mt-2">Asegúrate de que la política de cancelación de este anfitrión te venga bien. Es posible que nuestra Política de Causas de Fuerza Mayor no cubra las interrupciones del viaje causadas por eventos conocidos, como la COVID-19, o por eventos previsibles, como condiciones meteorológicas adversas habituales.</p>
-                    <button type="button" class="btn btn-dark" @click="setReservation">Confirmar y pagar</button>
+                    <button type="button" class="btn btn-dark" @click="setReservation" :disabled="disabledButton">Confirmar y pagar</button>
                 </div>
             </div>
 
@@ -81,14 +81,17 @@ import route from "@/router"
 import router from "@/router"
 import { onMounted,ref } from "vue"
 import { getLogin } from '@/utils/checkLogin'
-import { setReservationHouse } from '@/utils/api'
+import { setReservationHouse, sendEmail } from '@/utils/api'
 import { useToast } from "primevue/usetoast"
+import { useStore } from 'vuex'
 
 export default ({
     name: 'ConfirmPayment',
     setup() {
+        const store = useStore();
         const reservationData = ref([]);
         const toast = useToast();
+        const disabledButton = ref(false);
 
         onMounted(()=>{
             reservationData.value = route.currentRoute.value.params;
@@ -97,6 +100,7 @@ export default ({
         });
 
         const setReservation = async()=>{
+            disabledButton.value =true;
             try{
                 let response = await setReservationHouse(reservationData.value.arrivalDay,
                                                     reservationData.value.departureDay,
@@ -106,19 +110,34 @@ export default ({
                                                     reservationData.value.subtotal,
                                                     reservationData.value.totalPrices,
                                                     reservationData.value.user,
-                                                    reservationData.value.house)
+                                                    reservationData.value.idHouse)
                         
                 console.log(response.data);
-                router.push('/');
-                console.log("Realizado correctamente");
-                toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente"', life: 3000});
 
+                let response2 = await sendEmail(
+                    store.state.informationUser.email,
+                    reservationData.value.nameHouse,
+                    reservationData.value.arrivalDay,
+                    reservationData.value.departureDay,
+                    reservationData.value.arrivalTime,
+                    reservationData.value.departureTime,
+                    reservationData.value.subtotal,
+                    reservationData.value.taxes,
+                    reservationData.value.totalPrices
+                );
+                console.log(response2.data);
+                router.push('/user');
+                console.log("Realizado correctamente");
+                toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente', life: 3000});
+                disabledButton.value = false;
             }catch(e){
                 console.log(e);
+                toast.add({severity:'error', summary: 'Error Message', detail:'Error al realizar la reserva', life: 3000});
+                disabledButton.value.false;
             }
         }
 
-        return { reservationData, setReservation }
+        return { reservationData, setReservation, disabledButton }
     },
 })
 </script>

@@ -47,3 +47,21 @@ export function setReservationHouse(arrivalDay, departureDay, taxes, arrivalTime
         'house_id' : house_id
     })
 }
+
+export function sendEmail(email, nameHouse, arrivalDay, departureDay, arrivalTime, departureTime, subtotal, taxes, totalPrices){
+    return axios.post('/api/email',{
+        'email':email,
+        'nameHouse':nameHouse,
+        'arrivalDay':arrivalDay,
+        'departureDay':departureDay,
+        'arrivalTime':arrivalTime,
+        'departureTime':departureTime,
+        'subtotal':subtotal,
+        'taxes':taxes,
+        'totalPrices':totalPrices
+    })
+}
+
+export function deleteReservation(reservation){
+    return axios.post('/api/destroy' ,{'id':reservation} );
+}

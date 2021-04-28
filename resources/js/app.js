@@ -6,6 +6,8 @@ import store from './store'
 import PrimeVue from 'primevue/config'
 import Calendar from 'primevue/calendar'
 import ToastService from 'primevue/toastservice';
+import '@fortawesome/fontawesome-free/js/all.js'
+
 import Toast from 'primevue/toast'
 import Tooltip from 'primevue/tooltip';
 

@@ -19,7 +19,7 @@ export default function useSignUp(name,email,password) {
             else{
                 store.state.disabledButton = false;
                 let res = await axios.post('/api/signUp',{'name':name.value,'email':email.value,'password':password.value});
-                toast.add({severity:'success', summary: 'Felicidades!', detail:'Se ha registrado correctamente' + email.value, life: 3000}); 
+                toast.add({severity:'success', summary: 'Felicidades!', detail:'Se ha registrado correctamente ' + email.value, life: 3000}); 
                 await store.dispatch('login',{'email':email.value,'password':password.value});
                 await store.dispatch('user');
                 router.push('/user');

@@ -44,4 +44,10 @@ class RegisterController extends Controller
             return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         } 
     }
+
+    public function destroy(Request $reservation){
+        $reservation->delete();
+
+        return redirect()->route('products.index');
+    }
 }

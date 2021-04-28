@@ -8,6 +8,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PruebaController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\ResumeOrderController;
 use App\Models\Category;
 use App\Models\House;
 use App\Models\Reservation;
@@ -71,6 +72,8 @@ Route::group([  ], function() {
     Route::get('categories',[CategoryController::class, 'categories']);
     Route::get('categories/{id}',[CategoryController::class,'show']);
     Route::get('locations',[LocationController::class, 'locations']);
+    Route::post('email',[ResumeOrderController::class,'store']);
+    Route::post('destroy',[ReservationController::class,'destroy']);
   });
 
   Route::group(['middleware' => 'auth:api' ], function() {

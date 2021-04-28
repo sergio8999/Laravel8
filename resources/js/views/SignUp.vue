@@ -1,4 +1,45 @@
 <template>
+
+    <!-- Modal términos-->
+        <div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="termsModalLabel">Terminos de condiciones </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius impedit reprehenderit quos voluptates delectus dicta iusto quae magni aperiam ullam quo enim laudantium nam rem, esse tempore nostrum similique ipsam.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Modal privacidad-->
+        <div class="modal fade" id="privacyModal" tabindex="-1" aria-labelledby="privacyModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="privacyModalLabel">Politica de privacidad </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eius impedit reprehenderit quos voluptates delectus dicta iusto quae magni aperiam ullam quo enim laudantium nam rem, esse tempore nostrum similique ipsam.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" >Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     <div class="d-flex flex-column align-items-center justify-content-center">
         <h1 class="text-center my-3">Crea una cuenta:</h1>
         <form @submit.prevent="signUp">
@@ -25,7 +66,7 @@
         
         <div class="terms">
             <hr>
-            <p class="text-center">Al crear cuenta, acepta nuestros <span>Términos y condiciones</span> y la <span>Politica de privacidad</span></p>
+            <p class="text-center">Al crear cuenta, acepta nuestros <span data-toggle="modal" data-target="#termsModal">Términos y condiciones</span> y la <span data-toggle="modal" data-target="#privacyModal">Politica de privacidad</span></p>
             <hr>
             <p class="ml-4">&copy; Copyrigth</p>
         </div>

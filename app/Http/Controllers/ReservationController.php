@@ -36,15 +36,29 @@ class ReservationController extends Controller
     public function show(Request $id){
         try{
             $reservation = Reservation::where('user_id',$id['user_id'])
-        ->with('house')
-        ->get();
-        return response()->json([
-                'reservation'=> $reservation
-            ]);
+            ->with('house')
+            ->get();
+            return response()->json([
+                    'reservation'=> $reservation
+                ]);
         }catch(Exception $exception){
             return response()->json([
                     'message'=> $exception->getMessage()
             ]);
         }
+    }
+
+    public function destroy(Request $reservation){
+        try{
+            Reservation::where('id', '=',$reservation['id'])->delete();
+            return response()->json([
+                'message'=>'Borrado correctamente'
+            ]);
+        }catch(Exception $exception){
+            return response()->json([
+                'message'=>$exception->getMessage()
+            ]);
+        }
+        
     }
 }
