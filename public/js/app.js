@@ -17156,8 +17156,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "withKeys": () => (/* binding */ withKeys),
 /* harmony export */   "withModifiers": () => (/* binding */ withModifiers)
 /* harmony export */ });
-/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
 /* harmony import */ var _vue_shared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/shared */ "./node_modules/@vue/shared/dist/shared.esm-bundler.js");
+/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
+/* harmony import */ var _vue_runtime_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @vue/runtime-core */ "./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js");
 
 
 
@@ -17300,7 +17301,7 @@ function autoPrefix(style, rawName) {
     if (cached) {
         return cached;
     }
-    let name = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__.camelize)(rawName);
+    let name = (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.camelize)(rawName);
     if (name !== 'filter' && name in style) {
         return (prefixCache[rawName] = name);
     }
@@ -17933,7 +17934,7 @@ const TransitionGroupImpl = {
             });
         });
         return () => {
-            const rawProps = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__.toRaw)(props);
+            const rawProps = (0,_vue_runtime_core__WEBPACK_IMPORTED_MODULE_2__.toRaw)(props);
             const cssTransitionProps = resolveTransitionProps(rawProps);
             const tag = rawProps.tag || _vue_runtime_core__WEBPACK_IMPORTED_MODULE_0__.Fragment;
             prevChildren = children;
@@ -20965,6 +20966,7 @@ __webpack_require__.r(__webpack_exports__);
       sessionStorage.removeItem('informationLogin');
       sessionStorage.removeItem('loggedIn');
       sessionStorage.removeItem('informationUser');
+      sessionStorage.removeItem('filter');
     };
 
     return {
@@ -21609,25 +21611,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           });
         } else if (totalPrices.value > 0) {
           if (value.value[1] == null) value.value[1] = value.value[0];
-          /* try{
-              let response = await setReservationHouse(value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                                                  value.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                                                  taxes.value,
-                                                  selectHours1.value,
-                                                  selectHours2.value,
-                                                  subtotal.value,
-                                                  totalPrices.value,
-                                                  user.value.id,
-                                                  house.value.id)
-                      
-              console.log(response.data);
-              router.push('/');
-              console.log("Realizado correctamente");
-              toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente"', life: 3000});
-            }catch(e){
-              console.log(e);
-          } */
-
           _router__WEBPACK_IMPORTED_MODULE_5__.default.push({
             name: "confirmPayment",
             params: {
@@ -21848,7 +21831,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var wifi = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     var pool = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)(false);
     (0,vue__WEBPACK_IMPORTED_MODULE_1__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-      var response, _response, _response2;
+      var response, _response, _response2, filter;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
         while (1) {
@@ -21904,6 +21887,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               console.log(_context.t2);
 
             case 32:
+              if (sessionStorage) if (sessionStorage.getItem('filter') != undefined) {
+                filter = JSON.parse(sessionStorage.getItem('filter'));
+                selectProvince.value = filter.selectProvince;
+                province.value = filter.province;
+                wifi.value = filter.wifi;
+                pool.wifi = filter.pool;
+                selectCategory.value = filter.selectCategory;
+                categoryValue.value = filter.categoryValue;
+                countGuest.value = filter.countGuest;
+                filterActivated.value = filter.filterActivated;
+                getHouseFilter();
+              }
+
+            case 33:
             case "end":
               return _context.stop();
           }
@@ -21921,6 +21918,21 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           return (province.value ? house.location.name == selectProvince.value : true) && (wifi.value ? house.details.wifi == "true" : true) && (pool.value ? house.details.pool == "true" : true) && (categoryValue.value ? house.category.name == selectCategory.value :  true && (countGuest.value > 0 ? countGuest.value <= house.details.guests : true));
         });
       }
+
+      setSessionStorage();
+    };
+
+    var setSessionStorage = function setSessionStorage() {
+      sessionStorage.setItem('filter', JSON.stringify({
+        'selectProvince': selectProvince.value,
+        'province': province.value,
+        'wifi': wifi.value,
+        'pool': pool.value,
+        'selectCategory': selectCategory.value,
+        'categoryValue': categoryValue.value,
+        'countGuest': countGuest.value,
+        'filterActivated': filterActivated.value
+      }));
     };
 
     var deleteFilter = function deleteFilter(e) {
@@ -21940,6 +21952,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         countGuest.value = 0;
         getHouseFilter();
       }
+
+      setSessionStorage();
     };
 
     var incrementGuest = function incrementGuest() {
@@ -22147,12 +22161,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
-/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/utils/api */ "./resources/js/utils/api.js");
-/* harmony import */ var _utils_checkLogin__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/utils/checkLogin */ "./resources/js/utils/checkLogin.js");
-/* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm-bundler.js");
+/* harmony import */ var _utils_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/utils/api */ "./resources/js/utils/api.js");
+/* harmony import */ var _utils_checkLogin__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/utils/checkLogin */ "./resources/js/utils/checkLogin.js");
+/* harmony import */ var primevue_usetoast__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! primevue/usetoast */ "./node_modules/primevue/usetoast/usetoast.esm.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -22165,14 +22181,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_defineProperty({
   name: 'User',
+  components: {},
   data: function data() {
     return {};
   },
   setup: function setup() {
-    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.useStore)();
-    var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_5__.useToast)();
+    var store = (0,vuex__WEBPACK_IMPORTED_MODULE_6__.useStore)();
+    var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_4__.useToast)();
     var value = (0,vue__WEBPACK_IMPORTED_MODULE_1__.ref)('information');
     var user = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(function () {
       return store.state.informationUser;
@@ -22189,22 +22206,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               /* const { user } = useUser();
               user = user; */
-              (0,_utils_checkLogin__WEBPACK_IMPORTED_MODULE_4__.getLogin)();
+              (0,_utils_checkLogin__WEBPACK_IMPORTED_MODULE_3__.getLogin)();
               _context.prev = 1;
               _context.next = 4;
-              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_3__.getReservationUser)(user.value.id);
+              return (0,_utils_api__WEBPACK_IMPORTED_MODULE_2__.getReservationUser)(user.value.id);
 
             case 4:
               response = _context.sent;
               reservations.value = response.data.reservation;
-              console.log(moment__WEBPACK_IMPORTED_MODULE_6___default()(reservations.value[0].arrivalDay + " " + reservations.value[0].arrivalTime, 'DD-MM-YYYY HH:mm').format('DD-MM-YYYY HH:mm') < moment__WEBPACK_IMPORTED_MODULE_6___default()().format('DD-MM-YYYY HH:mm'));
+              console.log(moment__WEBPACK_IMPORTED_MODULE_5___default()(reservations.value[0].arrivalDay + " " + reservations.value[0].arrivalTime, 'DD-MM-YYYY HH:mm').format('DD-MM-YYYY HH:mm') < moment__WEBPACK_IMPORTED_MODULE_5___default()().format('DD-MM-YYYY HH:mm'));
               _context.next = 13;
               break;
 
             case 9:
               _context.prev = 9;
               _context.t0 = _context["catch"](1);
-              console.log(moment__WEBPACK_IMPORTED_MODULE_6___default()().format('DD-MM-YYYY HH:mm'));
+              console.log(moment__WEBPACK_IMPORTED_MODULE_5___default()().format('DD-MM-YYYY HH:mm'));
               console.log(_context.t0);
 
             case 13:
@@ -22229,10 +22246,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     };
 
     var checkDateDelete = function checkDateDelete(arrivalDay, arrivalTime) {
-      var a = moment__WEBPACK_IMPORTED_MODULE_6___default()(arrivalDay + " " + arrivalTime, 'DD/MM/YYYY HH:mm').format('YYYY/MM/DD HH:mm');
-      var b = moment__WEBPACK_IMPORTED_MODULE_6___default()(new Date(), 'YYYY/MM/DD HH:mm').format('YYYY/MM/DD HH:mm');
-      console.log(moment__WEBPACK_IMPORTED_MODULE_6___default()(a, 'YYYY/MM/DD HH:mm').isAfter(b, 'hour'));
-      return moment__WEBPACK_IMPORTED_MODULE_6___default()(a, 'YYYY/MM/DD HH:mm').isAfter(b, 'hour');
+      var a = moment__WEBPACK_IMPORTED_MODULE_5___default()(arrivalDay + " " + arrivalTime, 'DD/MM/YYYY HH:mm').format('YYYY/MM/DD HH:mm');
+      var b = moment__WEBPACK_IMPORTED_MODULE_5___default()(new Date(), 'YYYY/MM/DD HH:mm').format('YYYY/MM/DD HH:mm');
+      console.log(moment__WEBPACK_IMPORTED_MODULE_5___default()(a, 'YYYY/MM/DD HH:mm').isAfter(b, 'hour'));
+      return moment__WEBPACK_IMPORTED_MODULE_5___default()(a, 'YYYY/MM/DD HH:mm').isAfter(b, 'hour');
     };
 
     var destroyReservation = /*#__PURE__*/function () {
@@ -22245,7 +22262,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 disabledButton.value = true;
                 _context2.prev = 1;
                 _context2.next = 4;
-                return (0,_utils_api__WEBPACK_IMPORTED_MODULE_3__.deleteReservation)(idReservation.value);
+                return (0,_utils_api__WEBPACK_IMPORTED_MODULE_2__.deleteReservation)(idReservation.value);
 
               case 4:
                 response = _context2.sent;
@@ -22296,9 +22313,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       checkDateDelete: checkDateDelete
     };
   },
-  methods: {},
-  components: {}
-});
+  methods: {}
+}, "components", {}));
 
 /***/ }),
 
@@ -23487,7 +23503,7 @@ var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 
 var _hoisted_31 = {
   key: 1,
-  "class": "d-flex flex-column mb-4 align-items-center align-content-md-center"
+  "class": "d-flex flex-column mb-4 align-items-center align-items-md-start"
 };
 var _hoisted_32 = {
   key: 0
@@ -23921,7 +23937,7 @@ var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
   var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
 
-  var _component_card_house = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("card-house");
+  var _component_cardHouse = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("cardHouse");
 
   return $setup.houseFilter != null ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Breadcrumb "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("nav", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("li", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/"
@@ -24077,7 +24093,7 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           "class": "col-10 col-lg-5 m-lg-3 mt-4",
           key: house.id
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_card_house, {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_cardHouse, {
           house: house
         }, null, 8
         /* PROPS */
@@ -24453,29 +24469,48 @@ var _withId = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.withScopeId)("dat
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.pushScopeId)("data-v-499c242c");
 
 var _hoisted_1 = {
-  "class": "container-fluid my-3"
+  "aria-label": "breadcrumb"
 };
 var _hoisted_2 = {
+  "class": "breadcrumb"
+};
+var _hoisted_3 = {
+  "class": "breadcrumb-item"
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Home");
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("li", {
+  "class": "breadcrumb-item active",
+  "aria-current": "page"
+}, "User", -1
+/* HOISTED */
+);
+
+var _hoisted_6 = {
+  "class": "container-fluid my-3"
+};
+var _hoisted_7 = {
   "class": "modal fade",
   id: "exampleModal",
   tabindex: "-1",
   "aria-labelledby": "exampleModalLabel",
   "aria-hidden": "true"
 };
-var _hoisted_3 = {
+var _hoisted_8 = {
   "class": "modal-dialog"
 };
-var _hoisted_4 = {
+var _hoisted_9 = {
   "class": "modal-content"
 };
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-header\" data-v-499c242c><h5 class=\"modal-title\" id=\"exampleModalLabel\" data-v-499c242c>Reserva</h5><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" data-v-499c242c><span aria-hidden=\"true\" data-v-499c242c>×</span></button></div><div class=\"modal-body\" data-v-499c242c> ¿Esta seguro de que desea eliminar la reserva? </div>", 2);
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-header\" data-v-499c242c><h5 class=\"modal-title\" id=\"exampleModalLabel\" data-v-499c242c>Reserva</h5><button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\" data-v-499c242c><span aria-hidden=\"true\" data-v-499c242c>×</span></button></div><div class=\"modal-body\" data-v-499c242c> ¿Esta seguro de que desea eliminar la reserva? </div>", 2);
 
-var _hoisted_7 = {
+var _hoisted_12 = {
   "class": "modal-footer"
 };
 
-var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
   type: "button",
   "class": "btn btn-secondary",
   "data-dismiss": "modal"
@@ -24483,80 +24518,60 @@ var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("
 /* HOISTED */
 );
 
-var _hoisted_9 = {
+var _hoisted_14 = {
   "class": "row"
 };
-var _hoisted_10 = {
-  "class": "col-3"
+var _hoisted_15 = {
+  "class": "col-3 col-lg-2"
 };
-var _hoisted_11 = {
-  "class": "col-6 d-flex flex-column justify-content-center"
+var _hoisted_16 = {
+  "class": "p-0"
 };
-var _hoisted_12 = {
+var _hoisted_17 = {
+  "class": "col-9 col-lg-10"
+};
+var _hoisted_18 = {
   key: 0
 };
 
-var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
+var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
   "class": "mb-4"
 }, "Perfil:", -1
 /* HOISTED */
 );
 
-var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Nombre:", -1
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Nombre:", -1
 /* HOISTED */
 );
 
-var _hoisted_15 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Email:", -1
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Email:", -1
 /* HOISTED */
 );
 
-var _hoisted_16 = {
+var _hoisted_22 = {
   key: 1
 };
 
-var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
-  "class": "mb-4"
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", {
+  "class": "mb-4 text-center text-lg-left"
 }, "Reservas:", -1
 /* HOISTED */
 );
 
-var _hoisted_18 = {
-  "class": "accordion",
-  id: "accordionExample"
+var _hoisted_24 = {
+  "class": "row d-flex justify-content-center "
 };
-var _hoisted_19 = {
-  "class": "mb-0"
-};
-var _hoisted_20 = {
-  "class": "card-body d-flex justify-content-between align-items-center"
-};
-var _hoisted_21 = {
-  "class": "resume"
-};
-var _hoisted_22 = {
-  "class": "d-flex justify-content-around row"
-};
-var _hoisted_23 = {
-  "class": "col-6"
-};
-
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Dia llegada: ", -1
-/* HOISTED */
-);
-
 var _hoisted_25 = {
-  "class": "col-6"
+  "class": "my-2 d-flex justify-content-around"
 };
-
-var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Dia salida: ", -1
-/* HOISTED */
-);
-
+var _hoisted_26 = {
+  "class": "row card-reservation-description"
+};
 var _hoisted_27 = {
   "class": "col-6"
 };
 
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Hora llegada: ", -1
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "D.llegada:", -1
 /* HOISTED */
 );
 
@@ -24564,27 +24579,35 @@ var _hoisted_29 = {
   "class": "col-6"
 };
 
-var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Hora salida: ", -1
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "D. salida:", -1
 /* HOISTED */
 );
 
 var _hoisted_31 = {
-  "class": "mt-2"
+  "class": "col-6"
 };
 
-var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Subtotal: ", -1
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "H.llegada:", -1
 /* HOISTED */
 );
 
-var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Impuestos: ", -1
+var _hoisted_33 = {
+  "class": "col-6"
+};
+
+var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "H. salida:", -1
 /* HOISTED */
 );
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Precio total: ", -1
+var _hoisted_35 = {
+  "class": "col-6 mt-1"
+};
+
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Precio:", -1
 /* HOISTED */
 );
 
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
   "class": "fas fa-trash-alt"
 }, null, -1
 /* HOISTED */
@@ -24593,16 +24616,27 @@ var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(
 (0,vue__WEBPACK_IMPORTED_MODULE_0__.popScopeId)();
 
 var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_router_link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("router-link");
+
   var _directive_tooltip = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDirective)("tooltip");
 
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("nav", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ol", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("li", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/"
+  }, {
+    "default": _withId(function () {
+      return [_hoisted_4];
+    }),
+    _: 1
+    /* STABLE */
+
+  })]), _hoisted_5])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [_hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     type: "button",
     "class": "btn btn-primary",
     onClick: _cache[1] || (_cache[1] = function () {
       return $setup.destroyReservation && $setup.destroyReservation.apply($setup, arguments);
     }),
     "data-dismiss": "modal"
-  }, "Eliminar")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("li", {
+  }, "Eliminar")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("ul", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("li", {
     onClick: _cache[2] || (_cache[2] = function () {
       return $setup.show && $setup.show.apply($setup, arguments);
     }),
@@ -24614,75 +24648,55 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     }),
     id: "reservation",
     "class": "sidebar p-2"
-  }, "Reservas")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_11, [$setup.value == 'information' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_12, [_hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.name), 1
+  }, "Reservas")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_17, [$setup.value == 'information' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_18, [_hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.name), 1
   /* TEXT */
-  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.email), 1
+  )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.user.email), 1
   /* TEXT */
-  )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.value == 'reservation' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_16, [_hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
+  )])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.value == 'reservation' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"accordion\" id=\"accordionExample\">\r\n                        <transition-group name=\"list\" appear>\r\n                            <div class=\"card mb-2\" v-for=\"(reservation,index) in reservations\" :key=\"reservation.id\">\r\n                                <div class=\"card-header\" :id=\"`heading${reservation.id}`\">\r\n                                <h2 class=\"mb-0\">\r\n                                    <button class=\"btn btn-link btn-block text-left\" type=\"button\" data-toggle=\"collapse\" :data-target=\"`#Collapse${reservation.id}`\" aria-expanded=\"false\" :aria-controls=\"reservation.id\">\r\n                                            <p>Casa: {{reservation.house.name}}</p>\r\n                                    </button>\r\n                                </h2>\r\n                                </div>\r\n                                <div :id=\"`Collapse${reservation.id}`\" class=\"collapse show\" :aria-labelledby=\"`heading${reservation.id}`\" data-parent=\"#accordionExample\">\r\n                                    <div class=\"card-body d-flex justify-content-between align-items-center\">\r\n                                        <div class=\"resume\">\r\n                                            <div class=\"d-flex justify-content-around row\">\r\n                                                <div class=\"col-6\">\r\n                                                    <p><b>Dia llegada: </b>{{reservation.arrivalDay}}</p>\r\n                                                </div>\r\n                                                <div class=\"col-6\">\r\n                                                    <p><b>Dia salida: </b>{{reservation.departureDay}}</p>\r\n                                                </div>\r\n                                                <div class=\"col-6\">\r\n                                                    <p><b>Hora llegada: </b>{{reservation.arrivalTime}}</p>\r\n                                                </div>\r\n                                                <div class=\"col-6\">\r\n                                                    <p><b>Hora salida: </b>{{reservation.departureTime}}</p>\r\n                                                </div>\r\n                                            </div>\r\n                                            <div class=\"mt-2\">\r\n                                                <p><b>Subtotal: </b>{{reservation.subtotal}}€</p>\r\n                                                <p><b>Impuestos: </b>{{reservation.taxes}}€</p>\r\n                                                <p><b>Precio total: </b>{{reservation.total}}€</p>\r\n                                            </div>\r\n                                        </div>\r\n                                        <button v-if=\"checkDateDelete(reservation.arrivalDay,reservation.arrivalTime)\" class=\"d-flex justify-content-center align-items-center btn-delete\" v-tooltip=\"'Eliminar'\" @click=\"getIdReservation(reservation.id,index)\"  data-toggle=\"modal\" data-target=\"#exampleModal\"><i class=\"fas fa-trash-alt\"></i></button>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </transition-group>\r\n                    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card reservation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
     name: "list",
     appear: ""
   }, {
     "default": _withId(function () {
-      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.reservations, function (reservation, index) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.reservations, function (reservation) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
-          "class": "card mb-2",
+          "class": "col-10 col-lg-3 mt-3 mx-lg-3 card-reservation",
           key: reservation.id
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-          "class": "card-header",
-          id: "heading".concat(reservation.id)
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h2", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
-          "class": "btn btn-link btn-block text-left",
-          type: "button",
-          "data-toggle": "collapse",
-          "data-target": "#Collapse".concat(reservation.id),
-          "aria-expanded": "false",
-          "aria-controls": reservation.id
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Casa: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.house.name), 1
-        /* TEXT */
-        )], 8
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+          src: "/images/".concat(reservation.house.url),
+          alt: reservation.house.name
+        }, null, 8
         /* PROPS */
-        , ["data-target", "aria-controls"])])], 8
-        /* PROPS */
-        , ["id"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", {
-          id: "Collapse".concat(reservation.id),
-          "class": "collapse show",
-          "aria-labelledby": "heading".concat(reservation.id),
-          "data-parent": "#accordionExample"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.arrivalDay), 1
+        , ["src", "alt"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.arrivalDay), 1
         /* TEXT */
-        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.departureDay), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_29, [_hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.departureDay), 1
         /* TEXT */
-        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.arrivalTime), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_31, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.arrivalTime), 1
         /* TEXT */
-        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.departureTime), 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.departureTime), 1
         /* TEXT */
-        )])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.subtotal) + "€", 1
+        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_35, [_hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.total) + "€ ", 1
         /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.taxes) + "€", 1
-        /* TEXT */
-        )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reservation.total) + "€", 1
-        /* TEXT */
-        )])])]), $setup.checkDateDelete(reservation.arrivalDay, reservation.arrivalTime) ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
+        )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", null, [$setup.checkDateDelete(reservation.arrivalDay, reservation.arrivalTime) ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", {
           key: 0,
           "class": "d-flex justify-content-center align-items-center btn-delete",
           onClick: function onClick($event) {
-            return $setup.getIdReservation(reservation.id, index);
+            return $setup.getIdReservation(reservation.id, _ctx.index);
           },
           "data-toggle": "modal",
           "data-target": "#exampleModal"
-        }, [_hoisted_35], 8
+        }, [_hoisted_37], 8
         /* PROPS */
-        , ["onClick"])), [[_directive_tooltip, 'Eliminar']]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 8
-        /* PROPS */
-        , ["id", "aria-labelledby"])]);
+        , ["onClick"])), [[_directive_tooltip, 'Eliminar']]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))];
+      ))])];
     }),
     _: 1
     /* STABLE */
 
-  })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])], 64
+  /* STABLE_FRAGMENT */
+  );
 });
 
 /***/ }),
@@ -24938,7 +24952,7 @@ function useSignUp(name, email, password) {
               break;
 
             case 13:
-              store.state.disabledButton = false;
+              store.state.disabledButton = true;
               _context.next = 16;
               return axios__WEBPACK_IMPORTED_MODULE_2___default().post('/api/signUp', {
                 'name': name.value,
@@ -24966,7 +24980,7 @@ function useSignUp(name, email, password) {
 
             case 22:
               _router__WEBPACK_IMPORTED_MODULE_1__.default.push('/user');
-              store.state.disabledButton = true;
+              store.state.disabledButton = false;
 
             case 24:
               _context.next = 30;
@@ -24981,7 +24995,7 @@ function useSignUp(name, email, password) {
                 detail: _context.t0.response.data.errors.email,
                 life: 3000
               });
-              store.state.disabledButton = true;
+              store.state.disabledButton = false;
 
             case 30:
             case "end":
@@ -25193,27 +25207,31 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_2__.createStore)({
 
               case 4:
                 response = _context.sent;
-                loggedIn = true;
-                commit('setInformationLogin', response.data);
-                commit('setLoggedIn', loggedIn);
-                sessionStorage.setItem('informationLogin', JSON.stringify(response.data));
-                sessionStorage.setItem('loggedIn', JSON.stringify({
-                  'loggedIn': true
-                }));
-                _context.next = 15;
+
+                if (response.data.message != "Unauthorized") {
+                  loggedIn = true;
+                  commit('setInformationLogin', response.data);
+                  commit('setLoggedIn', loggedIn);
+                  sessionStorage.setItem('informationLogin', JSON.stringify(response.data));
+                  sessionStorage.setItem('loggedIn', JSON.stringify({
+                    'loggedIn': true
+                  }));
+                }
+
+                _context.next = 11;
                 break;
 
-              case 12:
-                _context.prev = 12;
+              case 8:
+                _context.prev = 8;
                 _context.t0 = _context["catch"](1);
                 console.log(_context.t0);
 
-              case 15:
+              case 11:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 12]]);
+        }, _callee, null, [[1, 8]]);
       }))();
     },
     user: function user(_ref2) {
@@ -25693,7 +25711,7 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap);"]);
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body[data-v-499c242c] {\n  font-family: \"Source Sans Pro\", sans-serif;\n}\n.sidebar[data-v-499c242c] {\n  font-size: 1.3rem;\n  list-style: none;\n  cursor: pointer;\n}\n.sidebar[data-v-499c242c]:hover {\n  color: white;\n  background-color: #343a40;\n}\n.resume[data-v-499c242c] {\n  width: 50%;\n}\n.btn-delete[data-v-499c242c] {\n  width: 3rem;\n  height: 3rem;\n  background-color: #ef0e0e;\n  border: 1px solid #ef0e0e;\n  transition: all 0.5s ease;\n}\n.btn-delete[data-v-499c242c]:hover {\n  background-color: #f1f1f1;\n}\n.btn-delete:hover svg[data-v-499c242c] {\n  color: #ef0e0e;\n}\n.btn-delete svg[data-v-499c242c] {\n  color: #f1f1f1;\n}\n.list-enter-active[data-v-499c242c] {\n  transition: all 3s;\n}\n.list-leave-active[data-v-499c242c] {\n  transition: all 1s;\n}\n.list-enter-from[data-v-499c242c], .list-leave-to[data-v-499c242c] {\n  opacity: 0;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "body[data-v-499c242c] {\n  font-family: \"Source Sans Pro\", sans-serif;\n}\n.card-reservation[data-v-499c242c] {\n  box-shadow: 0 0 4px #343a40;\n  border-radius: 5px 5px;\n  padding: 1rem;\n}\n.card-reservation img[data-v-499c242c] {\n  width: 100%;\n  height: 7rem;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-radius: 5px 5px;\n}\n.card-reservation-description[data-v-499c242c] {\n  width: 90%;\n  font-size: 0.9rem;\n}\n.sidebar[data-v-499c242c] {\n  font-size: 0.9rem;\n  list-style: none;\n  cursor: pointer;\n}\n@media (min-width: 960px) {\n.sidebar[data-v-499c242c] {\n    font-size: 1.2rem;\n}\n}\n.sidebar[data-v-499c242c]:hover {\n  color: white;\n  background-color: #343a40;\n}\n.resume[data-v-499c242c] {\n  width: 50%;\n}\n.btn-delete[data-v-499c242c] {\n  width: 2rem;\n  height: 2rem;\n  background-color: #ef0e0e;\n  border: 1px solid #ef0e0e;\n  transition: all 0.5s ease;\n}\n.btn-delete[data-v-499c242c]:hover {\n  background-color: #f1f1f1;\n}\n.btn-delete:hover svg[data-v-499c242c] {\n  color: #ef0e0e;\n}\n.btn-delete svg[data-v-499c242c] {\n  color: #f1f1f1;\n}\n.list-enter-active[data-v-499c242c] {\n  transition: all 3s;\n}\n.list-leave-active[data-v-499c242c] {\n  transition: all 1s;\n}\n.list-enter-from[data-v-499c242c], .list-leave-to[data-v-499c242c] {\n  opacity: 0;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -58601,8 +58619,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "compile": () => (/* binding */ compileToFunction)
 /* harmony export */ });
 /* harmony import */ var _vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @vue/runtime-dom */ "./node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js");
-/* harmony import */ var _vue_compiler_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/compiler-dom */ "./node_modules/@vue/compiler-dom/dist/compiler-dom.esm-bundler.js");
-/* harmony import */ var _vue_shared__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @vue/shared */ "./node_modules/@vue/shared/dist/shared.esm-bundler.js");
+/* harmony import */ var _vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @vue/runtime-dom */ "./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js");
+/* harmony import */ var _vue_compiler_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @vue/compiler-dom */ "./node_modules/@vue/compiler-dom/dist/compiler-dom.esm-bundler.js");
+/* harmony import */ var _vue_shared__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @vue/shared */ "./node_modules/@vue/shared/dist/shared.esm-bundler.js");
 
 
 
@@ -58611,7 +58630,7 @@ __webpack_require__.r(__webpack_exports__);
 
 function initDev() {
     {
-        (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.initCustomFormatter)();
+        (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.initCustomFormatter)();
     }
 }
 
@@ -58621,13 +58640,13 @@ if ((true)) {
 }
 const compileCache = Object.create(null);
 function compileToFunction(template, options) {
-    if (!(0,_vue_shared__WEBPACK_IMPORTED_MODULE_2__.isString)(template)) {
+    if (!(0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.isString)(template)) {
         if (template.nodeType) {
             template = template.innerHTML;
         }
         else {
-            ( true) && (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.warn)(`invalid template option: `, template);
-            return _vue_shared__WEBPACK_IMPORTED_MODULE_2__.NOOP;
+            ( true) && (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.warn)(`invalid template option: `, template);
+            return _vue_shared__WEBPACK_IMPORTED_MODULE_1__.NOOP;
         }
     }
     const key = template;
@@ -58638,7 +58657,7 @@ function compileToFunction(template, options) {
     if (template[0] === '#') {
         const el = document.querySelector(template);
         if (( true) && !el) {
-            (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.warn)(`Template element not found or is empty: ${template}`);
+            (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.warn)(`Template element not found or is empty: ${template}`);
         }
         // __UNSAFE__
         // Reason: potential execution of JS expressions in in-DOM template.
@@ -58646,14 +58665,14 @@ function compileToFunction(template, options) {
         // by the server, the template should not contain any user data.
         template = el ? el.innerHTML : ``;
     }
-    const { code } = (0,_vue_compiler_dom__WEBPACK_IMPORTED_MODULE_1__.compile)(template, (0,_vue_shared__WEBPACK_IMPORTED_MODULE_2__.extend)({
+    const { code } = (0,_vue_compiler_dom__WEBPACK_IMPORTED_MODULE_3__.compile)(template, (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.extend)({
         hoistStatic: true,
         onError(err) {
             if ((true)) {
                 const message = `Template compilation error: ${err.message}`;
                 const codeFrame = err.loc &&
-                    (0,_vue_shared__WEBPACK_IMPORTED_MODULE_2__.generateCodeFrame)(template, err.loc.start.offset, err.loc.end.offset);
-                (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.warn)(codeFrame ? `${message}\n${codeFrame}` : message);
+                    (0,_vue_shared__WEBPACK_IMPORTED_MODULE_1__.generateCodeFrame)(template, err.loc.start.offset, err.loc.end.offset);
+                (0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.warn)(codeFrame ? `${message}\n${codeFrame}` : message);
             }
             else {}
         }
@@ -58666,7 +58685,7 @@ function compileToFunction(template, options) {
     render._rc = true;
     return (compileCache[key] = render);
 }
-(0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_0__.registerRuntimeCompiler)(compileToFunction);
+(0,_vue_runtime_dom__WEBPACK_IMPORTED_MODULE_2__.registerRuntimeCompiler)(compileToFunction);
 
 
 

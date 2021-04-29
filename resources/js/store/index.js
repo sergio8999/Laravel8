@@ -33,12 +33,14 @@ const store = createStore({
 
     async login({commit},infor) {
       try{
-        let response = await axios.post('/api/login',infor)
-        let loggedIn = true; 
-        commit('setInformationLogin',response.data);
-        commit('setLoggedIn',loggedIn);
-        sessionStorage.setItem('informationLogin',JSON.stringify(response.data)); 
-        sessionStorage.setItem('loggedIn',JSON.stringify({'loggedIn':true})); 
+        let response = await axios.post('/api/login',infor);
+        if(response.data.message != "Unauthorized"){
+          let loggedIn = true; 
+          commit('setInformationLogin',response.data);
+          commit('setLoggedIn',loggedIn);
+          sessionStorage.setItem('informationLogin',JSON.stringify(response.data)); 
+          sessionStorage.setItem('loggedIn',JSON.stringify({'loggedIn':true})); 
+        }        
       }catch(e){
         console.log(e);
       }

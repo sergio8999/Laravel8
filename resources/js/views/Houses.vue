@@ -76,11 +76,10 @@
 
            <transition-group name="list" appear>
                 <div class="col-10 col-lg-5 m-lg-3 mt-4" v-for="house in houseFilter" :key="house.id">
-                    <card-house :house="house" />
+                    <cardHouse :house="house" />
                 </div>
             </transition-group>
        </div>
-
        <p class="text-center" v-if="houseFilter.length == 0">No hay Alojamientos</p>
     </div>
     <div v-else class="d-flex justify-content-center align-items-start mt-5">
@@ -97,7 +96,7 @@ import { getLogin } from '@/utils/checkLogin'
 
 export default ({
     name:'Houses',
-     components:{
+    components:{
         cardHouse
     },
     data(){
@@ -124,7 +123,6 @@ export default ({
         onMounted(async()=>{
 
             getLogin();
-
             try{
                 let response = await getHouses();
                 houses.value = response.data;
@@ -146,6 +144,20 @@ export default ({
             }catch(e){
                 console.log(e);
             }
+
+            if(sessionStorage)
+                if(sessionStorage.getItem('filter') != undefined){
+                    let filter = JSON.parse(sessionStorage.getItem('filter'));
+                    selectProvince.value = filter.selectProvince;
+                    province.value = filter.province;
+                    wifi.value = filter.wifi;
+                    pool.wifi = filter.pool;
+                    selectCategory.value = filter.selectCategory;
+                    categoryValue.value = filter.categoryValue;
+                    countGuest.value = filter.countGuest;
+                    filterActivated.value = filter.filterActivated;
+                    getHouseFilter();
+                }
         })
 
         const getHouseFilter = ()=>{
@@ -158,6 +170,20 @@ export default ({
                     return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true && (countGuest.value > 0 ? countGuest.value <= house.details.guests:true));
                 })
             }
+            setSessionStorage();
+        }
+
+        const setSessionStorage =()=>{
+            sessionStorage.setItem('filter',JSON.stringify({
+                'selectProvince':selectProvince.value,
+                'province': province.value,
+                'wifi':wifi.value,
+                'pool':pool.value,
+                'selectCategory':selectCategory.value,
+                'categoryValue':categoryValue.value,
+                'countGuest':countGuest.value,
+                'filterActivated':filterActivated.value
+            }))
         }
 
         const deleteFilter = (e)=>{
@@ -177,6 +203,7 @@ export default ({
                 countGuest.value = 0;
                 getHouseFilter();
             }
+            setSessionStorage();
         }
 
         const incrementGuest = ()=>{

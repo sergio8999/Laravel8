@@ -17,17 +17,17 @@ export default function useSignUp(name,email,password) {
             else if(password.value == "")
                 toast.add({severity:'warn', summary: 'Error Message', detail:'El campo password debe tener un valor', life: 3000});  
             else{
-                store.state.disabledButton = false;
+                store.state.disabledButton = true;
                 let res = await axios.post('/api/signUp',{'name':name.value,'email':email.value,'password':password.value});
                 toast.add({severity:'success', summary: 'Felicidades!', detail:'Se ha registrado correctamente ' + email.value, life: 3000}); 
                 await store.dispatch('login',{'email':email.value,'password':password.value});
                 await store.dispatch('user');
                 router.push('/user');
-                store.state.disabledButton = true;
+                store.state.disabledButton = false;
             }     
         }catch(e){
             toast.add({severity:'error', summary: 'Error Message', detail:e.response.data.errors.email, life: 3000});  
-            store.state.disabledButton = true;
+            store.state.disabledButton = false;
         }
     };
   

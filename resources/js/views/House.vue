@@ -53,7 +53,7 @@
                 </div>
                 <p class="text-center text-md-left">{{ house.description }}</p>
                 <h5 class="text-center text-md-left">Servicios:</h5>
-                <div class="d-flex flex-column mb-4 align-items-center align-content-md-center" v-if="details != undefined">
+                <div class="d-flex flex-column mb-4 align-items-center align-items-md-start" v-if="details != undefined">
                     <span v-if="details.wifi == 'true'"><i class="pi pi-wifi icon mb-3 mr-2"></i>Wifi</span>
                     <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
                 </div>
@@ -264,26 +264,6 @@ export default ({
                     if(value.value[1] == null)
                         value.value[1] = value.value[0];
 
-                    /* try{
-                        let response = await setReservationHouse(value.value[0].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                                                            value.value[1].toLocaleDateString('es-Es',{ year: 'numeric', month: '2-digit', day: '2-digit' }),
-                                                            taxes.value,
-                                                            selectHours1.value,
-                                                            selectHours2.value,
-                                                            subtotal.value,
-                                                            totalPrices.value,
-                                                            user.value.id,
-                                                            house.value.id)
-                                
-                        console.log(response.data);
-                        router.push('/');
-                        console.log("Realizado correctamente");
-                        toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente"', life: 3000});
-
-                    }catch(e){
-                        console.log(e);
-                    } */
-
                     router.push({
                         name: "confirmPayment",
                         params:{
@@ -304,10 +284,10 @@ export default ({
                         }
                     });
 
-                    }else{
-                        console.log("Error. Debe seleccionar los dias y horas correctamente");
-                        toast.add({severity:'error', summary: 'Error Message', detail:'Error. Debe seleccionar los dias y horas correctamente', life: 3000});
-                    }                
+                }else{
+                    console.log("Error. Debe seleccionar los dias y horas correctamente");
+                    toast.add({severity:'error', summary: 'Error Message', detail:'Error. Debe seleccionar los dias y horas correctamente', life: 3000});
+                }                
             }else{
                 toast.add({severity:'error', summary: 'Error Message', detail:'Debe estar logueado', life: 3000});
                 router.push('/login');

@@ -54,6 +54,7 @@ export default ({
             sessionStorage.removeItem('informationLogin');
             sessionStorage.removeItem('loggedIn');
             sessionStorage.removeItem('informationUser');
+            sessionStorage.removeItem('filter');
         }
         return {loggedIn,logout};
     },
