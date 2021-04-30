@@ -2,6 +2,9 @@
     <Toast position="top-center"/>
     <div class="app">
         <theHeader />
+        <p>Contador: {{counter}}</p>
+        <p>Doble : {{doubleCounter}}</p>
+        <button @click="addOne">Sumar</button>
         <router-view></router-view>
         <theFooter />       
     </div>
@@ -10,6 +13,7 @@
 <script>
 import theHeader from './TheHeader.vue'
 import theFooter from './TheFooter.vue'
+import {useCounter} from '../composables/useCounter';
 
 export default ({ 
     name:'App',
@@ -19,7 +23,21 @@ export default ({
         }
     },
     setup(){
-        
+        /* let data = useCounter(); */
+        const {
+            counter,
+            doubleCounter,
+            addOne
+        } = useCounter();
+
+        return {
+            /* counter: data.counter,
+            doubleCounter:data.doubleCounter,
+            addOne: data.addOne */
+            counter,
+            doubleCounter,
+            addOne
+        }
     },
     
     components:{

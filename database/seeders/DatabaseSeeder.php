@@ -2,12 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Administrador;
 use App\Models\Category;
-use App\Models\Detail;
 use App\Models\House;
 use App\Models\House_Detail;
 use App\Models\House_Images;
 use App\Models\Location;
+use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -145,5 +147,17 @@ class DatabaseSeeder extends Seeder
         House_Detail::set('3','true','4','4','2','true','9');
         House_Detail::set('1','false','2','1','1','false','10');
         House_Detail::set('2','false','4','2','1','false','11');
+
+        // Usuario
+        User::set('Sergio','sergio8999@gmail.com','1234');
+        
+        // Reservas
+        Reservation::set('28/04/2021','30/04/2021','0:00','0:00','10.56','105.6','116.16','1','11');
+        Reservation::set('06/05/2021','07/05/2021','0:00','0:00','5.28','52.8','58.08','1','11');
+        Reservation::set('07/05/2021','08/05/2021','0:00','0:00','5.28','52.8','58.08','1','11');
+        Reservation::set('30/04/2021','08/05/2021','0:00','03:00','1.05','10.5','11.55','1','10');
+
+        // Administrador
+        Administrador::set('sergio','1234');
     }
 }

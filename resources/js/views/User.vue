@@ -84,8 +84,8 @@
                     </div> -->
 
                     <!-- Card reservation -->
-                    <transition-group name="list" appear>
-                        <div class="row d-flex justify-content-center ">
+                    <div class="row d-flex justify-content-center ">
+                        <transition-group name="list" appear>
                             <div class="col-10 col-lg-3 mt-3 mx-lg-3 card-reservation" v-for="reservation in reservations" :key="reservation.id">
                                 <div>
                                     <img :src="`/images/${reservation.house.url}`"  :alt="reservation.house.name">
@@ -113,8 +113,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </transition-group>
+                        </transition-group>
+                    </div>
                 </div>
             </div>
         </div>        
@@ -160,8 +160,7 @@ export default ({
             try{
                 let response = await getReservationUser(user.value.id);
                 reservations.value = response.data.reservation;
-                console.log(moment(reservations.value[0].arrivalDay+" "+reservations.value[0].arrivalTime,'DD-MM-YYYY HH:mm').format('DD-MM-YYYY HH:mm') < moment().format('DD-MM-YYYY HH:mm'))
-            }catch(e){console.log(moment().format('DD-MM-YYYY HH:mm'));
+            }catch(e){
                 console.log(e);
             }
             
@@ -182,9 +181,9 @@ export default ({
         }
 
         const checkDateDelete = (arrivalDay, arrivalTime)=>{
-            let a  = moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('YYYY/MM/DD HH:mm'); 
-            let b = moment( new Date(),'YYYY/MM/DD HH:mm').format('YYYY/MM/DD HH:mm');
-            console.log(moment(a,'YYYY/MM/DD HH:mm').isAfter(b,'hour'))
+            let a  = moment(arrivalDay + " " + arrivalTime,'DD/MM/YYYY HH:mm').format('YYYY MM DD HH:mm'); 
+            let b = moment().toDate();
+
             return moment(a,'YYYY/MM/DD HH:mm').isAfter(b,'hour');
         }
 

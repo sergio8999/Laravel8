@@ -65,3 +65,7 @@ export function sendEmail(email, nameHouse, arrivalDay, departureDay, arrivalTim
 export function deleteReservation(reservation){
     return axios.post('/api/destroy' ,{'id':reservation} );
 }
+
+export function loginAdministrador(name,password){
+    return axios.post('/api/loginAdministrador',{'name': name, 'password': password});
+}

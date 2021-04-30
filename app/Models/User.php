@@ -38,6 +38,17 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public static function set($name, $email, $password){
+        
+        $create = ([
+            'name' => $name,
+            'email' => $email,
+            'password' => bcrypt($password)
+        ]);
+
+        return self::create($create);
+    }
+
     /**
      * The attributes that should be cast to native types.
      *

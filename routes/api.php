@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
@@ -74,6 +75,7 @@ Route::group([  ], function() {
     Route::get('locations',[LocationController::class, 'locations']);
     Route::post('email',[ResumeOrderController::class,'store']);
     Route::post('destroy',[ReservationController::class,'destroy']);
+    Route::post('loginAdministrador',[AdministradorController::class,'login']);
   });
 
   Route::group(['middleware' => 'auth:api' ], function() {
