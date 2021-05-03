@@ -17,18 +17,29 @@
 </template>
 
 <script>
-import { ref } from 'vue' 
+import { ref, onMounted } from 'vue' 
 import { loginAdministrador } from '@/utils/api'
 import router from "@/router"
 import { useToast } from "primevue/usetoast"
+import { useStore } from 'vuex'
 
 export default ({
     name:'TheLoginAdministrador',
     setup() {
         const toast = useToast();
-        const name = ref();
-        const password = ref();
+        const store = useStore();
+        const name = ref("");
+        const password = ref("");
         const disabledButton = ref(false);
+
+
+        onMounted(()=>{
+            if(sessionStorage)
+                if(sessionStorage.getItem('administrador') != undefined){
+                    store.state.administrador = true;
+                    router.push('/dashboard');
+                }
+        })
 
         const login = async()=>{
             
@@ -42,6 +53,8 @@ export default ({
                     let response = await loginAdministrador(name.value, password.value);
                     if(response.data.status){
                         toast.add({severity:'success', summary: 'Bienvenido!', detail: response.data.message + ' ' + name.value, life: 3000});
+                        store.state.administrador = true;
+                        sessionStorage.setItem('administrador',true);
                         router.push('/dashboard');
                     }else
                         toast.add({severity:'error', summary: 'Error Message', detail: response.data.message, life: 3000});

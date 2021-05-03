@@ -10,7 +10,8 @@ const store = createStore({
         informationLogin:[],
         informationUser:[],
         informationLogout:[],
-        disabledButton:false
+        disabledButton:false,
+        administrador:false
       }      
   },
   mutations:{

@@ -4,9 +4,16 @@
 $noto-serif: 'Noto Serif', serif;
 $source-sans: 'Source Sans Pro', sans-serif;
 
+:root{
+    --light: #ffffff;
+    --grey: #efefef;
+}
+
 body{
     font-family: $source-sans;
 }
+
+
 
 $color-primary: #000000;
 $color-white: #f1f1f1;
@@ -14,3 +21,5 @@ $color-footer: #F7F7F7;
 $color-blue: #007bff;
 $color-grey: #343a40;
 $color-red: #ef0e0e;
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
