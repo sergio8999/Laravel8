@@ -35,7 +35,7 @@
                         <div class="d-flex justify-content-center align-items-center">   
                             <input type="checkbox" v-model="province">
                             <select class="custom-select mt-1 ml-2" id="inputGroupSelect03" aria-label="Example select with button addon"  v-model="selectProvince" :disabled="!province">
-                                <option v-for="location in locations" :key="location.value" >{{location.name}}</option>
+                                <option v-for="location in locations" :key="location.id" >{{location.name}}</option>
                             </select>
                         </div>
                         <div class="d-flex flex-column justify-content-center align-items-start mt-3">

@@ -10,6 +10,7 @@
             </ol>
         </nav>
         <div class="container">
+            <router-link class="btn bg-dark text-light previous" tag="button" to="/houses"><i class="fas fa-arrow-left"></i></router-link>
             <div class="d-flex flex-column justify-content-center align-items-center">
             <h1 class="tittle mt-3">{{ house.name }}</h1>
 
@@ -21,11 +22,11 @@
                     </ol>
                 <div class="carousel-inner">
                     <div class="carousel-item active" >
-                        <img :src="`/images/${house.url}`" class="d-block w-100" alt="...">
+                        <img :src="`/storage/${house.url}`" class="d-block w-100" alt="...">
                     </div>
 
                     <div v-for="image in images" :key="image.id" class="carousel-item">
-                        <img :src="`/images/${image.url}`" class="d-block w-100" alt="...">
+                        <img :src="`/storage/${image.url}`" class="d-block w-100" alt="...">
                     </div>
 
                 </div>
@@ -41,7 +42,7 @@
             
             </div>
             <div class="mt-4">
-            <h3 class="text-center text-md-left">Anfitrión: {{ house.host }}</h3>
+            <h3 class="text">Anfitrión: {{ house.host }}</h3>
                 <div class="d-flex justify-content-center justify-content-md-start" v-if="details != undefined">
                     <span class="ml-2">{{details.guests}} Huéspedes</span> 
                     <span class="ml-2">·</span>
@@ -51,15 +52,15 @@
                     <span class="ml-2">·</span>
                     <span class="ml-2">{{details.toilets}} baño/s</span>
                 </div>
-                <p class="text-center text-md-left">{{ house.description }}</p>
-                <h5 class="text-center text-md-left">Servicios:</h5>
+                <p class="text">{{ house.description }}</p>
+                <h5 class="text">Servicios:</h5>
                 <div class="d-flex flex-column mb-4 align-items-center align-items-md-start" v-if="details != undefined">
                     <span v-if="details.wifi == 'true'"><i class="pi pi-wifi icon mb-3 mr-2"></i>Wifi</span>
-                    <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/images/iconoPiscina.svg" alt="icono piscina">Piscina</span>
+                    <span v-if="details.pool == 'true'"><img class="icon mr-2" src="/storage/iconoPiscina.svg" alt="icono piscina">Piscina</span>
                 </div>
             </div>
 
-            <h4 class="text-center text-md-left">Dia llegada - salida</h4>
+            <h4 class="text">Dia llegada - salida</h4>
                 <div class="row my-3">
                     <div class="col-12 col-md-6 col-lg-5 d-flex justify-content-center align-items-center">
                         <Calendar
@@ -404,6 +405,17 @@ export default ({
 </script>
 <style scoped lang="scss">
 @import '../../scss/app.scss';
+
+    .text{
+        text-align: center;
+        @media (min-width: 960px) {
+            text-align:left;
+        }
+    }
+
+    .previous{
+        width: 5rem;
+    }
 
     .carousel{
         width: 60%;

@@ -2,7 +2,7 @@
     <router-link :to="{name:'house',params:{id:house.id}}" >
         <div class="row p-2 shadowCards">
             <div class="col-12 col-lg-6">
-                <img :src="`/images/${house.url}`"  :alt="house.name">
+                <img :src="`/storage/${house.url}`"  :alt="house.name">
             </div>
             <div class="col-12 col-lg-6 d-flex flex-column justify-content-between mt-2 mt-lg-0">
                 <div>
@@ -40,10 +40,11 @@ export default ({
 @import '../../scss/app.scss';
 
     a{
-        color:black;
+        color:black !important;
+        text-decoration: none !important;
 
         &:hover{
-            text-decoration: none;
+            text-decoration: none !important;
         }
     }
 

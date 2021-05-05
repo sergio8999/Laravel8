@@ -10,6 +10,8 @@
 <script>
 import theHeader from './TheHeader.vue'
 import theFooter from './TheFooter.vue'
+import router from "@/router"
+import { onMounted, ref } from "vue"
 
 export default ({ 
     name:'App',
@@ -20,6 +22,9 @@ export default ({
     },
     setup(){
         
+        onMounted(()=>{
+            console.log(router.currentRoute.value.path == '/')
+        })
 
         return {
            

@@ -1,7 +1,7 @@
 <template>
     <div v-if="categories.length != 0">
         <div class="hero d-flex flex-column align-items-center">
-            <img src="/images/hero.jpg" alt="hero">
+            <img src="/storage/hero.jpg" alt="hero">
             <span class="p-2 text-center">Todo es posible gracias a los anfitriones</span>
         </div>
         <div class="categories">
@@ -10,7 +10,7 @@
                 <transition-group name="list" appear>
                     <div class="categories-category col-12 col-md-5 col-lg-3 mt-3 mt-md-4 mt-lg-0" v-for="category in categories" :key="category.id">
                         <router-link :to="{name:'category',params:{id:category.id},query:{name:category.name}}">
-                            <img class="categories-img" :src="`/images/${category.url}`" alt="">
+                            <img class="categories-img" :src="`/storage/${category.url}`" alt="">
                             <span class="categories-text">{{category.name}}</span>
                         </router-link>
                     </div>

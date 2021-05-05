@@ -33,32 +33,214 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <router-link class="dropdown-item" to="/administrador" @click="logoutAdministrador"> Cerrar sesión</router-link>
-
                                 </div>
                             </li>
                         </ul>
-
                     </div>
                 </div>
             </nav>   
+
+            <div class="container">
+                <h2 class="text-center mb-4">Nueva casa</h2>
+                <div class="row">
+
+                    <div class="col-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Nombre:</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1" v-model="name">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Host:</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Huésped" aria-label="Username" aria-describedby="basic-addon1" v-model="host">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Price:</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Precio" aria-label="Username" aria-describedby="basic-addon1" v-model="price">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="inputGroupFileAddon01">Imagen:</span>
+                            </div>
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01" @change="getImage">
+                                <label class="custom-file-label" for="inputGroupFile01">{{ image == null ? "Elige archivo" : image.name}}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Descripción: </span>
+                            </div>
+                            <textarea class="form-control" aria-label="With textarea" placeholder="Descripcion" v-model="description"></textarea>
+                        </div>
+                    </div>
+                </div>      
+
+                <div class="row mt-3">
+                    <div class="col-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect01">Provincia</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect01" v-model="selectProvince">
+                                <option v-for="location in locations" :key="location.id">{{location.name}}</option>
+                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-6">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect02">Categoria</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect02" v-model="selectCategory">
+                                <option v-for="category in categories" :key="category.id">{{category.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>     
+
+                <div>
+                    <h4>Servicios: </h4>   
+                    <div class="d-flex flex-column">
+                        <label for="wifi" class="mt-1">
+                            <input id="wifi" type="checkbox" class="mr-2" v-model="wifi" >Wifi
+                        </label>
+                        <label for="pool" class="mt-1">
+                            <input id="pool" type="checkbox" class="mr-2" v-model="pool">Piscina
+                        </label>
+                    </div>
+                </div> 
+                
+                <div class="row mt-3">
+                    <div class="col-12 col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect03">Huespedes</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect03" v-model="selectGuest">
+                                <option v-for="number in numbers" :key="number" :value="number">{{number}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect04">Dormitorios</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect04" v-model="selectBedrooms">
+                                <option v-for="number in numbers" :key="number" :value="number">{{number}}</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="col-12 col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect015">Camas</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect05" v-model="selectBeds">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="col-12 col-lg-3">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="inputGroupSelect06">Baños</label>
+                            </div>
+                            <select class="custom-select" id="inputGroupSelect06" v-model="selectToilets">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>   
+
+                <h4>Carousel:</h4>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon02">Imagenes:</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="inputGroupFile01" aria-describedby="inputGroupFileAddon02" @change="getImagesCarousel" multiple>
+                        <label class="custom-file-label" for="inputGroupFile02"></label>
+                    </div>
+                </div>
+
+                <button class="btn bg-dark text-light mt-4" @click="setStoreHouse">Añadir casa</button>
+            </div>
         </div>
     </div>  
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
+import axios from 'axios'
+
+import { getCategories, setHouse, getLocations } from '@/utils/api'
 
 
 export default ({
     name:'Dashboard',
     setup() {
-         const store = useStore();
+        const store = useStore();
+        const image = ref(null);
+        const carousel = ref(null);
+        const name = ref('');
+        const locations = ref([]);
+        const selectProvince = ref('Álava');
+        const categories = ref([]);
+        const selectCategory = ref('Alojamientos enteros');
+        const selectGuest = ref(1);
+        const selectBedrooms = ref(1);
+        const selectBeds = ref(1);
+        const selectToilets = ref(1);
+        const host = ref('');
+        const price = ref('');
+        const wifi = ref(false);
+        const pool = ref(false);
+        const description = ref('');
+        const numbers = ref([1,2,3,4,5,6,7,8,9]);
 
-        onMounted(()=>{
+        onMounted(async()=>{
             if(sessionStorage)
                 if(sessionStorage.getItem('administrador') != undefined)
                     store.state.administrador = true;
+            try{
+                let response = await getCategories();
+                categories.value = response.data.categories;
+                let response2 = await getLocations();
+                locations.value = response2.data.locations;    
+            }catch(e){
+                console.log(e);
+            }            
         })
 
         const logoutAdministrador = ()=>{
@@ -66,7 +248,55 @@ export default ({
             sessionStorage.removeItem('administrador');
         }
 
-		return { logoutAdministrador }
+        const getImage = (e)=>{
+            image.value = e.target.files[0];
+        }
+
+        const getImagesCarousel = (e)=>{
+            carousel.value = e.target.files;
+        }
+
+        const setStoreHouse = async ()=>{
+            try{
+                const data = new FormData();
+                data.append('name', name.value);
+                data.append('host', host.value);
+                data.append('price', price.value);
+                data.append('description', description.value);
+                data.append('guest',selectGuest.value);
+                data.append('bedrooms',selectBedrooms.value);
+                data.append('beds',selectBeds.value);
+                data.append('toilets',selectToilets.value);
+                data.append('pool',pool.value);
+                data.append('wifi',wifi.value);
+                data.append('image', image.value);
+                data.append('carousel',carousel.value);
+                data.append('category_id',getId('category', selectCategory.value));
+                data.append('location_id',getId('province', selectProvince.value));
+                await setHouse(data);
+            }catch(e){
+                console.log(e);
+            }  
+        }
+
+
+        /* Obtener id de categorias y provincias */
+        const getId = (params, data)=>{
+            let id;
+            if(params == 'category'){
+                id = categories.value.filter(category=>{
+                    return category.name == data;
+                })
+            return id[0].id;
+            }else if(params == 'province'){
+                id = locations.value.filter(location=>{
+                    return location.name == data;
+                })
+                return id[0].id;
+            }
+        }
+
+		return { logoutAdministrador, getImage , getImagesCarousel, carousel, setStoreHouse, image, name, selectProvince, locations, categories, selectCategory, selectGuest, selectBedrooms, selectBeds, selectToilets, host, wifi, pool, price, description, numbers }
     },
 })
 </script>
@@ -122,6 +352,7 @@ export default ({
     .content{
         width: 100%;
         min-height: 100vh;
+        margin-top: 5rem;
         @media (min-width: 992px){
             width: auto;
             margin-left: 15rem;

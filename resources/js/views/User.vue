@@ -1,123 +1,87 @@
 <template>
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
-            <li class="breadcrumb-item active" aria-current="page">User</li>
-        </ol>
-    </nav>
+    <div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><router-link to="/">Home</router-link></li>
+                <li class="breadcrumb-item active" aria-current="page">User</li>
+            </ol>
+        </nav>
 
-    <div class="container-fluid my-3">
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Reserva</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ¿Esta seguro de que desea eliminar la reserva?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" @click="destroyReservation" data-dismiss="modal" >Eliminar</button>
+        <div class="container-fluid my-3">
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Reserva</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Esta seguro de que desea eliminar la reserva?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" class="btn btn-primary" @click="destroyReservation" data-dismiss="modal" >Eliminar</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-3 col-lg-2">
-                <ul class="p-0">
-                    <li @click="show" id="information" class="sidebar p-2">Información usuario</li>
-                    <li @click="show" id="reservation" class="sidebar p-2">Reservas</li>
-                </ul>
-            </div>
-            <div class="col-9 col-lg-10">
-                <div v-if="value == 'information'">
-                    <h1 class="mb-4">Perfil:</h1>
-                    <p><b>Nombre:</b> {{user.name}}</p>
-                    <p><b>Email:</b> {{user.email}}</p> 
+            <div class="row">
+                <div class="col-3 col-lg-2">
+                    <ul class="p-0">
+                        <li @click="show" id="information" class="sidebar p-2">Información usuario</li>
+                        <li @click="show" id="reservation" class="sidebar p-2">Reservas</li>
+                    </ul>
                 </div>
-                <div v-if="value == 'reservation'">
-                    <h1 class="mb-4 text-center text-lg-left">Reservas:</h1>
-                    <!-- <div class="accordion" id="accordionExample">
-                        <transition-group name="list" appear>
-                            <div class="card mb-2" v-for="(reservation,index) in reservations" :key="reservation.id">
-                                <div class="card-header" :id="`heading${reservation.id}`">
-                                <h2 class="mb-0">
-                                    <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" :data-target="`#Collapse${reservation.id}`" aria-expanded="false" :aria-controls="reservation.id">
-                                            <p>Casa: {{reservation.house.name}}</p>
-                                    </button>
-                                </h2>
-                                </div>
-                                <div :id="`Collapse${reservation.id}`" class="collapse show" :aria-labelledby="`heading${reservation.id}`" data-parent="#accordionExample">
-                                    <div class="card-body d-flex justify-content-between align-items-center">
-                                        <div class="resume">
-                                            <div class="d-flex justify-content-around row">
-                                                <div class="col-6">
-                                                    <p><b>Dia llegada: </b>{{reservation.arrivalDay}}</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p><b>Dia salida: </b>{{reservation.departureDay}}</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p><b>Hora llegada: </b>{{reservation.arrivalTime}}</p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <p><b>Hora salida: </b>{{reservation.departureTime}}</p>
-                                                </div>
-                                            </div>
-                                            <div class="mt-2">
-                                                <p><b>Subtotal: </b>{{reservation.subtotal}}€</p>
-                                                <p><b>Impuestos: </b>{{reservation.taxes}}€</p>
-                                                <p><b>Precio total: </b>{{reservation.total}}€</p>
-                                            </div>
-                                        </div>
-                                        <button v-if="checkDateDelete(reservation.arrivalDay,reservation.arrivalTime)" class="d-flex justify-content-center align-items-center btn-delete" v-tooltip="'Eliminar'" @click="getIdReservation(reservation.id,index)"  data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </transition-group>
-                    </div> -->
+                <div class="col-9 col-lg-10">
+                    <div v-if="value == 'information'">
+                        <h1 class="mb-4">Perfil:</h1>
+                        <p><b>Nombre:</b> {{user.name}}</p>
+                        <p><b>Email:</b> {{user.email}}</p> 
+                    </div>
+                    <div v-if="value == 'reservation'">
+                        <h1 class="mb-4 text-center text-lg-left">Reservas:</h1>
 
-                    <!-- Card reservation -->
-                    <div class="row d-flex justify-content-center ">
-                        <transition-group name="list" appear>
-                            <div class="col-10 col-lg-3 mt-3 mx-lg-3 card-reservation" v-for="reservation in reservations" :key="reservation.id">
-                                <div>
-                                    <img :src="`/images/${reservation.house.url}`"  :alt="reservation.house.name">
-                                </div>
-                                <div class="my-2 d-flex justify-content-around">
-                                    <div class="row card-reservation-description">
-                                        <div class="col-6">
-                                            <b>D.llegada:</b> {{reservation.arrivalDay}}
-                                        </div>
-                                        <div class="col-6">
-                                        <b>D. salida:</b> {{reservation.departureDay}}
-                                        </div>
-                                        <div class="col-6">
-                                            <b>H.llegada:</b> {{reservation.arrivalTime}}
-                                        </div>
-                                        <div class="col-6">
-                                            <b>H. salida:</b> {{reservation.departureTime}}
-                                        </div>
-                                        <div class="col-6 mt-1">
-                                            <b>Precio:</b> {{reservation.total}}€
-                                        </div>
-                                    </div>
+                        <!-- Card reservation -->
+                        <div class="row d-flex justify-content-center ">
+                            <transition-group name="list" appear>
+                                <div class="col-10 col-lg-3 mt-3 mx-lg-3 card-reservation" v-for="(reservation,index) in reservations" :key="reservation.id">
                                     <div>
-                                        <button v-if="checkDateDelete(reservation.arrivalDay,reservation.arrivalTime)" class="d-flex justify-content-center align-items-center btn-delete" v-tooltip="'Eliminar'" @click="getIdReservation(reservation.id,index)"  data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt"></i></button>
+                                        <img :src="`/storage/${reservation.house.url}`"  :alt="reservation.house.name">
+                                    </div>
+                                    <div class="my-2 d-flex justify-content-around">
+                                        <div class="row card-reservation-description">
+                                            <div class="col-6">
+                                                <b>D.llegada:</b> {{reservation.arrivalDay}}
+                                            </div>
+                                            <div class="col-6">
+                                            <b>D. salida:</b> {{reservation.departureDay}}
+                                            </div>
+                                            <div class="col-6">
+                                                <b>H.llegada:</b> {{reservation.arrivalTime}}
+                                            </div>
+                                            <div class="col-6">
+                                                <b>H. salida:</b> {{reservation.departureTime}}
+                                            </div>
+                                            <div class="col-6 mt-1">
+                                                <b>Precio:</b> {{reservation.total}}€
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button v-if="checkDateDelete(reservation.arrivalDay,reservation.arrivalTime)" class="d-flex justify-content-center align-items-center btn-delete" v-tooltip="'Eliminar'" @click="getIdReservation(reservation.id,index)"  data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt"></i></button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </transition-group>
+                            </transition-group>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>        
+            </div>        
+        </div>
     </div>
 </template>
 
@@ -198,7 +162,8 @@ export default ({
                 console.log(e);
                 toast.add({severity:'error', summary: 'Error Message', detail:'Error al borrar la reserva', life: 3000});
                 disabledButton.value = false;
-            }          
+            }      
+
         }
 
         

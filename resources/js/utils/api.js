@@ -69,3 +69,7 @@ export function deleteReservation(reservation){
 export function loginAdministrador(name,password){
     return axios.post('/api/loginAdministrador',{'name': name, 'password': password});
 }
+
+export function setHouse(data){
+    return axios.post('/api/storeHouse',data);
+}
