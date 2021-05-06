@@ -193,7 +193,7 @@
                     </div>
                 </div>
 
-                <button class="btn bg-dark text-light mt-4" @click="setStoreHouse">Añadir casa</button>
+                <button class="btn bg-dark text-light mt-4" @click="setStoreHouse" :disabled="disabledButton">Añadir casa</button>
             </div>
         </div>
     </div>  
@@ -204,7 +204,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import axios from 'axios'
 
-import { getCategories, setHouse, getLocations } from '@/utils/api'
+import { getCategories, setHouse, setCarousel, getLocations } from '@/utils/api'
 
 
 export default ({
@@ -228,6 +228,8 @@ export default ({
         const pool = ref(false);
         const description = ref('');
         const numbers = ref([1,2,3,4,5,6,7,8,9]);
+        const disabledButton = ref(false);
+
 
         onMounted(async()=>{
             if(sessionStorage)
@@ -257,6 +259,7 @@ export default ({
         }
 
         const setStoreHouse = async ()=>{
+            disabledButton.value = true;
             try{
                 const data = new FormData();
                 data.append('name', name.value);
@@ -273,12 +276,48 @@ export default ({
                 data.append('carousel',carousel.value);
                 data.append('category_id',getId('category', selectCategory.value));
                 data.append('location_id',getId('province', selectProvince.value));
-                await setHouse(data);
+                await setHouse(data); 
+                setStoreCarousel();
+                disabledButton.value = false;
             }catch(e){
                 console.log(e);
+                disabledButton.value = false;
             }  
         }
 
+        const setStoreCarousel = async ()=>{
+            disabledButton.value = true;
+            const data = new FormData();
+            try{
+                if(carousel.value.length !=0){
+                    for(let i=0;i<carousel.value.length;i++){
+                        data.append('image'+i,carousel.value[0]);
+                    }
+                    await setCarousel(data); 
+                    resetInput();
+                }
+            }catch(e){
+                console.log(e);
+            }
+            disabledButton.value = false;
+        }
+
+        const resetInput = ()=>{
+            image.value = null;
+            carousel.value = null;
+            name.value = '';
+            selectProvince.value = 'Álava';
+            selectCategory.value = 'Alojamientos enteros';
+            selectGuest.value = 1;
+            selectBedrooms.value = 1;
+            selectBeds.value = 1;
+            selectToilets.value = 1;
+            host.value = '';
+            price.value = '';
+            wifi.value = false;
+            pool.value = false;
+            description.value = '';
+        }   
 
         /* Obtener id de categorias y provincias */
         const getId = (params, data)=>{
@@ -296,7 +335,7 @@ export default ({
             }
         }
 
-		return { logoutAdministrador, getImage , getImagesCarousel, carousel, setStoreHouse, image, name, selectProvince, locations, categories, selectCategory, selectGuest, selectBedrooms, selectBeds, selectToilets, host, wifi, pool, price, description, numbers }
+		return { disabledButton, logoutAdministrador, getImage , getImagesCarousel, carousel, setStoreHouse, image, name, selectProvince, locations, categories, selectCategory, selectGuest, selectBedrooms, selectBeds, selectToilets, host, wifi, pool, price, description, numbers }
     },
 })
 </script>

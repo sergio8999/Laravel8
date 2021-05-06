@@ -15,7 +15,8 @@ class House_Images extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'url'
+        'url',
+        'house_id'
     ];
 
     protected $hidden = [

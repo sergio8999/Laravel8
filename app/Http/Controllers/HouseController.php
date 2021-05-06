@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\House;
 use App\Models\House_Detail;
+use App\Models\House_Images;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -66,41 +67,26 @@ class HouseController extends Controller
     public function store(Request $request){
 
         $request->validate([
-            'name' => 'required|min:3|max:20',
+            'name' => 'required|min:3|max:40',
             'host' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'image' => 'required|image|mimes:jpg,jpeg,png,gif,svg',
             'description' => 'required',
             'guest' => 'required',
             'bedrooms' => 'required',
             'beds' => 'required',
             'toilets' => 'required',
-            'carousel' => 'required',
             'pool' => 'required',
             'wifi' => 'required',
             'category_id' => 'required',
             'location_id' => 'required'
         ]);
-        
-           /* $images = $request->file('carousel'); */
-        foreach($request['carousel'] as $key=>$value){
-            Storage::putFile('public', $value->file($key));
-        } 
-        
-        /* foreach($images as $key => $value){
-            Storage::putFile('public', $value->file($key));
-        } */
-        
-        
-            /* Storage::putFile('public', $request->file('image')); */
-            
-        /* try{ 
-            $image = $request->file('image');
-            $nameImage = Carbon::now()->format('YmdHms').'.'.$image->getClientOriginalExtension();
-            $destination = public_path('images');
-            $request->image->move($destination,$nameImage);
 
-            $house = House::set($request['name'], $request['host'], $request['price'], $nameImage, $request['description'],$request['category_id'],$request['location_id']);
+        
+        try{ 
+            $image = Storage::putFile('public', $request->file('image')); 
+            $url = explode('/',$image);
+            $house = House::set($request['name'], $request['host'], $request['price'], $url[1], $request['description'],$request['category_id'],$request['location_id']);
             House_Detail::set($request['beds'],$request['wifi'],$request['guest'],$request['bedrooms'],$request['toilets'],$request['pool'],$house['id']);
             return response()->json([
                 'message'=>'Creado correctamente'
@@ -110,7 +96,28 @@ class HouseController extends Controller
             return response()->json([
                 'message'=>$exception->getMessage()
             ]);
-        }  */
+        }   
+    }
+
+    public function storeCarousel(Request $request){
+        try{
+            $house = House::all()->last();
+            foreach($request->file() as $image){
+                $urlImage = Storage::putFile('public', $image); 
+                $url = explode('/',$urlImage);
+                House_Images::set($url[1],$house['id']);
+            }
+
+            return response()->json([
+                'message' =>'Realizado correctamente'
+            ]);
+
+        }catch(Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage()
+            ]);
+        }
+        
     }
 
 }

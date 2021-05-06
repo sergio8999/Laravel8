@@ -73,3 +73,7 @@ export function loginAdministrador(name,password){
 export function setHouse(data){
     return axios.post('/api/storeHouse',data);
 }
+
+export function setCarousel(data){
+    return axios.post('api/storeCarousel',data);
+}

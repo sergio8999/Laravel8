@@ -68,6 +68,7 @@ Route::group([  ], function() {
     Route::get('category/{id}',[HouseController::class,'showHouseCategory']);
     Route::get('house/{id}',[HouseController::class,'show'])->name('house.show');
     Route::post('storeHouse',[HouseController::class,'store']);
+    Route::post('storeCarousel',[HouseController::class,'storeCarousel']);
     Route::post('reservation',[ReservationController::class,'store']);
     Route::post('reservation/show',[ReservationController::class,'show']);
     Route::post('reservation/allReservationHouse',[ReservationController::class,'allReservationHouse']);

@@ -62,7 +62,7 @@ export default ({
     }
 
     .text-size{
-        font-size: .7rem;
+        font-size: .64rem;
     }
 
     .btn-house{
