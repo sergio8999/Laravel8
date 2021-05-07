@@ -1,9 +1,9 @@
 <template>
     <Toast position="top-center"/>
     <div class="app">
-        <theHeader  v-if="!$store.state.administrador"/>
+        <theHeader  v-if="!administrador"/>
         <router-view></router-view>
-        <theFooter v-if="!$store.state.administrador"/>       
+        <theFooter v-if="!administrador"/>       
     </div>
 </template>
 
@@ -11,7 +11,8 @@
 import theHeader from './TheHeader.vue'
 import theFooter from './TheFooter.vue'
 import router from "@/router"
-import { onMounted, ref } from "vue"
+import { onMounted, ref, computed } from "vue"
+import { useStore } from 'vuex'
 
 export default ({ 
     name:'App',
@@ -21,13 +22,17 @@ export default ({
         }
     },
     setup(){
+        const store = useStore();
         
         onMounted(()=>{
-            console.log(router.currentRoute.value.path == '/')
+        })
+
+        const administrador = computed(()=>{
+            return JSON.parse(sessionStorage.getItem('administrador')) || router.currentRoute.value.name == 'theLoginAdministrador';
         })
 
         return {
-           
+           administrador
         }
     },
     

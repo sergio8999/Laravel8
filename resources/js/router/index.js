@@ -15,6 +15,10 @@ import NotFound from '@/views/404.vue'
 import ConfirmPayment from '@/views/ConfirmPayment.vue'
 import TheLoginAdministrador from '@/views/TheLoginAdministrador.vue'
 import Dashboard from '@/components/Dashboard.vue'
+import HomeDashboard from '@/views/HomeDashboard.vue'
+import AddHouse from '@/views/AddHouse.vue'
+import EditHouse from '@/views/EditHouse.vue'
+
 
 const routes = [
     { path: '/', name:'home',component: Home },
@@ -30,7 +34,14 @@ const routes = [
     { path: '/404', name:'404', component: error404 },
     { path: '/confirmPayment', name:'confirmPayment', component: ConfirmPayment },
     { path: '/administrador', name:'theLoginAdministrador', component: TheLoginAdministrador },
-    { path: '/dashboard', name:'dashboard', component: Dashboard },
+    { path: '/dashboard', name:'dashboard', component: Dashboard, children: [
+        { path: '',name:'homeDashboard', component: HomeDashboard },
+        { path: 'nuevaCasa',name:'addHouse', component: AddHouse },
+        { path: 'editarCasa',name:'editHouse', component: EditHouse },
+
+
+        // ...other sub routes
+      ] },
     { path: '/:NotFound(.*)*', name:'404', component: NotFound },
   ]
 

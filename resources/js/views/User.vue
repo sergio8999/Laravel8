@@ -207,14 +207,14 @@ export default ({
         list-style: none;
         cursor: pointer;
 
+        &:hover{
+            color: white;
+            background-color: #343a40;
+        }
+
         @media (min-width: 960px) {
             font-size: 1.2rem;
         }
-    }
-
-    .sidebar:hover{
-        color: white;
-        background-color: #343a40;
     }
 
     .resume{

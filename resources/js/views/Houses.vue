@@ -1,5 +1,5 @@
 <template>
-    <div v-if="houseFilter !=null">
+    <div v-if="houseFilter != null">
 
         <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
