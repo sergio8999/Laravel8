@@ -9,4 +9,16 @@ body {
   font-family: "Source Sans Pro", sans-serif;
 }
 
+#administrador form {
+  width: 90%;
+}
+@media (min-width: 960px) {
+  #administrador form {
+    width: 30%;
+  }
+}
+#administrador form .btn-size {
+  width: 100%;
+}
+
 /* @import "../../node_modules/bootstrap/scss/bootstrap"; */

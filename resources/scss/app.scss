@@ -22,4 +22,18 @@ $color-blue: #007bff;
 $color-grey: #343a40;
 $color-red: #ef0e0e;
 
+
+#administrador{
+    form{
+        width: 90%;
+
+        @media (min-width: 960px) {
+            width: 30%;
+        }
+        
+        .btn-size{
+        width: 100%;
+        }
+    }
+}
 /* @import "../../node_modules/bootstrap/scss/bootstrap"; */

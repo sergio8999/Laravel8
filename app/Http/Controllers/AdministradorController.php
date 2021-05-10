@@ -10,7 +10,13 @@ use Illuminate\Support\Facades\Hash;
 
 class AdministradorController extends Controller
 {
+    public function index(){
+        return view('administrador.index');
+    }
 
+   /*  public function dashboard(){
+        return view('administrador.dashboard');
+    } */
 
     public function sigUp(Request $request){
         
@@ -30,6 +36,7 @@ class AdministradorController extends Controller
                 'message' => $exception->getMessage()
             ]);
         }
+        
     }
 
     public function login(Request $request){
@@ -42,10 +49,7 @@ class AdministradorController extends Controller
             $administrador = Administrador::where('name', $request['name'])->first();
 
             if($administrador && Hash::check($request['password'], $administrador['password']))
-                return response()->json([
-                    'message'=>'Logueado correctamente',
-                    'status'=>true
-                ]);
+                return redirect()->route('administrador.dashboard');
             else {
                 return response()->json([
                     'message'=>'Error al loguearse',

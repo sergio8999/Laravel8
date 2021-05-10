@@ -66,6 +66,10 @@ export function deleteReservation(reservation){
     return axios.post('/api/destroy' ,{'id':reservation} );
 }
 
+export function deleteHouse(house){
+    return axios.post('/api/destroyHouse' ,{'id':house} );
+}
+
 export function loginAdministrador(name,password){
     return axios.post('/api/loginAdministrador',{'name': name, 'password': password});
 }
@@ -74,6 +78,10 @@ export function setHouse(data){
     return axios.post('/api/storeHouse',data);
 }
 
+export function editHouse(data){
+    return axios.post('/api/editHouse',data);
+}
+
 export function setCarousel(data){
-    return axios.post('api/storeCarousel',data);
+    return axios.post('/api/storeCarousel',data);
 }

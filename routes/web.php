@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +62,12 @@ Route::get('logout',[AuthController::class,'logout'])->name('logout');
 Route::get('register',[AuthController::class,'index'])->name('register.index');
 Route::view('login.index', 'login.index')->name('login.index');
  */
+
+Route::group([],function () {
+    Route::get('administrador',[AdministradorController::class,'index'])->name('administrador.index');
+    Route::post('administrador',[AdministradorController::class,'login'])->name('administrador.login');
+    Route::view('dashboard','administrador.dashboard')->name('administrador.dashboard');
+});
 
 Route::get('{any}', function () {
     return view('app');

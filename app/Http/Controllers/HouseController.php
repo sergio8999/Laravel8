@@ -25,7 +25,7 @@ class HouseController extends Controller
     public function show($id){ 
         try{
             $house = House::where('id',$id)
-            ->with('details','images')
+            ->with('details','images','category','location')
             ->first();
 
             if($house ==null)
@@ -117,7 +117,75 @@ class HouseController extends Controller
                 'message' => $exception->getMessage()
             ]);
         }
-        
     }
 
+    public function destroy(Request $house){
+        try{
+            House::where('id', '=',$house['id'])->delete();
+            return response()->json([
+                'message'=>'Borrado correctamente'
+            ]);
+        }catch(Exception $exception){
+            return response()->json([
+                'message'=>$exception->getMessage()
+            ]);
+        }
+    }
+
+    public function edit(Request $house){
+
+        $house->validate([
+            'name' => 'required|min:3|max:40',
+            'host' => 'required',
+            'price' => 'required|numeric',
+            'description' => 'required',
+            'guest' => 'required',
+            'bedrooms' => 'required',
+            'beds' => 'required',
+            'toilets' => 'required',
+            'pool' => 'required',
+            'wifi' => 'required',
+            'category_id' => 'required',
+            'location_id' => 'required'
+        ]);
+
+        try{
+            $getHouse = House::where('id', '=' , $house['id'])->first();
+            $getHouse->update([
+                'name'=>$house['name'],
+                'host'=>$house['host'],
+                'price'=>$house['price'],
+                'description'=>$house['description'],
+                'category_id'=>$house['category_id'],
+                'location_id'=>$house['location_id']
+            ]);
+            
+            if($house['image'] !=null){
+                $image = Storage::putFile('public', $house->file('image')); 
+                $url = explode('/',$image);
+                $getHouse->update([
+                    'url'=>$url[1]
+                ]);
+            }
+            
+
+            $getHouse->update([
+                'guests'=>$house['guest'],
+                'bedrooms'=>$house['bedrooms'],
+                'beds'=>$house['beds'],
+                'pool'=>$house['pool'],
+                'wifi'=>$house['wifi'],
+            ]);
+
+            return response()->json([
+                'message'=>'Actualizado correctamente'
+            ]);
+
+        }catch(Exception $exception){
+            return response()->json([
+                'message'=>$exception->getMessage()
+            ]);
+        }
+         
+    }
 }

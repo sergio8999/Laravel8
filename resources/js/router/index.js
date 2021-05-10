@@ -17,6 +17,7 @@ import TheLoginAdministrador from '@/views/TheLoginAdministrador.vue'
 import Dashboard from '@/components/Dashboard.vue'
 import HomeDashboard from '@/views/HomeDashboard.vue'
 import AddHouse from '@/views/AddHouse.vue'
+import EditHouses from '@/views/EditHouses.vue'
 import EditHouse from '@/views/EditHouse.vue'
 
 
@@ -33,15 +34,16 @@ const routes = [
     { path: '/about', name:'about', component: About },
     { path: '/404', name:'404', component: error404 },
     { path: '/confirmPayment', name:'confirmPayment', component: ConfirmPayment },
-    { path: '/administrador', name:'theLoginAdministrador', component: TheLoginAdministrador },
+    /* { path: '/administrador', name:'theLoginAdministrador', component: TheLoginAdministrador },
     { path: '/dashboard', name:'dashboard', component: Dashboard, children: [
         { path: '',name:'homeDashboard', component: HomeDashboard },
-        { path: 'nuevaCasa',name:'addHouse', component: AddHouse },
-        { path: 'editarCasa',name:'editHouse', component: EditHouse },
+        { path: 'addHouse',name:'addHouse', component: AddHouse },
+        { path: 'editHouses',name:'editHouses', component: EditHouses },
+        { path: '/editHouse/:id', name:'editHouse', component: EditHouse },
 
 
         // ...other sub routes
-      ] },
+      ] }, */
     { path: '/:NotFound(.*)*', name:'404', component: NotFound },
   ]
 

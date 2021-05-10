@@ -117,10 +117,7 @@
                     <label class="input-group-text" for="inputGroupSelect015">Camas</label>
                 </div>
                 <select class="custom-select" id="inputGroupSelect05" v-model="selectBeds">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                    <option v-for="number in numbers" :key="number" :value="number">{{number}}</option>
                 </select>
             </div>
         </div>
@@ -130,10 +127,7 @@
                     <label class="input-group-text" for="inputGroupSelect06">Baños</label>
                 </div>
                 <select class="custom-select" id="inputGroupSelect06" v-model="selectToilets">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
+                    <option v-for="number in numbers" :key="number" :value="number">{{number}}</option>
                 </select>
             </div>
         </div>
@@ -186,15 +180,18 @@ export default ({
 
 
         onMounted(async()=>{
+            disabledButton.value = true;
             if(sessionStorage)
                 if(sessionStorage.getItem('administrador') != undefined)
                     store.state.administrador = true;
             try{
-                let response = await getCategories();
-                categories.value = response.data.categories;
-                let response2 = await getLocations();
-                locations.value = response2.data.locations;    
+                let response = await getLocations();
+                locations.value = response.data.locations;
+                let response2 = await getCategories();
+                categories.value = response2.data.categories;
+                disabledButton.value = false;    
             }catch(e){
+                disabledButton.value = false;
                 console.log(e);
             }            
         })
@@ -239,9 +236,10 @@ export default ({
                 data.append('location_id',getId('province', selectProvince.value));
                 await setHouse(data); 
                 setStoreCarousel();
-                toast.add({severity:'success', summary: 'Success', detail:'Se ha guardador correctamente.', life: 3000}); 
+                toast.add({severity:'success', summary: 'Success', detail:'Se ha guardado correctamente.', life: 3000}); 
                 disabledButton.value = false;
             }catch(e){
+                toast.add({severity:'error', summary: 'Error', detail:'Debe rellenar todos los campos.', life: 3000}); 
                 console.log(e);
                 disabledButton.value = false;
             }  

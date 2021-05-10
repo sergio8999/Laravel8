@@ -77,6 +77,8 @@ Route::group([  ], function() {
     Route::get('locations',[LocationController::class, 'locations']);
     Route::post('email',[ResumeOrderController::class,'store']);
     Route::post('destroy',[ReservationController::class,'destroy']);
+    Route::post('destroyHouse',[HouseController::class,'destroy']);
+    Route::post('editHouse',[HouseController::class,'edit']);
     Route::post('loginAdministrador',[AdministradorController::class,'login']);
   });
 

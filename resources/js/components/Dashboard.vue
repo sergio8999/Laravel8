@@ -14,16 +14,13 @@
                         <router-link to="/dashboard" class="nav-link d-lg-flex justify-content-center align-items-center"><i class="fas fa-home mr-2 lead"></i> Home</router-link>
                     </li> 
                     <li class="nav-item">
-                        <router-link to="/dashboard/nuevaCasa" class="nav-link d-lg-flex justify-content-center align-items-center"><i class="fas fa-plus mr-2 lead"></i> Nueva casa</router-link>
+                        <router-link to="/dashboard/addHouse" class="nav-link d-lg-flex justify-content-center align-items-center"><i class="fas fa-plus mr-2 lead"></i> Nueva casa</router-link>
                     </li>  
                     <li class="nav-item">
-                        <router-link to="/dashboard/editarCasa" class="nav-link d-lg-flex justify-content-center align-items-center"><i class="fas fa-edit mr-2 lead"></i> Editar casa</router-link>
+                        <router-link to="/dashboard/editHouses" class="nav-link d-lg-flex justify-content-center align-items-center"><i class="fas fa-edit mr-2 lead"></i> Editar casa</router-link>
                     </li>  
-                    <li class="nav-item">
-                      <a class="nav-link d-lg-flex justify-content-center align-items-center" href="#">Nueva casa</a>
-                    </li> 
                 </ul>
-                <button class="btn bg-dark text-light logout" @click="logoutAdministrador">Cerrar sesión</button>
+                <button class="btn bg-dark text-light logout" @click="logoutAdministrador"><i class="fas fa-sign-out-alt lead"></i> Cerrar sesión</button>
             </div>
         </nav>
         <!-- <div class="content">
