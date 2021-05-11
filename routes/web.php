@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -66,7 +67,12 @@ Route::view('login.index', 'login.index')->name('login.index');
 Route::group([],function () {
     Route::get('administrador',[AdministradorController::class,'index'])->name('administrador.index');
     Route::post('administrador',[AdministradorController::class,'login'])->name('administrador.login');
-    Route::view('dashboard','administrador.dashboard')->name('administrador.dashboard');
+    Route::view('dashboard','administrador.index')->name('dashboard');
+    Route::get('dashboard/houses',[AdministradorController::class,'houses'])->name('dashboard.houses');
+    Route::delete('dashboard/destroy/{house}',[AdministradorController::class,'destroy'])->name('dashboard.destroy');
+    Route::get('dashboard/add-house', [AdministradorController::class,'addHouse'])->name('dashboard.addHouse');
+    Route::post('dashboard/store',[AdministradorController::class,'store'])->name('dashboard.store');
+    Route::get('categories',[CategoryController::class,'categories'])->name('categories');
 });
 
 Route::get('{any}', function () {

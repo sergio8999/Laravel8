@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
+
+@import '~@fortawesome/fontawesome-free/css/all.css';
 $noto-serif: 'Noto Serif', serif;
 $source-sans: 'Source Sans Pro', sans-serif;
 
@@ -36,4 +38,105 @@ $color-red: #ef0e0e;
         }
     }
 }
-/* @import "../../node_modules/bootstrap/scss/bootstrap"; */
+
+.dashboard{
+        svg{
+            width: 1.2rem;
+        }
+
+        #sideNav {
+
+            @media (min-width: 992px) {
+        
+                text-align: center;
+                position: fixed;
+                display: flex;
+                flex-direction: column;
+                width: 15rem;
+                height: 100vh;   
+                
+                .navbar-collapse{
+                display: flex;
+                align-items: flex-start;
+                flex-grow: 0;
+                width: 100%;
+                margin-bottom: auto;
+                margin-top: 12vh;
+
+                    .navbar-nav{
+                        flex-direction: column;
+                        width: 100%;
+                        display: block;
+
+                        .nav-link{
+                            display: block;
+                        }
+                    }
+                }
+            }
+
+            .logout{
+                @media (min-width: 992px){
+                    margin-top: 35rem;
+                }
+            }
+        }
+ 
+}
+
+.content{
+    width: 100%;
+    min-height: 200vh;
+    margin-top: 3rem;
+    background-color: #c5c5dc;
+    @media (min-width: 992px){
+        width: auto;
+        margin-left: 15rem;
+        margin-top: 0;
+    }
+    
+    p{
+        font-size: 1.5rem;
+    }
+
+    .select{
+        width: 20rem;
+        cursor: pointer;
+        transition: all .3s ease;
+
+        &:hover{
+            color: $color-blue;
+        }
+    }        
+
+    .houses{
+        box-shadow: 0 0 3px black;
+        width: 100%;
+
+        @media (min-width: 992px){
+            width: 80%;
+        }
+
+
+        img{
+            width: 100%;
+            height: 5rem;
+            border-radius: 10px 10px;
+            object-fit: cover;
+        }
+
+        .btn-delete{
+            color: $color-red;
+        }
+
+        .btn-edit{
+            color: $color-blue;
+        }
+            
+        svg{
+            font-size: 1.5rem;
+        }
+    }   
+}     
+
+/*  @import "../../node_modules/bootstrap/scss/bootstrap";  */
