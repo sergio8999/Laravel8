@@ -73,6 +73,7 @@ Route::group([],function () {
     Route::get('dashboard/add-house', [AdministradorController::class,'addHouse'])->name('dashboard.addHouse');
     Route::post('dashboard/store',[AdministradorController::class,'store'])->name('dashboard.store');
     Route::get('categories',[CategoryController::class,'categories'])->name('categories');
+    Route::get('dashboard/{house}/edit', [AdministradorController::class, 'edit'])->name('dashboard.edit');
 });
 
 Route::get('{any}', function () {

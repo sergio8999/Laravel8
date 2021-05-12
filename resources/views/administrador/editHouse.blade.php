@@ -1,9 +1,8 @@
 @extends('administrador.dashboard')
-
 @section('content')
-    <h2 class="text-center pt-3 mb-4">Nueva casa</h2>
-
-    <form action="{{route('dashboard.store')}}" method="POST" enctype="multipart/form-data">
+    <h2 class="text-center pt-3 mb-4">Editar casa</h2>
+    
+    <form {{-- action="{{route('')}}" --}} method="POST" enctype="multipart/form-data">
 
         @csrf
 
@@ -14,7 +13,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">Nombre:</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Nombre" value="{{old('name')}}" aria-label="Username" aria-describedby="basic-addon1" name="name">
+                    <input type="text" class="form-control" placeholder="Nombre" value="{{old('name',$house['name'])}}" aria-label="Username" aria-describedby="basic-addon1" name="name">
                 </div>
                 @error('name')
                         <small class="active">*{{$message}}</small>
@@ -26,7 +25,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">Host:</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Huésped" value="{{old('host')}}" aria-label="Username" aria-describedby="basic-addon1" name="host">
+                    <input type="text" class="form-control" placeholder="Huésped" value="{{old('host',$house['host'])}}" aria-label="Username" aria-describedby="basic-addon1" name="host">
                 </div>
                 @error('host')
                         <small class="active">*{{$message}}</small>
@@ -39,7 +38,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="basic-addon1">Price:</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Precio" value="{{old('price')}}" aria-label="Username" aria-describedby="basic-addon1" name="price">
+                    <input type="text" class="form-control" placeholder="Precio" value="{{old('price',$house['price'])}}" aria-label="Username" aria-describedby="basic-addon1" name="price">
                 </div>
                 @error('price')
                     <small class="active">*{{$message}}</small>
@@ -49,13 +48,13 @@
         <h4>Imagen: </h4>   
         <div class="d-flex flex-column my-3">
             <div>
-                <input type="file" id="image" name="image">   
+                <input type="file" value="{{old('image',$house['url'])}}" id="image" name="image">   
                 @error('image')
                     <small class="active d-block">*{{$message}}</small>
                 @enderror 
             </div>
             <div class="mt-2">
-                <img src="#" class="display" id="img" class="image" alt="Imagen"/>
+                <img src="/storage/{{$house['url']}}" id="img" class="image" alt="Imagen"/>
             </div>
         </div>
 
@@ -65,7 +64,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Descripción: </span>
                     </div>
-                    <textarea class="form-control" aria-label="With textarea" placeholder="Descripcion" value="{{old('description')}}" name="description"></textarea>
+                    <textarea class="form-control" aria-label="With textarea" placeholder="Descripcion" name="description">{{old('description',$house['description'])}}</textarea>
                 </div>
                 @error('description')
                         <small class="active">*{{$message}}</small>
@@ -73,15 +72,15 @@
             </div>
         </div>      
 
-         <div class="row mt-3">
+        <div class="row mt-3">
             <div class="col-12 col-lg-6 mb-3">
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect01">Provincia</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect01" value="{{old('locationId')}}" name="location">
+                    <select class="custom-select" id="inputGroupSelect01" name="location">
                         @foreach ($locations as $location)
-                        <option value="{{$location['id']}}" @if (old('location') == $location['id']) selected="selected" @endif>{{$location['name']}}</option>
+                        <option value="{{$location['id']}}" @if (old('guest') == $location['id']) selected="selected" @endif>{{$location['name']}}</option>
                         @endforeach                        
                     </select>
                 </div>
@@ -96,7 +95,7 @@
                     </div>
                     <select class="custom-select" id="inputGroupSelect02" name="category">
                         @foreach ($categories as $category)
-                            <option value="{{$category['id']}}" @if (old('category') == $category['id']) selected="selected" @endif>{{$category['name']}}</option>
+                            <option value="{{$category['id']}}" @if (old('guest') == $category['id']) selected="selected" @endif>{{$category['name']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -115,7 +114,6 @@
                 <label for="pool" class="mt-1">
                     <input id="pool" type="checkbox" class="mr-2" value="1" {{ old('pool') == '1' ? 'checked' : '' }} name="pool">Piscina
                 </label>
-    
             </div>
         </div> 
         
@@ -126,7 +124,7 @@
                         <label class="input-group-text" for="inputGroupSelect03">Huespedes</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect03" value="{{old('guest')}}" name="guest">
-                        <option value="1" @if (old('guest') == 1) selected="selected" @endif>1</option>
+                        <option value="1">1</option>
                     </select>
                 </div>
             </div>
@@ -135,8 +133,8 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect04">Dormitorios</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect04" name="bedrooms">
-                        <option value="1" @if (old('bedrooms') == 1) selected="selected" @endif>1</option>
+                    <select class="custom-select" id="inputGroupSelect04" value="{{old('bedrooms')}}" name="bedrooms">
+                        <option value="1">1</option>
                     </select>
                     @error('bedrooms')
                         <br>
@@ -150,8 +148,8 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect015">Camas</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect05" name="beds">
-                        <option value="1" @if (old('beds') == 1) selected="selected" @endif>1</option>
+                    <select class="custom-select" id="inputGroupSelect05" value="{{old('beds')}}" name="beds">
+                        <option value="1">1</option>
                     </select>
                     @error('beds')
                         <br>
@@ -165,8 +163,8 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect06">Baños</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect06" name="toilets">
-                        <option value="1" @if (old('toilets') == 1) selected="selected" @endif>1</option>
+                    <select class="custom-select" id="inputGroupSelect06" value="{{old('toilets')}}" name="toilets">
+                        <option value="1">1</option>
                     </select>
                 </div>
             </div>
@@ -178,7 +176,11 @@
             <input type="file" value="{{old('carousel')}}" id="carousel" name="carousel[]" multiple>
         </div>
         <div id="divCarousel" class="mt-2">
-            
+            @foreach ($carousel as $image)
+            <div class="mt-2">
+                <img src="/storage/{{$image['url']}}" id="img" class="image" alt="Imagen"/>
+            </div>
+            @endforeach
         </div>
         <div class="d-flex justify-content-between mt-4">
             <input type="reset" id="reset" class="btn bg-dark text-light" value="Resetear"></input>
@@ -192,5 +194,5 @@
 @endsection
 
 @push('head')
-<script src="{{ asset('js/components/addHouse.js')}}"></script>
+<script src="{{ asset('js/components/editHouse.js')}}"></script>
 @endpush

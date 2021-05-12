@@ -41,7 +41,7 @@
                     <h3 class="text-center">{{$house['name']}}</h3>
                 </div>
                 <div class="col-3 d-flex justify-content-center align-items-center">
-                    <a class="btn"  tag="button"><i class="fas fa-edit lead btn-edit"></i></a>
+                    <a class="btn" href="{{route('dashboard.edit',$house)}}" tag="button"><i class="fas fa-edit lead btn-edit"></i></a>
                     <button class="btn" v-tooltip="'Eliminar'" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt lead btn-delete"></i></button>
                 </div>
             </div>
@@ -51,5 +51,9 @@
     {{-- <div class="d-flex justify-content-center align-items-start">
         <i class="fas fa-spinner mt-4" style="fontSize: 2rem"></i>
     </div> --}}
+@endsection
+
+@section('back')
+    <a class="btn btn-dark ml-5 my-3" href={{ route('dashboard')}}><i class="fas fa-arrow-left"></i></a>
 @endsection
 

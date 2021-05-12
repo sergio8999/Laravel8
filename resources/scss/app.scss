@@ -86,7 +86,7 @@ $color-red: #ef0e0e;
 
 .content{
     width: 100%;
-    min-height: 200vh;
+    min-height: 100vh;
     margin-top: 3rem;
     background-color: #c5c5dc;
     @media (min-width: 992px){
@@ -137,6 +137,21 @@ $color-red: #ef0e0e;
             font-size: 1.5rem;
         }
     }   
+
+    .active{
+        color: red;
+        font-weight: bold;
+    }
+
+    .display{
+        display:none;
+    }
+
+    .image{
+        width: 11rem;
+        height: 9rem;
+        object-fit: cover;
+    }
 }     
 
 /*  @import "../../node_modules/bootstrap/scss/bootstrap";  */

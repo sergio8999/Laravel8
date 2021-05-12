@@ -109,35 +109,48 @@ class AdministradorController extends Controller
             'bedrooms' => 'required',
             'beds' => 'required',
             'toilets' => 'required',
-            'pool' => 'required',
-            'wifi' => 'required',
             'category' => 'required',
             'location' => 'required'
         ]);
 
         if($request['pool'] == 'on')
-            $pool = true;
+            $pool = "true";
         else
-            $pool = false;
+            $pool = "false";
 
         if($request['wifi'] == 'on')
-            $wifi = true;
+            $wifi = "true";
         else
-            $wifi = false;
+            $wifi = "false";
 
 
         $image = Storage::putFile('public', $request->file('image')); 
         $url = explode('/',$image);
-        $house = House::set($request['name'], $request['host'], $request['price'], $url[1], $request['description'],$request['category'],$request['location']);
-        House_Detail::set($request['beds'],$wifi,$request['guest'],$request['bedrooms'],$request['toilets'],$pool,$house['id']);
+        $house = House::set($request['name'], $request['host'], $request['price'], $url[1], $request['description'],$request['category'],$request['location']) ;
+        House_Detail::set($request['beds'],$wifi,$request['guest'],$request['bedrooms'],$request['toilets'],$pool,$house['id']); 
         
-        $carousel = $request->file('carousel');
+         $carousel = $request->file('carousel');
         foreach($carousel as $image){
             $urlImage = Storage::putFile('public', $image);
             $url = explode('/',$urlImage);
             House_Images::set($url[1],$house['id']); 
+        } 
+
+        return "correcto";
+    }
+
+    public function edit(House $house){
+    
+        try{
+            $categories = Category::all();
+            $locations = Location::all();
+            $carousel = House_Images::where('house_id',$house['id'])->get();
+        }catch(Exception $exception){
+            return back()->with([
+                'message'=>$exception->getMessage()
+            ]);
         }
 
-        return "Añadida";
+        return view('administrador.editHouse',compact('house','locations','categories','carousel'));
     }
 }

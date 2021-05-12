@@ -4667,7 +4667,7 @@ body {
 
 .content {
   width: 100%;
-  min-height: 200vh;
+  min-height: 100vh;
   margin-top: 3rem;
   background-color: #c5c5dc;
 }
@@ -4713,6 +4713,19 @@ body {
 }
 .content .houses svg {
   font-size: 1.5rem;
+}
+.content .active {
+  color: red;
+  font-weight: bold;
+}
+.content .display {
+  display: none;
+}
+.content .image {
+  width: 11rem;
+  height: 9rem;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 /*  @import "../../node_modules/bootstrap/scss/bootstrap";  */
