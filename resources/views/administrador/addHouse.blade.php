@@ -55,7 +55,7 @@
                 @enderror 
             </div>
             <div class="mt-2">
-                <img src="#" class="display" id="img" class="image" alt="Imagen"/>
+                <img src="#" class="display image" id="img" class="image" alt="Imagen"/>
             </div>
         </div>
 
@@ -126,7 +126,9 @@
                         <label class="input-group-text" for="inputGroupSelect03">Huespedes</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect03" value="{{old('guest')}}" name="guest">
-                        <option value="1" @if (old('guest') == 1) selected="selected" @endif>1</option>
+                        @for ($i = 1; $i < 10; $i++)
+                            <option value="{{$i}}" @if (old('guest') == $i) selected="selected" @endif>{{$i}}</option>
+                        @endfor
                     </select>
                 </div>
             </div>
@@ -136,7 +138,9 @@
                         <label class="input-group-text" for="inputGroupSelect04">Dormitorios</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect04" name="bedrooms">
-                        <option value="1" @if (old('bedrooms') == 1) selected="selected" @endif>1</option>
+                        @for ($i = 1; $i < 10; $i++)
+                            <option value="{{$i}}" @if (old('bedrooms') == $i) selected="selected" @endif>{{$i}}</option>
+                        @endfor
                     </select>
                     @error('bedrooms')
                         <br>
@@ -151,7 +155,9 @@
                         <label class="input-group-text" for="inputGroupSelect015">Camas</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect05" name="beds">
-                        <option value="1" @if (old('beds') == 1) selected="selected" @endif>1</option>
+                        @for ($i = 1; $i < 10; $i++)
+                            <option value="{{$i}}" @if (old('beds') == $i) selected="selected" @endif>{{$i}}</option>
+                        @endfor
                     </select>
                     @error('beds')
                         <br>
@@ -166,7 +172,9 @@
                         <label class="input-group-text" for="inputGroupSelect06">Baños</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect06" name="toilets">
-                        <option value="1" @if (old('toilets') == 1) selected="selected" @endif>1</option>
+                        @for ($i = 1; $i < 10; $i++)
+                            <option value="{{$i}}" @if (old('toilets') == $i) selected="selected" @endif>{{$i}}</option>
+                        @endfor
                     </select>
                 </div>
             </div>

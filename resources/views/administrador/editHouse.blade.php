@@ -2,7 +2,7 @@
 @section('content')
     <h2 class="text-center pt-3 mb-4">Editar casa</h2>
     
-    <form {{-- action="{{route('')}}" --}} method="POST" enctype="multipart/form-data">
+    <form action="{{route('dashboard.update',$house)}}" method="POST" enctype="multipart/form-data">
 
         @csrf
 
@@ -124,7 +124,9 @@
                         <label class="input-group-text" for="inputGroupSelect03">Huespedes</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect03" value="{{old('guest')}}" name="guest">
-                        <option value="1">1</option>
+                        @for ($i = 1; $i < 10; $i++)
+                            <option value="{{$i}}" @if (old('guest') == $i) selected="selected" @endif>{{$i}}</option>
+                        @endfor
                     </select>
                 </div>
             </div>
@@ -134,7 +136,9 @@
                         <label class="input-group-text" for="inputGroupSelect04">Dormitorios</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect04" value="{{old('bedrooms')}}" name="bedrooms">
-                        <option value="1">1</option>
+                        @for ($i = 1; $i < 10; $i++)
+                            <option value="{{$i}}" @if (old('bedrooms') == $i) selected="selected" @endif>{{$i}}</option>
+                        @endfor
                     </select>
                     @error('bedrooms')
                         <br>
@@ -149,7 +153,9 @@
                         <label class="input-group-text" for="inputGroupSelect015">Camas</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect05" value="{{old('beds')}}" name="beds">
-                        <option value="1">1</option>
+                        @for ($i = 1; $i < 10; $i++)
+                            <option value="{{$i}}" @if (old('beds') == $i) selected="selected" @endif>{{$i}}</option>
+                        @endfor
                     </select>
                     @error('beds')
                         <br>
@@ -164,29 +170,36 @@
                         <label class="input-group-text" for="inputGroupSelect06">Baños</label>
                     </div>
                     <select class="custom-select" id="inputGroupSelect06" value="{{old('toilets')}}" name="toilets">
-                        <option value="1">1</option>
+                        @for ($i = 1; $i < 10; $i++)
+                            <option value="{{$i}}" @if (old('beds') == $i) selected="selected" @endif>{{$i}}</option>
+                        @endfor
                     </select>
                 </div>
             </div>
         </div>   
 
         <h4>Carousel:</h4>
-
-        <div class="input-group mb-3">
-            <input type="file" value="{{old('carousel')}}" id="carousel" name="carousel[]" multiple>
-        </div>
         <div id="divCarousel" class="mt-2">
             @foreach ($carousel as $image)
-            <div class="mt-2">
-                <img src="/storage/{{$image['url']}}" id="img" class="image" alt="Imagen"/>
-            </div>
+                <div class="mt-2">
+                    <img src="/storage/{{$image['url']}}" class="image" alt="Imagen"/>
+                    <span id="{{$image['id']}}" class="btn btn-dark ml-2">Eliminar</span>
+                </div>
             @endforeach
+            <h4 class="mt-2">Imágenes a añadir:</h4>
+            <div class="input-group mb-3">
+                <input type="file" value="{{old('carousel')}}" id="carousel" name="carousel[]" multiple>
+            </div>
+            <div id="imagesSelected" class="mt-3">
+            </div>
         </div>
         <div class="d-flex justify-content-between mt-4">
-            <input type="reset" id="reset" class="btn bg-dark text-light" value="Resetear"></input>
-            <input type="submit" class="btn bg-dark text-light" value="Añadir casa"></input>
+            <a href="{{route('dashboard.edit',$house['id'])}}" class="btn btn-dark">Resetear</a>
+            <input type="submit" class="btn bg-dark text-light" value="Actualizar casa"></input>
         </div>
+
     </form> 
+   
 @endsection
 
 @section('back')
@@ -194,5 +207,5 @@
 @endsection
 
 @push('head')
-<script src="{{ asset('js/components/editHouse.js')}}"></script>
+<script src="{{ asset('js/components/edit.js')}}"></script>
 @endpush

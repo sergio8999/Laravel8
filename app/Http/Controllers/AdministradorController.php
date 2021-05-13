@@ -14,10 +14,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
+use function PHPUnit\Framework\isEmpty;
+
 class AdministradorController extends Controller
 {
     public function index(){
-        return view('administrador.login');
+        return view('administrador.index');
     }
 
    /*  public function dashboard(){
@@ -55,7 +57,7 @@ class AdministradorController extends Controller
             $administrador = Administrador::where('name', $request['name'])->first();
 
             if($administrador && Hash::check($request['password'], $administrador['password']))
-                return redirect()->route('dashboard');
+                return redirect()->route('administrador.index');
             else {
                 /* return "response()->json([
                     'message'=>'Error al loguearse',
@@ -68,6 +70,7 @@ class AdministradorController extends Controller
                 'message'=>$exception->getMessage()
             ]);
         }
+
     }
 
     public function houses(){
@@ -129,17 +132,20 @@ class AdministradorController extends Controller
         $house = House::set($request['name'], $request['host'], $request['price'], $url[1], $request['description'],$request['category'],$request['location']) ;
         House_Detail::set($request['beds'],$wifi,$request['guest'],$request['bedrooms'],$request['toilets'],$pool,$house['id']); 
         
-         $carousel = $request->file('carousel');
-        foreach($carousel as $image){
-            $urlImage = Storage::putFile('public', $image);
-            $url = explode('/',$urlImage);
-            House_Images::set($url[1],$house['id']); 
-        } 
+        if($request['carousel'] !=""){
+            $carousel = $request->file('carousel');
+            foreach($carousel as $image){
+                $urlImage = Storage::putFile('public', $image);
+                $url = explode('/',$urlImage);
+                House_Images::set($url[1],$house['id']); 
+            }
+        }
+         
 
-        return "correcto";
+        return redirect()->route('dashboard.addHouse');
     }
 
-    public function edit(House $house){
+    public function getHouse(House $house){
     
         try{
             $categories = Category::all();
@@ -152,5 +158,82 @@ class AdministradorController extends Controller
         }
 
         return view('administrador.editHouse',compact('house','locations','categories','carousel'));
+    }
+
+    public function update(Request $request,House $house){
+        $request->validate([
+            'name' => 'required|min:3|max:40',
+            'host' => 'required',
+            'price' => 'required|numeric',
+            'description' => 'required',
+            'guest' => 'required',
+            'bedrooms' => 'required',
+            'beds' => 'required',
+            'toilets' => 'required',
+            'category' => 'required', 
+            'location' => 'required' 
+        ]);
+
+        try{
+             $house->update([
+                'name'=>$request['name'],
+                'host'=>$request['host'],
+                'price'=>$request['price'],
+                'description'=>$request['description'],
+                'category_id'=>$request['category'],
+                'location_id'=>$request['location']
+            ]); 
+            
+            if($request['image'] !=""){
+                $image = Storage::putFile('public', $request->file('image')); 
+                $url = explode('/',$image);
+                $house->update([
+                    'url'=>$url[1]
+                ]);
+            }
+
+            if($request['pool'] == 'on')
+                $pool = "true";
+            else
+                $pool = "false";
+
+            if($request['wifi'] == 'on')
+                $wifi = "true";
+            else
+                $wifi = "false";
+            
+            $getHouseDetail = House_Detail::where('house_id',$house['id']);
+            $getHouseDetail->update([
+                'guests'=>$request['guest'],
+                'bedrooms'=>$request['bedrooms'],
+                'beds'=>$request['beds'],
+                'pool'=>$pool,
+                'wifi'=>$wifi,
+            ]); 
+    
+            /* Carousel */
+            if($request['deletedImages'] != ""){
+                $idImages = explode(',',$request['deletedImages']);
+                foreach ($idImages as $idImage) {
+                    House_Images::where('id',$idImage)->first()->delete();
+                };    
+            }
+                
+            if($request['carousel'] !=""){
+                $carousel = $request->file('carousel');
+                foreach($carousel as $image){
+                    $urlImage = Storage::putFile('public', $image);
+                    $url = explode('/',$urlImage);
+                 House_Images::set($url[1],$house['id']); 
+                } 
+            }
+            
+        }catch(Exception $exception){
+            return response()->json([
+                'message'=>$exception->getMessage()
+            ]);
+        }
+
+        return redirect()->route('dashboard.edit',$house); 
     }
 }

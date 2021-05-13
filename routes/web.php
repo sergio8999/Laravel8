@@ -64,16 +64,17 @@ Route::get('register',[AuthController::class,'index'])->name('register.index');
 Route::view('login.index', 'login.index')->name('login.index');
  */
 
-Route::group([],function () {
-    Route::get('administrador',[AdministradorController::class,'index'])->name('administrador.index');
-    Route::post('administrador',[AdministradorController::class,'login'])->name('administrador.login');
-    Route::view('dashboard','administrador.index')->name('dashboard');
-    Route::get('dashboard/houses',[AdministradorController::class,'houses'])->name('dashboard.houses');
-    Route::delete('dashboard/destroy/{house}',[AdministradorController::class,'destroy'])->name('dashboard.destroy');
-    Route::get('dashboard/add-house', [AdministradorController::class,'addHouse'])->name('dashboard.addHouse');
-    Route::post('dashboard/store',[AdministradorController::class,'store'])->name('dashboard.store');
-    Route::get('categories',[CategoryController::class,'categories'])->name('categories');
-    Route::get('dashboard/{house}/edit', [AdministradorController::class, 'edit'])->name('dashboard.edit');
+Route::group([/* 'middleware' => 'admin' */],function () {
+    Route::get('administrador/home',[AdministradorController::class,'index'])->name('administrador.index');
+    Route::post('administrador/login',[AdministradorController::class,'login'])->name('administrador.login');
+    Route::view('administrador','administrador.login')->name('dashboard');
+    Route::get('administrador/houses',[AdministradorController::class,'houses'])->name('dashboard.houses');
+    Route::delete('administrador/houses/destroy/{house}',[AdministradorController::class,'destroy'])->name('dashboard.destroy');
+    Route::get('administrador/houses/add-house', [AdministradorController::class,'addHouse'])->name('dashboard.addHouse');
+    Route::post('administrador/houses/store',[AdministradorController::class,'store'])->name('dashboard.store');
+    Route::get('administrador/categories',[CategoryController::class,'categories'])->name('categories');
+    Route::get('administrador/houses/{house}', [AdministradorController::class, 'getHouse'])->name('dashboard.edit');
+    Route::post('administrador/house/{house}',[AdministradorController::class,'update'])->name('dashboard.update');
 });
 
 Route::get('{any}', function () {

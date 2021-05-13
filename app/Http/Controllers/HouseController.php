@@ -186,6 +186,5 @@ class HouseController extends Controller
                 'message'=>$exception->getMessage()
             ]);
         }
-         
     }
 }

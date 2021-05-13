@@ -1,8 +1,4 @@
 function main(){
-    $('#prueba').on('click',function(){
-        probar();
-    })
-
     $("#image").on('change',function(){
         readURL(this);
     });
@@ -13,12 +9,9 @@ function main(){
     })
 
     $('#carousel').on('change', function(){
+        $('#divCarousel').empty();
         readURL(this);
     })
-}
-
-function probar(){
-    $('#parrafo').text('adios');
 }
 
 function readURL(input) {
@@ -28,16 +21,15 @@ function readURL(input) {
             var reader = new FileReader();
             
                 reader.onload = function (e) {
-                    if(input.files.length ==1)
+                    if(input.id == 'image')
                         $('#img').attr('src', e.target.result).css('display','block').addClass('display');
                     else
-                        $('#divCarousel').append($('<img>').attr({'src' : e.target.result, 'alt' : 'imagen'}).addClass(['image','mr-2']));
+                         $('#divCarousel').append($('<img>').attr({'src' : e.target.result, 'alt' : 'imagen'}).addClass(['image','mr-2']));
                 }
     
             reader.readAsDataURL(input.files[i]);
         }
-    }
-    
+    }  
 }
 
 
