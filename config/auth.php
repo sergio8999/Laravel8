@@ -46,8 +46,13 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-        'admin' => [
+        'administrador' => [
             'driver' => 'session',
+            'provider' => 'administradors',
+        ],
+
+        'administrador-api' => [
+            'driver' => 'token',
             'provider' => 'administradors',
         ],
     ],
@@ -79,9 +84,9 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
-        'admins' => [
+        'administradors' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Administrador::class,
+            'model' => App\Administrador::class,
         ],
     ],
 

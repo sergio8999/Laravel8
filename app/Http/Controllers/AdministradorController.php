@@ -11,6 +11,7 @@ use App\Models\Location;
 use Exception;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -53,16 +54,12 @@ class AdministradorController extends Controller
             'password' => 'required'
         ]);
 
+
         try{
             $administrador = Administrador::where('name', $request['name'])->first();
-
             if($administrador && Hash::check($request['password'], $administrador['password']))
                 return redirect()->route('administrador.index');
             else {
-                /* return "response()->json([
-                    'message'=>'Error al loguearse',
-                    'status'=>false
-                ]);" */
                 return back()->withErrors(['password'=>'Estas credenciales no existen']);
             }
         }catch(Exception $exception){
@@ -70,8 +67,37 @@ class AdministradorController extends Controller
                 'message'=>$exception->getMessage()
             ]);
         }
+    } 
 
+/*     public function adminDashboard()
+    {
+        $users = Administrador::all();
+        $success =  $users;
+
+        return response()->json($success, 200);
     }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required'
+        ]);
+
+
+        if(auth()->guard('administrador')->attempt(['name' => request('name'), 'password' => request('password')])){
+
+            config(['auth.guards.api.provider' => 'administrador']);
+            
+            $administrador = Administrador::select('administradors.*')->find(auth()->guard('administrador')->user()->id);
+            $success =  $administrador;
+            $success['token'] =  $administrador->createToken('MyApp',['administrador'])->accessToken; 
+
+            return response()->json($success, 200);
+        }else{ 
+            return response()->json(['error' => ['Email and Password are Wrong.']], 200);
+        }
+    } */
 
     public function houses(){
         $houses = House::orderBy('id','desc')

@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class Administrador extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, Notifiable, HasApiTokens;
 
     protected $table = 'administradors';
     protected $primaryKey = 'id';
@@ -22,7 +24,6 @@ class Administrador extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at' 
     ];
 
     public static function set($name, $password){
