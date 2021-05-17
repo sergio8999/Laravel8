@@ -59,8 +59,10 @@ export default({
             
             getLogin();
                 try{
-                let response = await getCategories();
-                categories.value = response.data.categories;
+                    let response = await getCategories();
+                    categories.value = response.data.categories;
+                    console.log(response.data.categories)
+                    debugger
                 }catch(e){
                     console.log(e);
                 }            

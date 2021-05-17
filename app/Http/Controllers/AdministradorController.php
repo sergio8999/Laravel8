@@ -8,6 +8,7 @@ use App\Models\House;
 use App\Models\House_Detail;
 use App\Models\House_Images;
 use App\Models\Location;
+use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
@@ -19,6 +20,18 @@ use function PHPUnit\Framework\isEmpty;
 
 class AdministradorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:administrador', ['except' => ['generateAccessToken', 'login']]);
+    }
+
+    protected function generateAccessToken($user)
+    {
+        $token = $user->createToken($user->email.'-'.now());
+
+        return $token->accessToken;
+    }
+
     public function index(){
         return view('administrador.index');
     }
@@ -67,7 +80,54 @@ class AdministradorController extends Controller
                 'message'=>$exception->getMessage()
             ]);
         }
-    } 
+    }  
+
+    /* public function login(Request $request){
+        $request->validate([
+            'name' => 'required', 
+            'password' => 'required'
+        ]);
+
+        $credentials = [
+            'name' => $request->name, 
+            'password' => $request->password
+        ];
+
+        if(!Administrador::attempt($credentials))
+            return response()->json([
+                'message' => 'Unauthorized'
+            ]);
+            $user = $request->user('administrador');
+            $tokenResult = $user->createToken('Personal Access Token');
+
+        $token = $tokenResult->token;
+        if ($request->remember_me)
+            $token->expires_at = Carbon::now()->addWeeks(1);
+        $token->save();
+
+        return response()->json([
+            'access_token' => $tokenResult->accessToken,
+            'token_type' => 'Bearer',
+            'expires_at' => Carbon::parse($token->expires_at)->toDateTimeString()
+        ]);
+        
+    } */
+
+    /* public function logout(Request $request)
+    {
+        if (Auth::check()) {
+           $this->guard()->user()->AauthAcessToken()->delete();
+        }
+
+        return response()->json([
+            'msg' => 'Logged out complete'
+        ]);
+    }
+
+    protected function guard()
+    {
+        return Auth::guard('administrador');
+    } */
 
 /*     public function adminDashboard()
     {

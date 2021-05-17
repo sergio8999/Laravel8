@@ -67,7 +67,7 @@ Route::view('login.index', 'login.index')->name('login.index');
 Route::post('administrador/login',[AdministradorController::class,'login'])->name('administrador.login');
 Route::view('administrador','administrador.login')->name('dashboard');
 
-Route::group(['prefix' => 'administrador', 'middleware' => ['auth:administrador','scopes:administrador']/* 'middleware' => 'admin' */],function () {
+Route::group(['prefix' => 'administrador', /* 'middleware' => ['auth:administrador','scopes:administrador'] *//* 'middleware' => 'admin' */],function () {
     Route::get('home',[AdministradorController::class,'index'])->name('administrador.index');
     Route::get('houses',[AdministradorController::class,'houses'])->name('dashboard.houses');
     Route::delete('houses/destroy/{house}',[AdministradorController::class,'destroy'])->name('dashboard.destroy');
