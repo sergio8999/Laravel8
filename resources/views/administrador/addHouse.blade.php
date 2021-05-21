@@ -65,7 +65,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Descripción: </span>
                     </div>
-                    <textarea class="form-control" aria-label="With textarea" placeholder="Descripcion" value="{{old('description')}}" name="description"></textarea>
+                    <textarea class="form-control" aria-label="With textarea" placeholder="Descripcion" name="description">{{old('description')}}</textarea>
                 </div>
                 @error('description')
                         <small class="active">*{{$message}}</small>

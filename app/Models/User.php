@@ -38,11 +38,12 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public static function set($name, $email, $password){
+    public static function set($name, $email,$admin, $password){
         
         $create = ([
             'name' => $name,
             'email' => $email,
+            'is_admin' =>$admin,
             'password' => bcrypt($password)
         ]);
 

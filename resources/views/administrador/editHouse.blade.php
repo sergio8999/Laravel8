@@ -80,7 +80,7 @@
                     </div>
                     <select class="custom-select" id="inputGroupSelect01" name="location">
                         @foreach ($locations as $location)
-                        <option value="{{$location['id']}}" @if (old('guest') == $location['id']) selected="selected" @endif>{{$location['name']}}</option>
+                        <option value="{{$location['id']}}" @if ($house['location_id'] == $location['id']) selected="selected" @endif>{{$location['name']}}</option>
                         @endforeach                        
                     </select>
                 </div>
@@ -95,7 +95,7 @@
                     </div>
                     <select class="custom-select" id="inputGroupSelect02" name="category">
                         @foreach ($categories as $category)
-                            <option value="{{$category['id']}}" @if (old('guest') == $category['id']) selected="selected" @endif>{{$category['name']}}</option>
+                            <option value="{{$category['id']}}" @if ($house['category_id'] == $category['id']) selected="selected" @endif>{{$category['name']}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -123,9 +123,9 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect03">Huespedes</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect03" value="{{old('guest')}}" name="guest">
+                    <select class="custom-select" id="inputGroupSelect03" name="guest">
                         @for ($i = 1; $i < 10; $i++)
-                            <option value="{{$i}}" @if (old('guest') == $i) selected="selected" @endif>{{$i}}</option>
+                            <option value="{{$i}}" @if ($detail['guests'] == $i) selected="selected" @endif>{{$i}}</option>
                         @endfor
                     </select>
                 </div>
@@ -135,9 +135,9 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect04">Dormitorios</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect04" value="{{old('bedrooms')}}" name="bedrooms">
+                    <select class="custom-select" id="inputGroupSelect04" name="bedrooms">
                         @for ($i = 1; $i < 10; $i++)
-                            <option value="{{$i}}" @if (old('bedrooms') == $i) selected="selected" @endif>{{$i}}</option>
+                            <option value="{{$i}}" @if ($detail['bedrooms'] == $i) selected="selected" @endif>{{$i}}</option>
                         @endfor
                     </select>
                     @error('bedrooms')
@@ -152,9 +152,9 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect015">Camas</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect05" value="{{old('beds')}}" name="beds">
+                    <select class="custom-select" id="inputGroupSelect05" name="beds">
                         @for ($i = 1; $i < 10; $i++)
-                            <option value="{{$i}}" @if (old('beds') == $i) selected="selected" @endif>{{$i}}</option>
+                            <option value="{{$i}}" @if ($detail['beds'] == $i) selected="selected" @endif>{{$i}}</option>
                         @endfor
                     </select>
                     @error('beds')
@@ -169,9 +169,9 @@
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelect06">Baños</label>
                     </div>
-                    <select class="custom-select" id="inputGroupSelect06" value="{{old('toilets')}}" name="toilets">
+                    <select class="custom-select" id="inputGroupSelect06" name="toilets">
                         @for ($i = 1; $i < 10; $i++)
-                            <option value="{{$i}}" @if (old('beds') == $i) selected="selected" @endif>{{$i}}</option>
+                            <option value="{{$i}}" @if ($detail['toilets'] == $i) selected="selected" @endif>{{$i}}</option>
                         @endfor
                     </select>
                 </div>

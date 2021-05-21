@@ -4,30 +4,34 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Passport\HasApiTokens;
 
-class Administrador extends Model
+class Admin extends Authenticatable
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory,HasApiTokens,SoftDeletes;
 
-    protected $table = 'administradors';
+    protected $table = 'admins';
     protected $primaryKey = 'id';
     public $timestamps = true;
 
+    protected $guard = 'admin';
+
     protected $fillable = [
-        'name',
+        'email',
         'password'
     ];
 
     protected $hidden = [
         'created_at',
         'updated_at',
-        'deleted_at' 
+        'remember_token', 
     ];
 
     public static function set($name, $password){
         $create = [
-            'name' => $name,
+            'email' => $name,
             'password' => bcrypt($password)
         ];
         return self::create($create);

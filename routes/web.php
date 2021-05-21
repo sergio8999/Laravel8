@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdministradorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
@@ -58,23 +59,27 @@ Route::post('contact',[ContactController::class, 'store'])->name('contact.store'
 Route::post('login/login',[AuthController::class,'login'])->name('login.login');
 
 
-Route::get('user',[AuthController::class,'user'])->name('user');
+Route::get('user',[AuthController::class,'user'])->names('user');
 Route::get('logout',[AuthController::class,'logout'])->name('logout'); 
 Route::get('register',[AuthController::class,'index'])->name('register.index');
 Route::view('login.index', 'login.index')->name('login.index');
  */
 
-Route::group([/* 'middleware' => 'admin' */],function () {
-    Route::get('administrador/home',[AdministradorController::class,'index'])->name('administrador.index');
-    Route::post('administrador/login',[AdministradorController::class,'login'])->name('administrador.login');
-    Route::view('administrador','administrador.login')->name('dashboard');
-    Route::get('administrador/houses',[AdministradorController::class,'houses'])->name('dashboard.houses');
-    Route::delete('administrador/houses/destroy/{house}',[AdministradorController::class,'destroy'])->name('dashboard.destroy');
-    Route::get('administrador/houses/add-house', [AdministradorController::class,'addHouse'])->name('dashboard.addHouse');
-    Route::post('administrador/houses/store',[AdministradorController::class,'store'])->name('dashboard.store');
-    Route::get('administrador/categories',[CategoryController::class,'categories'])->name('categories');
-    Route::get('administrador/houses/{house}', [AdministradorController::class, 'getHouse'])->name('dashboard.edit');
-    Route::post('administrador/house/{house}',[AdministradorController::class,'update'])->name('dashboard.update');
+Route::post('/administrador/login',[AdminController::class,'login'])->name('administrador.login');
+
+/* Route::view('/administrador','administrador.login')->name('dashboard'); */
+Route::get('/administrador',[AdminController::class,'index'])->name('dashboard');
+
+Route::group(['prefix' => 'administrador'   ,'middleware' => 'admin'],function () {
+    Route::get('/home',[AdminController::class,'home'])->name('administrador.home');
+    Route::get('/houses',[AdminController::class,'houses'])->name('dashboard.houses');
+    Route::post('/houses/destroy',[AdminController::class,'destroy'])->name('dashboard.destroy');
+    Route::get('/houses/add-house', [AdminController::class,'addHouse'])->name('dashboard.addHouse');
+    Route::post('/houses/store',[AdminController::class,'store'])->name('dashboard.store');
+    Route::get('/categories',[CategoryController::class,'categories'])->name('categories');
+    Route::get('/houses/{house}', [AdminController::class, 'getHouse'])->name('dashboard.edit');
+    Route::post('/house/{house}',[AdminController::class,'update'])->name('dashboard.update');
+    Route::get('/logout',[AdminController::class,'logout'])->name('dashboard.logout');
 });
 
 Route::get('{any}', function () {

@@ -10,12 +10,12 @@
             <h4 class="d-lg-block d-none text-light">Dashboard</h4>
             <ul class="nav flex-column align-items-start">
                 <li class="nav-item">
-                    <a href="{{route('administrador.index')}}" class="nav-link d-lg-flex justify-content-center align-items-center"><i class="fas fa-home mr-2"></i> Home</a>
+                    <a href="{{route('administrador.home')}}" class="nav-link d-lg-flex justify-content-center align-items-center"><i class="fas fa-home mr-2"></i> Home</a>
                 </li> 
                 <li class="nav-item">
                     <a href={{ route('dashboard.houses')}} class="nav-link d-lg-flex justify-content-center align-items-center"><i class="fas fa-warehouse mr-2"></i> Alojamientos</a>
                 </li>  
             </ul>
-            <a href="{{route('administrador.index')}}" class="btn bg-dark text-light logout" ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
+            <a href="{{route('dashboard.logout')}}" class="btn bg-dark text-light logout" ><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a>
         </div>
     </nav>

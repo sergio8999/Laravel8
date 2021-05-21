@@ -17,10 +17,10 @@
             @csrf
     
             <div class="form-group">
-                <label for="exampleInputName1">Nombre</label>
-                <input type="text" class="form-control" id="exampleInputName1" name="name" value="{{old('name')}}" placeholder="Introduce nombre">
+                <label for="exampleInputName1">Email</label>
+                <input type="text" class="form-control" id="exampleInputName1" name="email" value="{{old('email')}}" placeholder="Introduce email">
     
-                @error('name')
+                @error('email')
                 <br>
                 <small class="active">*{{$message}}</small>
                 <br>
@@ -36,8 +36,14 @@
                 <small class="active">*{{$message}}</small>
                 <br>
                 @enderror
-    
             </div>
+
+            @error('administrador')
+                <br>
+                <small class="active">*{{$message}}</small>
+                <br>
+            @enderror
+            
             <button type="submit" class="btn btn-dark btn-size">Login</button>
         </form>
     </div>

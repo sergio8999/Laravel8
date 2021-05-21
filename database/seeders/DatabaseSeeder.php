@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Admin;
 use App\Models\Administrador;
 use App\Models\Category;
 use App\Models\House;
@@ -149,7 +150,7 @@ class DatabaseSeeder extends Seeder
         House_Detail::set('2','false','4','2','1','false','11');
 
         // Usuario
-        User::set('Sergio','sergio8999@gmail.com','1234');
+        User::set('Sergio','sergio8999@gmail.com',1,'1234');
         
         // Reservas
         Reservation::set('28/04/2021','30/04/2021','0:00','0:00','10.56','105.6','116.16','1','11');
@@ -158,6 +159,6 @@ class DatabaseSeeder extends Seeder
         Reservation::set('30/04/2021','08/05/2021','0:00','03:00','1.05','10.5','11.55','1','10');
 
         // Administrador
-        Administrador::set('sergio','1234');
+        Admin::set('sergio','1234');
     }
 }

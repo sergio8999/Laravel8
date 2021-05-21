@@ -22150,20 +22150,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 4:
               response = _context.sent;
               categories.value = response.data.categories;
-              _context.next = 11;
+              console.log(response.data.categories);
+              debugger;
+              _context.next = 13;
               break;
 
-            case 8:
-              _context.prev = 8;
+            case 10:
+              _context.prev = 10;
               _context.t0 = _context["catch"](1);
               console.log(_context.t0);
 
-            case 11:
+            case 13:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, null, [[1, 8]]);
+      }, _callee, null, [[1, 10]]);
     })));
     return {
       categories: categories

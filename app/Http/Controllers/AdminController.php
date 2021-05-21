@@ -2,23 +2,38 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Administrador;
+use App\Models\Admin;
 use App\Models\Category;
 use App\Models\House;
 use App\Models\House_Detail;
 use App\Models\House_Images;
 use App\Models\Location;
+use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Psr7\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 use function PHPUnit\Framework\isEmpty;
 
-class AdministradorController extends Controller
+class AdminController extends Controller
 {
+
+    /*  public function __construct()
+    {
+        $this->middleware('admin')->except('index,login');
+    }  */
+
     public function index(){
+        if(Auth::user() !=null && Auth::user()->is_admin == 1)
+            return redirect()->route('administrador.home');
+        return view('administrador.login');
+    }
+
+    public function home(){
         return view('administrador.index');
     }
 
@@ -26,7 +41,7 @@ class AdministradorController extends Controller
         return view('administrador.dashboard');
     } */
 
-    public function sigUp(Request $request){
+    public function signUp(Request $request){
         
         $request->validate([
             'name' => 'required|string|unique:administradors',
@@ -34,7 +49,7 @@ class AdministradorController extends Controller
         ]);
 
         try{
-            Administrador::set($request['name'],$request['password']);
+            Admin::set($request['name'],$request['password']);
 
             return response()->json([
                 'message' => 'Successfully created administrador!'
@@ -47,22 +62,20 @@ class AdministradorController extends Controller
         
     }
 
-    public function login(Request $request){
+
+    /* public function login(Request $request){
         $request->validate([
-            'name' => 'required',
+            'email' => 'required',
             'password' => 'required'
         ]);
 
+
         try{
-            $administrador = Administrador::where('name', $request['name'])->first();
+            $administrador = Admin::where('email', $request['email'])->first();
 
             if($administrador && Hash::check($request['password'], $administrador['password']))
                 return redirect()->route('administrador.index');
             else {
-                /* return "response()->json([
-                    'message'=>'Error al loguearse',
-                    'status'=>false
-                ]);" */
                 return back()->withErrors(['password'=>'Estas credenciales no existen']);
             }
         }catch(Exception $exception){
@@ -70,8 +83,70 @@ class AdministradorController extends Controller
                 'message'=>$exception->getMessage()
             ]);
         }
+    } */
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+            'remember_me' => 'boolean'
+        ]);
+
+        $credentials = request(['email', 'password']);
+
+        if (!Auth::attempt($credentials))
+            return back()->withErrors(['password'=>'Estas credenciales no existen']);
+
+        $user = $request->user();
+        if($user['is_admin'] == 1){
+            $tokenResult = $user->createToken('Personal Access Token');
+            $token = $tokenResult->token;
+            if ($request->remember_me)
+                $token->expires_at = Carbon::now()->addWeeks(1);
+
+            $token->save();
+            return redirect()->route('administrador.home');
+        }else
+             return back()->withErrors(['administrador' => 'No eres administrador']);
+        /* return response()->json([
+            'mesage' => 'No eres administrador'
+        ]); */
     }
+
+    public function logout()
+    {
+        DB::table('oauth_access_tokens')
+        ->where('user_id', Auth::user()->id)
+        ->update([
+            'revoked' => true
+        ]);
+        Auth::logout();
+
+        return redirect()->route('dashboard');
+    }
+
+    /*public function login(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'password' => 'required'
+        ]);
+
+
+        if(auth()->guard('administrador')->attempt(['name' => request('name'), 'password' => request('password')])){
+
+            config(['auth.guards.api.provider' => 'administrador']);
+            
+            $administrador = Administrador::select('administradors.*')->find(auth()->guard('administrador')->user()->id);
+            $success =  $administrador;
+            $success['token'] =  $administrador->createToken('MyApp',['administrador'])->accessToken; 
+
+            return response()->json($success, 200);
+        }else{ 
+            return response()->json(['error' => ['Email and Password are Wrong.']], 200);
+        }
+    } */
 
     public function houses(){
         $houses = House::orderBy('id','desc')
@@ -81,7 +156,8 @@ class AdministradorController extends Controller
         return view('administrador.houses',compact('houses'));
     }
 
-    public function destroy(House $house){
+    public function destroy(Request $request){
+        $house = House::where('id',$request['idHouse'])->first();
         $house->delete();
 
         return redirect()->route('dashboard.houses');
@@ -151,13 +227,14 @@ class AdministradorController extends Controller
             $categories = Category::all();
             $locations = Location::all();
             $carousel = House_Images::where('house_id',$house['id'])->get();
+            $detail = House_Detail::where('house_id',$house['id'])->first();
         }catch(Exception $exception){
             return back()->with([
                 'message'=>$exception->getMessage()
             ]);
         }
 
-        return view('administrador.editHouse',compact('house','locations','categories','carousel'));
+        return view('administrador.editHouse',compact('house','locations', 'detail','categories','carousel'));
     }
 
     public function update(Request $request,House $house){
