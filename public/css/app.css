@@ -4618,6 +4618,20 @@ body {
   font-family: "Source Sans Pro", sans-serif;
 }
 
+.btn-bg-primary {
+  background-color: #5ec9e9;
+  opacity: 0.9;
+  color: white;
+  transition: all 0.5s;
+}
+.btn-bg-primary:hover {
+  opacity: 1;
+  color: white;
+}
+
+#administrador {
+  min-height: 100vh;
+}
 #administrador form {
   width: 90%;
 }
@@ -4669,7 +4683,7 @@ body {
   width: 100%;
   min-height: 100vh;
   margin-top: 3rem;
-  background-color: #c5c5dc;
+  background-color: #ebedef;
 }
 @media (min-width: 992px) {
   .content {
@@ -4714,7 +4728,7 @@ body {
 .content .houses svg {
   font-size: 1.5rem;
 }
-.content .active {
+.content .error {
   color: red;
   font-weight: bold;
 }
@@ -4726,6 +4740,29 @@ body {
   height: 9rem;
   -o-object-fit: cover;
      object-fit: cover;
+}
+.content #addHouse {
+  color: white;
+}
+.content .add-house {
+  min-height: 92vh;
+}
+.content .add-house .line {
+  border: 1px solid #ebedef;
+}
+.content .add-house .form {
+  border-radius: 10px;
+  background-color: white;
+}
+.content .add-house .btn-back {
+  width: 5rem;
+}
+.content .avatar {
+  width: 2.5rem;
+  border-radius: 50rem;
+}
+.content .dropdown-toggle::after {
+  display: none;
 }
 
 /*  @import "../../node_modules/bootstrap/scss/bootstrap";  */

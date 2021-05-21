@@ -1,4 +1,7 @@
 function main(){
+    $('#collapseAside').on('click',function(e){
+        console.log('entra');
+    })
     $("#image").on('change',function(){
         readURL(this);
     });

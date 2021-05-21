@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="administrador" class="d-flex flex-column align-items-center justify-content-center">
-        <h1 class="text-center my-3">Inicie sesión:</h1>
+        <h1 class="text-center mb-3">Inicie sesión:</h1>
         <form class="mb-3" action="{{route('administrador.login')}}" method="POST">
     
             @csrf

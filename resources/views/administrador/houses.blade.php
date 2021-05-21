@@ -2,6 +2,18 @@
 
 @section('title', 'Houses')
 
+@section('breadcrumb')
+
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-light">
+        <li class="breadcrumb-item"><a href="{{route('administrador.home')}}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Alojamientos</li>
+    </ol>
+</nav>
+
+@endsection
+
 @section('content')
     <div class="d-flex flex-column justify-content-center align-items-center">
 
@@ -10,20 +22,20 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Casa</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Alojamiento</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        ¿Esta seguro de que desea eliminar la casa?
+                        ¿Esta seguro de que desea eliminar el alojamiento?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                         <form id="formDelete" action="{{route('dashboard.destroy')}}" method="POST">
                             @csrf
                             {{-- @method('delete') --}}
-                            <input class="btn btn-primary" type="submit" value="Eliminar">
+                            <input class="btn btn-danger" type="submit" value="Eliminar">
                         </form>
                     </div>
                 </div>
@@ -31,7 +43,7 @@
         </div>
 
         <h1 class="text-center mt-3">Casas</h1>   
-        <a href="{{route('dashboard.addHouse')}}" class="btn btn-dark"><i class="fas fa-plus mr-2"></i> Nueva casa</a>
+        <a id="addHouse" href="{{route('dashboard.addHouse')}}" class="btn btn-bg-primary"><i class="fas fa-plus mr-2"></i> Nuevo alojamiento</a>
 
         @foreach ($houses as $house) 
         <div class="row m-0 mt-2 mb-2 p-3 houses d-flex justify-content-center align-items-center">
@@ -57,7 +69,7 @@
 @endsection
 
 @section('back')
-    <a class="btn btn-dark ml-5 my-3" href={{ route('administrador.home')}}><i class="fas fa-arrow-left"></i></a>
+    <a class="btn btn-bg-primary ml-5 my-3" href={{ route('administrador.home')}}><i class="fas fa-arrow-left"></i></a>
 @endsection
 
 @push('head')

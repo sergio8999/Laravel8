@@ -13,6 +13,13 @@
 <body>
     @include('administrador.partials.aside')
     <main class="content">
+        @include('administrador.partials.nav')
+        <div class="line mt-1">
+
+        </div>
+        <div>
+            @yield('breadcrumb')
+        </div>
         <div class="container">
             @yield('content')
         </div>

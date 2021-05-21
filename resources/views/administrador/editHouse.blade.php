@@ -1,6 +1,20 @@
 @extends('administrador.dashboard')
+
+@section('breadcrumb')
+
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb bg-light">
+        <li class="breadcrumb-item"><a href="{{route('administrador.home')}}">Home</a></li>
+        <li class="breadcrumb-item"><a href="{{route('dashboard.houses')}}">Alojamientos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Editar alojamiento</li>
+    </ol>
+</nav>
+
+@endsection
+
 @section('content')
-    <h2 class="text-center pt-3 mb-4">Editar casa</h2>
+    <h2 class="text-center pt-3 mb-4">Editar alojamiento</h2>
     
     <form action="{{route('dashboard.update',$house)}}" method="POST" enctype="multipart/form-data">
 
@@ -16,7 +30,7 @@
                     <input type="text" class="form-control" placeholder="Nombre" value="{{old('name',$house['name'])}}" aria-label="Username" aria-describedby="basic-addon1" name="name">
                 </div>
                 @error('name')
-                        <small class="active">*{{$message}}</small>
+                        <small class="error">*{{$message}}</small>
                 @enderror
             </div>
 
@@ -28,7 +42,7 @@
                     <input type="text" class="form-control" placeholder="Huésped" value="{{old('host',$house['host'])}}" aria-label="Username" aria-describedby="basic-addon1" name="host">
                 </div>
                 @error('host')
-                        <small class="active">*{{$message}}</small>
+                        <small class="error">*{{$message}}</small>
                 @enderror
             </div>
         </div>
@@ -41,7 +55,7 @@
                     <input type="text" class="form-control" placeholder="Precio" value="{{old('price',$house['price'])}}" aria-label="Username" aria-describedby="basic-addon1" name="price">
                 </div>
                 @error('price')
-                    <small class="active">*{{$message}}</small>
+                    <small class="error">*{{$message}}</small>
                 @enderror
             </div>
         </div>
@@ -50,7 +64,7 @@
             <div>
                 <input type="file" value="{{old('image',$house['url'])}}" id="image" name="image">   
                 @error('image')
-                    <small class="active d-block">*{{$message}}</small>
+                    <small class="error d-block">*{{$message}}</small>
                 @enderror 
             </div>
             <div class="mt-2">
@@ -67,7 +81,7 @@
                     <textarea class="form-control" aria-label="With textarea" placeholder="Descripcion" name="description">{{old('description',$house['description'])}}</textarea>
                 </div>
                 @error('description')
-                        <small class="active">*{{$message}}</small>
+                        <small class="error">*{{$message}}</small>
                 @enderror
             </div>
         </div>      
@@ -85,7 +99,7 @@
                     </select>
                 </div>
                 @error('location')
-                    <small class="active">*{{$message}}</small>
+                    <small class="error">*{{$message}}</small>
                 @enderror
             </div>
             <div class="col-12 col-lg-6 mb-3">
@@ -100,7 +114,7 @@
                     </select>
                 </div>
                 @error('category')
-                    <small class="active">*{{$message}}</small>
+                    <small class="error">*{{$message}}</small>
                 @enderror
             </div>
         </div>    
@@ -142,7 +156,7 @@
                     </select>
                     @error('bedrooms')
                         <br>
-                        <small class="active">*{{$message}}</small>
+                        <small class="error">*{{$message}}</small>
                         <br>
                     @enderror
                 </div>
@@ -159,7 +173,7 @@
                     </select>
                     @error('beds')
                         <br>
-                        <small class="active">*{{$message}}</small>
+                        <small class="error">*{{$message}}</small>
                         <br>
                     @enderror
                 </div>
@@ -203,7 +217,7 @@
 @endsection
 
 @section('back')
-    <a class="btn btn-dark ml-5 mt-3" href={{ route('dashboard.houses')}}><i class="fas fa-arrow-left"></i></a>
+    <a class="btn btn-bg-primary ml-5 mt-3" href={{ route('dashboard.houses')}}><i class="fas fa-arrow-left"></i></a>
 @endsection
 
 @push('head')

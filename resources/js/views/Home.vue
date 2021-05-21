@@ -78,7 +78,7 @@ export default({
     .hero{
         width: 100%;
         height: 80vh;
-        background-color: $color-primary;
+        background-color: #000000;
 
         img{
             width: 100%;
