@@ -10,6 +10,7 @@ function main(){
         $('form').append($('<input type="hidden" id="deletedImages">').attr({'name':'deletedImages','value':carousel}));        
     })
 
+
     $('#image').on('change',function(){
         readURL(this);
     })

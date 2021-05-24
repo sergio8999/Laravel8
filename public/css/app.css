@@ -4647,13 +4647,19 @@ body {
 .dashboard svg {
   width: 1.2rem;
 }
+.dashboard .bg-aside {
+  background-color: #35435b;
+}
+.dashboard #sideNav {
+  width: 100%;
+}
 @media (min-width: 992px) {
   .dashboard #sideNav {
     text-align: center;
     position: fixed;
     display: flex;
     flex-direction: column;
-    width: 15rem;
+    width: 11rem;
     height: 100vh;
   }
   .dashboard #sideNav .navbar-collapse {
@@ -4679,6 +4685,35 @@ body {
   }
 }
 
+.hidden-sideNav {
+  margin-left: 0rem;
+  width: 100%;
+}
+.hidden-sideNav #sideNav {
+  width: 100% !important;
+}
+@media (min-width: 992px) {
+  .hidden-sideNav {
+    width: 87%;
+    margin-left: 3rem;
+  }
+  .hidden-sideNav #navbarNavAltMarkup {
+    margin-top: 1rem;
+  }
+}
+
+.visible-sideNav {
+  margin-left: 0rem;
+}
+.visible-sideNav #sideNav {
+  width: 100% !important;
+}
+@media (min-width: 992px) {
+  .visible-sideNav {
+    margin-left: 11rem;
+  }
+}
+
 .content {
   width: 100%;
   min-height: 100vh;
@@ -4688,7 +4723,6 @@ body {
 @media (min-width: 992px) {
   .content {
     width: auto;
-    margin-left: 15rem;
     margin-top: 0;
   }
 }
@@ -4727,6 +4761,26 @@ body {
 }
 .content .houses svg {
   font-size: 1.5rem;
+}
+.content .btn-delete-carousel {
+  background-color: #dc3545;
+  transition: all 0.5s;
+}
+.content .btn-delete-carousel:hover {
+  border: 1px solid #dc3545;
+  background-color: white;
+}
+.content .btn-delete-carousel:hover .btn-delete-carousel-icon {
+  color: #dc3545;
+}
+.content .btn-delete-carousel-icon {
+  color: white;
+}
+.content .btn-delete-carousel-icon {
+  color: white;
+}
+.content .btn-delete-carousel-icon:hover {
+  color: #dc3545;
 }
 .content .error {
   color: red;

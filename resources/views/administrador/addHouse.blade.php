@@ -101,7 +101,7 @@
                             @endforeach
                         </select>
                     </div>
-                    @error('location')
+                    @error('category')
                         <small class="error">*{{$message}}</small>
                     @enderror
                 </div>
@@ -183,7 +183,7 @@
 @endsection
 
 @section('back')
-    <a class="btn btn-bg-primary ml-5 mt-3 btn-back" href={{ route('dashboard.houses')}}><i class="fas fa-arrow-left"></i></a>
+    <a class="btn btn-bg-primary ml-5 mb-3 btn-back" href={{ route('dashboard.houses')}}><i class="fas fa-arrow-left"></i></a>
 @endsection
 
 @push('head')

@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex justify-content-between py-0">
       <ul class="navbar-nav">
-        <li class="nav-item" id="collapseAside">
-          <a  class="btn" collapse="false"><i class="fas fa-bars"></i></a>
+        <li class="nav-item" id="collapseAside" collapse="false">
+          <a  class="btn d-lg-block d-none"><i class="fas fa-bars"></i></a>
         </li>
       </ul>
-      <ul class="navbar-nav">
+      <ul class="navbar-nav d-flex flex-row mt-2">
         <li class="nav-item d-flex justify-content-center align-items-center">
             <a class="btn"><i class="far fa-bell"></i></a>
         </li>

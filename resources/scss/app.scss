@@ -57,7 +57,12 @@ $color-red: #ef0e0e;
             width: 1.2rem;
         }
 
+        .bg-aside{
+            background-color: #35435b;
+        }
+
         #sideNav {
+            width: 100%;
 
             @media (min-width: 992px) {
         
@@ -65,7 +70,7 @@ $color-red: #ef0e0e;
                 position: fixed;
                 display: flex;
                 flex-direction: column;
-                width: 15rem;
+                width: 11rem;
                 height: 100vh;   
                 
                 .navbar-collapse{
@@ -94,8 +99,35 @@ $color-red: #ef0e0e;
                 }
             }
         }
- 
 }
+
+ .hidden-sideNav{
+    margin-left: 0rem;
+    width: 100%;
+     #sideNav{
+        width: 100% !important;
+    }
+
+    @media (min-width: 992px){
+        width: 87%;
+        margin-left: 3rem;
+
+        #navbarNavAltMarkup{
+            margin-top: 1rem;
+        }
+    }
+ } 
+
+.visible-sideNav{
+    margin-left: 0rem;
+    #sideNav{
+        width: 100% !important;
+    }
+
+    @media (min-width: 992px){
+        margin-left: 11rem;
+    }
+} 
 
 .content{
     width: 100%;
@@ -104,7 +136,6 @@ $color-red: #ef0e0e;
     background-color: #ebedef;
     @media (min-width: 992px){
         width: auto;
-        margin-left: 15rem;
         margin-top: 0;
     }
     
@@ -149,6 +180,35 @@ $color-red: #ef0e0e;
             font-size: 1.5rem;
         }
     }   
+
+    .btn-delete-carousel{
+        background-color: #dc3545;
+        transition: all .5s;
+
+        &:hover{
+            border: 1px solid #dc3545;
+            background-color: white;
+
+            .btn-delete-carousel-icon{
+                color: #dc3545;
+            }
+        }
+    
+        &-icon{
+            color: white;
+        }
+
+
+
+
+        &-icon{
+            color: white;
+
+            &:hover{
+                color: #dc3545;
+            }
+        }
+    }
 
     .error{
         color: red;

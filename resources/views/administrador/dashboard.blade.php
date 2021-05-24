@@ -8,11 +8,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
     <link rel="stylesheet" href="{{mix('css/app.css')}}?{{date('YmdHis')}}" type="text/css">
     <!-- Scripts -->
+    <script src="{{ asset('js/components/admin.js')}}"></script>
     @stack('head')
 </head>
 <body>
     @include('administrador.partials.aside')
-    <main class="content">
+    <main id="content" class="content visible-sideNav">
         @include('administrador.partials.nav')
         <div class="line mt-1">
 
