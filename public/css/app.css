@@ -4650,6 +4650,9 @@ body {
 .dashboard .bg-aside {
   background-color: #35435b;
 }
+.dashboard #title-dashboard {
+  color: #5ec9e9;
+}
 .dashboard #sideNav {
   width: 100%;
 }
@@ -4688,9 +4691,7 @@ body {
 .hidden-sideNav {
   margin-left: 0rem;
   width: 100%;
-}
-.hidden-sideNav #sideNav {
-  width: 100% !important;
+  transition: all 1s;
 }
 @media (min-width: 992px) {
   .hidden-sideNav {
@@ -4704,9 +4705,8 @@ body {
 
 .visible-sideNav {
   margin-left: 0rem;
-}
-.visible-sideNav #sideNav {
-  width: 100% !important;
+  transition: all 1s;
+  width: 100%;
 }
 @media (min-width: 992px) {
   .visible-sideNav {

@@ -28,7 +28,7 @@
                 <div class="form-group row">
                     <label for="name" class="col-sm-2 col-form-label">Nombre:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Nombre" id="name" value="{{old('name')}}">
+                        <input type="text" class="form-control" placeholder="Nombre" id="name" value="{{old('name')}}" name="name">
                     </div>
                     @error('name')
                         <small class="error">*{{$message}}</small>
@@ -38,7 +38,7 @@
                 <div class="form-group row">
                     <label for="host" class="col-sm-2 col-form-label">Host:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Huesped" id="host" value="{{old('host')}}">
+                        <input type="text" class="form-control" placeholder="Huesped" id="host" value="{{old('host')}}" name="host">
                     </div>
                     @error('host')
                         <small class="error">*{{$message}}</small>
@@ -48,7 +48,7 @@
                 <div class="form-group row">
                     <label for="price" class="col-sm-2 col-form-label">Precio:</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" placeholder="Precio" id="price" value="{{old('price')}}">
+                        <input type="text" class="form-control" placeholder="Precio" id="price" value="{{old('price')}}" name="price">
                     </div>
                     @error('price')
                         <small class="error">*{{$message}}</small>
@@ -63,8 +63,14 @@
                             <small class="error d-block">*{{$message}}</small>
                         @enderror 
                     </div>
-                    <div class="mt-2">
+                </div> 
+
+                <div class="form-group row">
+                    <label for="image" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <div class="mt-2">
                         <img src="#" class="display image" id="img" class="image" alt="Imagen"/>
+                        </div>
                     </div>
                 </div> 
 
@@ -167,10 +173,16 @@
                             <small class="error d-block">*{{$message}}</small>
                         @enderror 
                     </div>
-                    <div id="divCarousel" class="mt-2">
-            
-                    </div>
+                    
                 </div> 
+
+                <div class="form-group row mt-2">
+                    <label for="carousel" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
+                        <div id="divCarousel" class="mt-3">
+                        </div>
+                    </div>
+            </div> 
 
                 <div class="d-flex justify-content-between mt-4">
                     <input type="reset" id="reset" class="btn bg-danger text-light" value="Resetear"></input>

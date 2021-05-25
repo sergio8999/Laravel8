@@ -27,7 +27,7 @@ function readURL(input) {
                     if(input.id == 'image')
                         $('#img').attr('src', e.target.result).css('display','block').addClass('display');
                     else
-                         $('#divCarousel').append($('<img>').attr({'src' : e.target.result, 'alt' : 'imagen'}).addClass(['image','mr-2']));
+                         $('#divCarousel').append($('<img>').attr({'src' : e.target.result, 'alt' : 'imagen'}).addClass(['image','mr-2','mt-2']));
                 }
     
             reader.readAsDataURL(input.files[i]);
