@@ -50,7 +50,7 @@
             <div class="col-12 col-md-5 d-flex flex-column align-items-center p-3 resume order-0 order-md-1">
                 <div class="row">
                     <div class="col-4">
-                        <img :src="`/images/${reservationData.image}`" :alt="reservationData.image">
+                        <img :src="`/storage/${reservationData.image}`" :alt="reservationData.image">
                     </div>
                     <div class="col-8">
                         <h5>{{reservationData.name}}</h5>

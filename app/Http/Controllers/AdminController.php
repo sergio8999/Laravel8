@@ -8,6 +8,7 @@ use App\Models\House;
 use App\Models\House_Detail;
 use App\Models\House_Images;
 use App\Models\Location;
+use App\Models\Reservation;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Psr7\Message;
@@ -158,9 +159,21 @@ class AdminController extends Controller
 
     public function destroy(Request $request){
         $house = House::where('id',$request['idHouse'])->first();
-        $house->delete();
+        $reservation = Reservation::where('house_id',$house['id'])->get();
+        $dateNow = Carbon::now()->timestamp;
+        $delete = true;
+        foreach ($reservation as $value) {
+            $dateReservation = Carbon::createFromFormat('d/m/Y',$value['departureDay'])->timestamp;
+            if($dateReservation >= $dateNow)
+                $delete = false;
+        }
 
-        return redirect()->route('dashboard.houses');
+        if($delete){
+            $house->delete();
+            return redirect()->route('dashboard.houses');
+        }
+        
+        return redirect()->route('dashboard.houses')->with('message','Hay reservas para este alojamiento');
     }
     
     public function addHouse(){

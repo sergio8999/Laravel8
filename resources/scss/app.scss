@@ -67,7 +67,34 @@ $color-red: #ef0e0e;
 
         #sideNav {
             width: 100%;
-            
+
+            .bg-hover{
+                width: 100%;
+                display:flex;
+                justify-content: space-between;
+
+                &:hover{
+                    background-color: #321FDB;
+                }
+            }
+
+            .bg-dropdown{
+                background-color: #303C50;
+            }
+
+            ul{
+                cursor: pointer;
+            }
+
+            .tamanoIcon{
+                font-size: .6rem;
+            }
+
+            #dropdown-houses{
+                transition: all 1s;
+                
+                
+            }
 
             @media (min-width: 992px) {
         
@@ -75,7 +102,7 @@ $color-red: #ef0e0e;
                 position: fixed;
                 display: flex;
                 flex-direction: column;
-                width: 11rem;
+                width: 14rem;
                 height: 100vh;   
                 
                 .navbar-collapse{
@@ -113,7 +140,7 @@ $color-red: #ef0e0e;
 
     @media (min-width: 992px){
         width: 87%;
-        margin-left: 3rem;
+        margin-left: 3.2rem;
 
         #navbarNavAltMarkup{
             margin-top: 1rem;
@@ -127,7 +154,7 @@ $color-red: #ef0e0e;
     width: 100%;
 
     @media (min-width: 992px){
-        margin-left: 11rem;
+        margin-left: 14rem;
     }
 } 
 

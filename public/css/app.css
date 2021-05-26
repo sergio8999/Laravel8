@@ -4656,13 +4656,33 @@ body {
 .dashboard #sideNav {
   width: 100%;
 }
+.dashboard #sideNav .bg-hover {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.dashboard #sideNav .bg-hover:hover {
+  background-color: #321FDB;
+}
+.dashboard #sideNav .bg-dropdown {
+  background-color: #303C50;
+}
+.dashboard #sideNav ul {
+  cursor: pointer;
+}
+.dashboard #sideNav .tamanoIcon {
+  font-size: 0.6rem;
+}
+.dashboard #sideNav #dropdown-houses {
+  transition: all 1s;
+}
 @media (min-width: 992px) {
   .dashboard #sideNav {
     text-align: center;
     position: fixed;
     display: flex;
     flex-direction: column;
-    width: 11rem;
+    width: 14rem;
     height: 100vh;
   }
   .dashboard #sideNav .navbar-collapse {
@@ -4696,7 +4716,7 @@ body {
 @media (min-width: 992px) {
   .hidden-sideNav {
     width: 87%;
-    margin-left: 3rem;
+    margin-left: 3.2rem;
   }
   .hidden-sideNav #navbarNavAltMarkup {
     margin-top: 1rem;
@@ -4710,7 +4730,7 @@ body {
 }
 @media (min-width: 992px) {
   .visible-sideNav {
-    margin-left: 11rem;
+    margin-left: 14rem;
   }
 }
 
