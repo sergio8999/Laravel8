@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\House;
 use App\Models\House_Detail;
 use App\Models\House_Images;
@@ -49,13 +50,16 @@ class HouseController extends Controller
             ->with('category','details','location','images')
             ->get();
 
+            $category = Category::where('id',$id)->first();
+
             if($houses == null )
                 return response()->json([
                     'houses'=> 404
                 ]);
 
             return response()->json([
-                'houses'=> $houses
+                'houses'=> $houses,
+                'category'=> $category['name']
             ]);
         }catch(Exception $exception){
             return response()->json([

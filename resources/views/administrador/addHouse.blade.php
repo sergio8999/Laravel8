@@ -191,7 +191,6 @@
             </form> 
         </div>
     </div> 
-    
 @endsection
 
 @section('back')

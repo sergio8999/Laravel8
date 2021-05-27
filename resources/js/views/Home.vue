@@ -9,7 +9,7 @@
             <div class="row d-flex justify-content-center align-items-center my-5">
                 <transition-group name="list" appear>
                     <div class="categories-category col-12 col-md-5 col-lg-3 mt-3 mt-md-4 mt-lg-0" v-for="category in categories" :key="category.id">
-                        <router-link :to="{name:'category',params:{id:category.id},query:{name:category.name}}">
+                        <router-link :to="{name:'category',params:{id:category.id}}">
                             <img class="categories-img" :src="`/storage/${category.url}`" alt="">
                             <span class="categories-text">{{category.name}}</span>
                         </router-link>
@@ -61,8 +61,6 @@ export default({
                 try{
                     let response = await getCategories();
                     categories.value = response.data.categories;
-                    console.log(response.data.categories)
-                    debugger
                 }catch(e){
                     console.log(e);
                 }            

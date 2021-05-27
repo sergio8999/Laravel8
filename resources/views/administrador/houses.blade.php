@@ -45,8 +45,27 @@
         <h1 class="text-center mt-3">Casas</h1>   
         <a id="addHouse" href="{{route('dashboard.addHouse')}}" class="btn btn-bg-primary"><i class="fas fa-plus mr-2"></i> Nuevo alojamiento</a>
 
-        @foreach ($houses as $house) 
-        <div class="row m-0 mt-2 mb-2 p-3 houses d-flex justify-content-center align-items-center">
+
+        <div class="row row-cols-1 row-cols-md-3 mt-3">
+            @foreach ($houses as $house) 
+            <div class="col mb-4">
+              <div class="card h-100">
+                  <div id="card-image">
+                    <img src="/storage/{{$house['url']}}" alt="{{$house['name']}}" class="card-img-top">    
+                  </div>
+                <div class="card-body">
+                  <h5 class="card-title"><b>{{$house['name']}}</b></h5>
+                  <p class="card-text">{{$house['description']}}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-around">
+                        <a class="btn" href="{{route('dashboard.edit',$house)}}" tag="button"><i class="fas fa-edit lead btn-edit"></i></a>
+                        <a class="btn" id="{{$house['id']}}" v-tooltip="'Eliminar'" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt lead btn-delete"></i></a>
+                    </div>
+                </div>
+              </div>
+            </div>
+        {{-- <div class="row m-0 mt-2 mb-2 p-3 houses d-flex justify-content-center align-items-center">
                
 
                 <div class="col-3">
@@ -59,8 +78,9 @@
                     <a class="btn" href="{{route('dashboard.edit',$house)}}" tag="button"><i class="fas fa-edit lead btn-edit"></i></a>
                     <a class="btn" id="{{$house['id']}}" v-tooltip="'Eliminar'" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt lead btn-delete"></i></a>
                 </div>
-            </div>
+            </div> --}}
         @endforeach
+        </div>
     </div>
 
     {{-- <div class="d-flex justify-content-center align-items-start">

@@ -101,7 +101,7 @@ export default ({
         const houseFilter = ref();
         const houses = ref(null);
         const locations = ref([]);
-        const category = ref(route.currentRoute.value.query.name);
+        const category = ref();
         const selectProvince = ref('Álava');
         const selectCategory = ref('Alojamientos enteros');
         const filterActivated = ref(false);
@@ -128,6 +128,7 @@ export default ({
                 let response = await getHouseCategory(route.currentRoute.value.params.id);
                     houses.value = response.data.houses;
                     houseFilter.value = response.data.houses;
+                    category.value = response.data.category;
                 
                 
             }catch(e){

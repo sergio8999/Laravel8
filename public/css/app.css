@@ -4670,6 +4670,9 @@ body {
 .dashboard #sideNav ul {
   cursor: pointer;
 }
+.dashboard #sideNav .active {
+  background-color: #321FDB;
+}
 .dashboard #sideNav .tamanoIcon {
   font-size: 0.6rem;
 }
@@ -4739,15 +4742,32 @@ body {
   min-height: 100vh;
   margin-top: 3rem;
   background-color: #ebedef;
+  /* p{
+      font-size: 1.5rem;
+  } */
+  /*     .houses{
+          box-shadow: 0 0 3px black;
+          width: 100%;
+
+
+
+          @media (min-width: 992px){
+              width: 80%;
+          }
+
+          img{
+              width: 100%;
+              height: 5rem;
+              border-radius: 10px 10px;
+              object-fit: cover;
+          }        
+      }   */
 }
 @media (min-width: 992px) {
   .content {
     width: auto;
     margin-top: 0;
   }
-}
-.content p {
-  font-size: 1.5rem;
 }
 .content .select {
   width: 20rem;
@@ -4757,29 +4777,21 @@ body {
 .content .select:hover {
   color: #007bff;
 }
-.content .houses {
-  box-shadow: 0 0 3px black;
-  width: 100%;
+.content .card #card-image {
+  height: 16rem;
 }
-@media (min-width: 992px) {
-  .content .houses {
-    width: 80%;
-  }
-}
-.content .houses img {
-  width: 100%;
-  height: 5rem;
-  border-radius: 10px 10px;
+.content .card #card-image img {
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
-.content .houses .btn-delete {
+.content .card .btn-delete {
   color: #ef0e0e;
 }
-.content .houses .btn-edit {
+.content .card .btn-edit {
   color: #007bff;
 }
-.content .houses svg {
+.content .card svg {
   font-size: 1.5rem;
 }
 .content .btn-delete-carousel {

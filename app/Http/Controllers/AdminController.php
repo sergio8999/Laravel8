@@ -107,7 +107,7 @@ class AdminController extends Controller
                 $token->expires_at = Carbon::now()->addWeeks(1);
 
             $token->save();
-            return redirect()->route('administrador.home');
+            return redirect()->route('administrador.home')->with('message','Bienvenido!!!');
         }else
              return back()->withErrors(['administrador' => 'No eres administrador']);
         /* return response()->json([

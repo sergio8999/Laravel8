@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dfb862e516e14182da27407b85e7a47f",
+    "content-hash": "a139b8f9186eefb6bbc255c6e02f4e98",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,68 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
             },
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "brian2694/laravel-toastr",
+            "version": "5.56",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/brian2694/laravel-toastr.git",
+                "reference": "98137445f55d981f3587800349f1aa7b045d7974"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/brian2694/laravel-toastr/zipball/98137445f55d981f3587800349f1aa7b045d7974",
+                "reference": "98137445f55d981f3587800349f1aa7b045d7974",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/session": ">=5.2.7",
+                "illuminate/support": ">=5.2.7",
+                "php": ">=5.5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Brian2694\\Toastr\\ToastrServiceProvider"
+                    ],
+                    "aliases": {
+                        "Toastr": "Brian2694\\Toastr\\Facades\\Toastr"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Brian2694\\Toastr\\": "src/"
+                },
+                "files": [
+                    "src/helper.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "brian2694",
+                    "email": "briansanchez2694@gmail.com"
+                }
+            ],
+            "description": "toastr.js for Laravel",
+            "homepage": "https://github.com/brian2694/laravel-toastr",
+            "keywords": [
+                "laravel",
+                "notification",
+                "php",
+                "toastr"
+            ],
+            "support": {
+                "issues": "https://github.com/brian2694/laravel-toastr/issues",
+                "source": "https://github.com/brian2694/laravel-toastr/tree/5.56"
+            },
+            "time": "2021-05-12T19:27:46+00:00"
         },
         {
             "name": "brick/math",
@@ -1522,64 +1584,6 @@
             "time": "2021-03-19T20:51:49+00:00"
         },
         {
-            "name": "leafo/scssphp",
-            "version": "v0.6.7",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/leafo/scssphp.git",
-                "reference": "562213cd803e42ea53b0735554794c4022d8db89"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/leafo/scssphp/zipball/562213cd803e42ea53b0735554794c4022d8db89",
-                "reference": "562213cd803e42ea53b0735554794c4022d8db89",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "kherge/box": "~2.5",
-                "phpunit/phpunit": "~3.7",
-                "squizlabs/php_codesniffer": "~2.5"
-            },
-            "bin": [
-                "bin/pscss"
-            ],
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Leafo\\ScssPhp\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Leaf Corcoran",
-                    "email": "leafot@gmail.com",
-                    "homepage": "http://leafo.net"
-                }
-            ],
-            "description": "scssphp is a compiler for SCSS written in PHP.",
-            "homepage": "http://leafo.github.io/scssphp/",
-            "keywords": [
-                "css",
-                "less",
-                "sass",
-                "scss",
-                "stylesheet"
-            ],
-            "support": {
-                "issues": "https://github.com/leafo/scssphp/issues",
-                "source": "https://github.com/leafo/scssphp/tree/v0.6.7"
-            },
-            "abandoned": "scssphp/scssphp",
-            "time": "2017-02-23T05:07:33+00:00"
-        },
-        {
             "name": "league/commonmark",
             "version": "1.5.7",
             "source": {
@@ -2475,52 +2479,6 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
-        },
-        {
-            "name": "pawlox/laravel-scss",
-            "version": "v0.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pawlox/laravel-scss.git",
-                "reference": "20ae0efa8380c17ebb6981ea8a07c60afacb21e5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pawlox/laravel-scss/zipball/20ae0efa8380c17ebb6981ea8a07c60afacb21e5",
-                "reference": "20ae0efa8380c17ebb6981ea8a07c60afacb21e5",
-                "shasum": ""
-            },
-            "require": {
-                "leafo/scssphp": "0.6.7"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pawlox\\LaravelScss\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Paweł Marciniak",
-                    "email": "pawmarci@gmail.com"
-                }
-            ],
-            "description": "Adds Blade directive for compiling SCSS to CSS in templates",
-            "keywords": [
-                "blade",
-                "laravel",
-                "sass",
-                "scss"
-            ],
-            "support": {
-                "issues": "https://github.com/pawlox/laravel-scss/issues",
-                "source": "https://github.com/pawlox/laravel-scss/tree/v0.1.1"
-            },
-            "time": "2017-08-10T09:53:09+00:00"
         },
         {
             "name": "php-http/message-factory",

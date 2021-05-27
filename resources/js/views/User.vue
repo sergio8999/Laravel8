@@ -55,6 +55,9 @@
                                     </div>
                                     <div class="my-2 d-flex justify-content-around">
                                         <div class="row card-reservation-description">
+                                            <div class="col-12 mb-2 text-center card-reservation-description-name">
+                                                <b>{{reservation.house.name}}</b>
+                                            </div>
                                             <div class="col-6">
                                                 <b>D.llegada:</b> {{reservation.arrivalDay}}
                                             </div>
@@ -197,8 +200,11 @@ export default ({
         &-description{
             width: 90%;
             font-size: 0.9rem;
-        }
 
+            &-name{
+                font-size: 1rem;
+            }
+        }
     }
     
 

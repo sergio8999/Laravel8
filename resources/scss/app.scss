@@ -86,6 +86,10 @@ $color-red: #ef0e0e;
                 cursor: pointer;
             }
 
+            .active{
+                background-color: #321FDB;
+            }
+
             .tamanoIcon{
                 font-size: .6rem;
             }
@@ -168,9 +172,9 @@ $color-red: #ef0e0e;
         margin-top: 0;
     }
     
-    p{
+    /* p{
         font-size: 1.5rem;
-    }
+    } */
 
     .select{
         width: 20rem;
@@ -180,21 +184,18 @@ $color-red: #ef0e0e;
         &:hover{
             color: $color-blue;
         }
-    }        
-
-    .houses{
-        box-shadow: 0 0 3px black;
-        width: 100%;
-
-        @media (min-width: 992px){
-            width: 80%;
-        }
-
-        img{
-            width: 100%;
-            height: 5rem;
-            border-radius: 10px 10px;
-            object-fit: cover;
+    }    
+    
+    .card{
+        #card-image{
+            height: 16rem;
+    
+            & img{
+                height: 100%;
+                object-fit: cover;
+            }
+    
+            
         }
 
         .btn-delete{
@@ -208,7 +209,26 @@ $color-red: #ef0e0e;
         svg{
             font-size: 1.5rem;
         }
-    }   
+    }
+    
+
+/*     .houses{
+        box-shadow: 0 0 3px black;
+        width: 100%;
+
+        
+
+        @media (min-width: 992px){
+            width: 80%;
+        }
+
+        img{
+            width: 100%;
+            height: 5rem;
+            border-radius: 10px 10px;
+            object-fit: cover;
+        }        
+    }   */ 
 
     .btn-delete-carousel{
         background-color: #dc3545;

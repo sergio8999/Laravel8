@@ -291,7 +291,6 @@ export default ({
                 }                
             }else{
                 toast.add({severity:'error', summary: 'Error Message', detail:'Debe estar logueado', life: 3000});
-                router.push('/login');
             }
                 
         };

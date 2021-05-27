@@ -1,6 +1,7 @@
 function main(){
     if(sessionStorage.getItem('collapse'))
         setCollapse(sessionStorage.getItem('collapse'));
+       
 
     $('#collapseAside').on('click',function(e){
         setCollapse(e.currentTarget.attributes.collapse.value);
@@ -34,12 +35,14 @@ function main(){
                 $(target)[0].attributes.dropdown.value = "true";
                 $(left).addClass('d-none'); 
                 $(down).removeClass('d-none');
+                sessionStorage.setItem('dropdown',true)
             }else{
                 $('#dropdown-houses').addClass('d-none');
                 $(target)[0].attributes.dropdown.value = "false";
                 $(left).removeClass('d-none'); 
                 $(down).addClass('d-none');
                 $(target).removeClass('bg-dropdown');
+                sessionStorage.setItem('dropdown',false)
             } 
     })
     
