@@ -150,12 +150,11 @@ export default ({
                     disabledButton.value = false;
                 }catch(e){
                     console.log(e);
-                    toast.add({severity:'error', summary: 'Error Message', detail:'Numero de tarjeta invalido', life: 3000});
+                    toast.add({severity:'error', summary: 'Success Message', detail:'Error', life: 3000});
                     disabledButton.value.false;
                 }
             }else
-                toast.add({severity:'error', summary: 'Success Message', detail:'Error', life: 3000});
-
+                toast.add({severity:'error', summary: 'Error Message', detail:'Numero de tarjeta invalido', life: 3000});
         }
 
         const validatePayment = ()=>{
