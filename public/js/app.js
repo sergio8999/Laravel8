@@ -21604,8 +21604,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var reservationData = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)([]);
     var toast = (0,primevue_usetoast__WEBPACK_IMPORTED_MODULE_5__.useToast)();
     var disabledButton = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(false);
+    var numberTarget = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)('');
+    var paymentType = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(1);
     (0,vue__WEBPACK_IMPORTED_MODULE_2__.onMounted)(function () {
-      reservationData.value = _router__WEBPACK_IMPORTED_MODULE_1__.default.currentRoute.value.params;
+      var params = _router__WEBPACK_IMPORTED_MODULE_1__.default.currentRoute.value.params;
+
+      if (params.user) {
+        reservationData.value = params;
+        sessionStorage.setItem('reservation', JSON.stringify(params));
+      } else reservationData.value = JSON.parse(sessionStorage.getItem('reservation'));
+
       (0,_utils_checkLogin__WEBPACK_IMPORTED_MODULE_3__.getLogin)();
       /* console.log(moment(reservationData.value.arrivalDay+" "+reservationData.value.arrivalTime,'DD-MM-YYYY HH:mm').subtract(2,'days').format('DD/MM/YYYY HH:mm')) */
     });
@@ -21620,18 +21628,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (!validatePayment()) {
+                  _context.next = 24;
+                  break;
+                }
+
                 disabledButton.value = true;
-                _context.prev = 1;
-                _context.next = 4;
+                _context.prev = 2;
+                _context.next = 5;
                 return (0,_utils_api__WEBPACK_IMPORTED_MODULE_4__.setReservationHouse)(reservationData.value.arrivalDay, reservationData.value.departureDay, reservationData.value.taxes, reservationData.value.arrivalTime, reservationData.value.departureTime, reservationData.value.subtotal, reservationData.value.totalPrices, reservationData.value.user, reservationData.value.idHouse);
 
-              case 4:
+              case 5:
                 response = _context.sent;
                 console.log(response.data);
-                _context.next = 8;
+                _context.next = 9;
                 return (0,_utils_api__WEBPACK_IMPORTED_MODULE_4__.sendEmail)(store.state.informationUser.email, reservationData.value.nameHouse, reservationData.value.arrivalDay, reservationData.value.departureDay, reservationData.value.arrivalTime, reservationData.value.departureTime, reservationData.value.subtotal, reservationData.value.taxes, reservationData.value.totalPrices);
 
-              case 8:
+              case 9:
                 response2 = _context.sent;
                 console.log(response2.data);
                 _router__WEBPACK_IMPORTED_MODULE_1__.default.push('/user');
@@ -21643,27 +21656,39 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   life: 3000
                 });
                 disabledButton.value = false;
-                _context.next = 21;
+                _context.next = 22;
                 break;
 
-              case 16:
-                _context.prev = 16;
-                _context.t0 = _context["catch"](1);
+              case 17:
+                _context.prev = 17;
+                _context.t0 = _context["catch"](2);
                 console.log(_context.t0);
                 toast.add({
                   severity: 'error',
                   summary: 'Error Message',
-                  detail: 'Error al realizar la reserva',
+                  detail: 'Numero de tarjeta invalido',
                   life: 3000
                 });
                 disabledButton.value["false"];
 
-              case 21:
+              case 22:
+                _context.next = 25;
+                break;
+
+              case 24:
+                toast.add({
+                  severity: 'error',
+                  summary: 'Success Message',
+                  detail: 'Error',
+                  life: 3000
+                });
+
+              case 25:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, null, [[1, 16]]);
+        }, _callee, null, [[2, 17]]);
       }));
 
       return function setReservation() {
@@ -21671,11 +21696,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       };
     }();
 
+    var validatePayment = function validatePayment() {
+      var re = /^(?:4\d([\- ])?\d{6}\1\d{5}|(?:4\d{3}|5[1-5]\d{2}|6011)([\- ])?\d{4}\2\d{4}\2\d{4})$/;
+      return re.test(numberTarget.value);
+    };
+
     return {
       reservationData: reservationData,
       setReservation: setReservation,
       disabledButton: disabledButton,
-      getDayCancelation: getDayCancelation
+      getDayCancelation: getDayCancelation,
+      numberTarget: numberTarget,
+      paymentType: paymentType
     };
   }
 });
@@ -24642,59 +24674,128 @@ var _hoisted_15 = {
   "class": "input-group mb-3 s-flex flex-column"
 };
 
-var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<select class=\"custom-select\" id=\"inputGroupSelect01\" data-v-27394b05><option value=\"1\" data-v-27394b05>Tarjeta de crédito o débito</option><option value=\"2\" data-v-27394b05>Paypal</option><option value=\"3\" data-v-27394b05>Google Pay</option></select><input type=\"text\" class=\"form-control mt-2\" placeholder=\"Número de tarjeta\" aria-label=\"Username\" aria-describedby=\"basic-addon1\" data-v-27394b05><div class=\"d-flex flex-row\" data-v-27394b05><input type=\"text\" class=\"form-control caducidad\" placeholder=\"Caducidad\" aria-label=\"Caducidad\" aria-describedby=\"basic-addon1\" data-v-27394b05><input type=\"text\" class=\"form-control cvv\" placeholder=\"CVV\" aria-label=\"CVV\" aria-describedby=\"basic-addon1\" data-v-27394b05></div><input type=\"text\" class=\"form-control mt-2\" placeholder=\"Código Postal\" aria-label=\"CodigoPostal\" aria-describedby=\"basic-addon1\" data-v-27394b05><select class=\"custom-select mt-2\" id=\"inputGroupSelect02\" data-v-27394b05><option selected data-v-27394b05>País/región</option><option value=\"1\" data-v-27394b05>España</option><option value=\"2\" data-v-27394b05>Estados Unidos</option><option value=\"3\" data-v-27394b05>Francia</option></select><h4 class=\"my-4\" data-v-27394b05>Politica de cancelación</h4>", 6);
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "1"
+}, "Tarjeta de crédito o débito", -1
+/* HOISTED */
+);
 
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
+var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "2"
+}, "Paypal", -1
+/* HOISTED */
+);
+
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("option", {
+  value: "3"
+}, "Google Pay", -1
+/* HOISTED */
+);
+
+var _hoisted_19 = {
+  key: 1,
+  "class": "d-flex flex-row"
+};
+
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "text",
+  "class": "form-control caducidad",
+  placeholder: "Caducidad",
+  "aria-label": "Caducidad",
+  "aria-describedby": "basic-addon1"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("input", {
+  type: "text",
+  "class": "form-control cvv",
+  placeholder: "CVV",
+  "aria-label": "CVV",
+  "aria-describedby": "basic-addon1"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_22 = {
+  key: 2,
+  "class": "btn bg-dark text-light mt-2"
+};
+
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+  "class": "fab fa-paypal mr-2"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Vincular con Paypal ");
+
+var _hoisted_25 = {
+  key: 3,
+  "class": "btn bg-dark text-light mt-2"
+};
+
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("i", {
+  "class": "fab fa-google mr-2"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Vincular con Google ");
+
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<input type=\"text\" class=\"form-control mt-2\" placeholder=\"Código Postal\" aria-label=\"CodigoPostal\" aria-describedby=\"basic-addon1\" data-v-27394b05><select class=\"custom-select mt-2\" id=\"inputGroupSelect02\" data-v-27394b05><option selected data-v-27394b05>País/región</option><option value=\"1\" data-v-27394b05>España</option><option value=\"2\" data-v-27394b05>Estados Unidos</option><option value=\"3\" data-v-27394b05>Francia</option></select><h4 class=\"my-4\" data-v-27394b05>Politica de cancelación</h4>", 3);
+
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", {
   "class": "mt-2"
 }, "Asegúrate de que la política de cancelación de este anfitrión te venga bien. Es posible que nuestra Política de Causas de Fuerza Mayor no cubra las interrupciones del viaje causadas por eventos conocidos, como la COVID-19, o por eventos previsibles, como condiciones meteorológicas adversas habituales.", -1
 /* HOISTED */
 );
 
-var _hoisted_23 = {
+var _hoisted_32 = {
   "class": "col-12 col-md-5 d-flex flex-column align-items-center p-3 resume order-0 order-md-1"
 };
-var _hoisted_24 = {
+var _hoisted_33 = {
   "class": "row"
 };
-var _hoisted_25 = {
+var _hoisted_34 = {
   "class": "col-4"
 };
-var _hoisted_26 = {
+var _hoisted_35 = {
   "class": "col-8"
 };
-var _hoisted_27 = {
+var _hoisted_36 = {
   "class": "d-flex"
 };
-var _hoisted_28 = {
+var _hoisted_37 = {
   "class": "ml-2"
 };
 
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", {
   "class": "ml-2"
 }, "·", -1
 /* HOISTED */
 );
 
-var _hoisted_30 = {
+var _hoisted_39 = {
   "class": "ml-2"
 };
 
-var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", null, null, -1
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("hr", null, null, -1
 /* HOISTED */
 );
 
-var _hoisted_32 = {
+var _hoisted_41 = {
   "class": "row price"
 };
-var _hoisted_33 = {
+var _hoisted_42 = {
   "class": "col-12"
 };
 
-var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", null, "Detalles del precio:", -1
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h4", null, "Detalles del precio:", -1
 /* HOISTED */
 );
 
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Total: ", -1
+var _hoisted_44 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("b", null, "Total: ", -1
 /* HOISTED */
 );
 
@@ -24738,33 +24839,53 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", null, "Salida: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.departureDay) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.departureTime), 1
   /* TEXT */
-  ), _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Cancela antes del " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getDayCancelation) + " a las " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.arrivalTime) + " PM y consigue un reembolso del 50%, menos la primera noche y la tarifa de servicio. Más información", 1
+  ), _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("select", {
+    "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
+      return $setup.paymentType = $event;
+    }),
+    "class": "custom-select",
+    id: "inputGroupSelect01"
+  }, [_hoisted_16, _hoisted_17, _hoisted_18], 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.paymentType]]), $setup.paymentType == 1 ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("input", {
+    key: 0,
+    type: "text",
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
+      return $setup.numberTarget = $event;
+    }),
+    "class": "form-control mt-2",
+    placeholder: "Número de tarjeta",
+    "aria-label": "Username",
+    "aria-describedby": "basic-addon1"
+  }, null, 512
+  /* NEED_PATCH */
+  )), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $setup.numberTarget]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.paymentType == 1 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_19, [_hoisted_20, _hoisted_21])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.paymentType == 2 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", _hoisted_22, [_hoisted_23, _hoisted_24])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $setup.paymentType == 3 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("button", _hoisted_25, [_hoisted_26, _hoisted_27])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Cancela antes del " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.getDayCancelation) + " a las " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.arrivalTime) + " PM y consigue un reembolso del 50%, menos la primera noche y la tarifa de servicio. Más información", 1
   /* TEXT */
-  ), _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
+  ), _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("button", {
     type: "button",
     "class": "btn btn-dark",
-    onClick: _cache[1] || (_cache[1] = function () {
+    onClick: _cache[3] || (_cache[3] = function () {
       return $setup.setReservation && $setup.setReservation.apply($setup, arguments);
     }),
     disabled: $setup.disabledButton
   }, "Confirmar y pagar", 8
   /* PROPS */
-  , ["disabled"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
+  , ["disabled"])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("img", {
     src: "/storage/".concat($setup.reservationData.image),
     alt: $setup.reservationData.image
   }, null, 8
   /* PROPS */
-  , ["src", "alt"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.name), 1
+  , ["src", "alt"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h5", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.name), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.beds) + " cama/s", 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.beds) + " cama/s", 1
   /* TEXT */
-  ), _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.toilets) + " baño/s", 1
+  ), _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("span", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.toilets) + " baño/s", 1
   /* TEXT */
-  )])])]), _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_33, [_hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Subtotal (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.price) + "/h): " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.subtotal) + "€", 1
+  )])])]), _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Subtotal (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.price) + "/h): " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.subtotal) + "€", 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, "Impuestos: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.taxes) + "€", 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.totalPrices) + "€", 1
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("p", null, [_hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.reservationData.totalPrices) + "€", 1
   /* TEXT */
   )])])])])])])]);
 });

@@ -21,17 +21,19 @@
                 <h4 class="mt-4 mb-2">Pagar con</h4>
 
                 <div class="input-group mb-3 s-flex flex-column">
-                    <select class="custom-select" id="inputGroupSelect01">
+                    <select v-model="paymentType" class="custom-select" id="inputGroupSelect01">
                         <option value="1">Tarjeta de crédito o débito</option>
                         <option value="2">Paypal</option>
                         <option value="3">Google Pay</option>
                     </select>
 
-                    <input type="text" class="form-control mt-2" placeholder="Número de tarjeta" aria-label="Username" aria-describedby="basic-addon1">
-                    <div class="d-flex flex-row">
+                    <input v-if="paymentType == 1" type="text" v-model="numberTarget" class="form-control mt-2" placeholder="Número de tarjeta" aria-label="Username" aria-describedby="basic-addon1">
+                    <div class="d-flex flex-row" v-if="paymentType == 1">
                         <input type="text" class="form-control caducidad" placeholder="Caducidad" aria-label="Caducidad" aria-describedby="basic-addon1">
                         <input type="text" class="form-control cvv" placeholder="CVV" aria-label="CVV" aria-describedby="basic-addon1">
                     </div>
+                    <button class="btn bg-dark text-light mt-2" v-if="paymentType == 2"><i class="fab fa-paypal mr-2"></i> Vincular con Paypal </button>
+                    <button class="btn bg-dark text-light mt-2" v-if="paymentType == 3"><i class="fab fa-google mr-2"></i> Vincular con Google </button>
                     <input type="text" class="form-control mt-2" placeholder="Código Postal" aria-label="CodigoPostal" aria-describedby="basic-addon1">
                     <select class="custom-select mt-2" id="inputGroupSelect02">
                         <option selected>País/región</option>
@@ -93,9 +95,18 @@ export default ({
         const reservationData = ref([]);
         const toast = useToast();
         const disabledButton = ref(false);
+        const numberTarget = ref('');
+        const paymentType = ref(1);
 
         onMounted(()=>{
-            reservationData.value = route.currentRoute.value.params;
+            let params = route.currentRoute.value.params;
+            if(params.user){
+                reservationData.value = params;
+                sessionStorage.setItem('reservation',JSON.stringify(params));
+            }else
+                reservationData.value = JSON.parse(sessionStorage.getItem('reservation'));
+                
+
             getLogin();
             /* console.log(moment(reservationData.value.arrivalDay+" "+reservationData.value.arrivalTime,'DD-MM-YYYY HH:mm').subtract(2,'days').format('DD/MM/YYYY HH:mm')) */
 
@@ -106,44 +117,53 @@ export default ({
         })
 
         const setReservation = async()=>{
-            disabledButton.value =true;
-            try{
-                let response = await setReservationHouse(reservationData.value.arrivalDay,
-                                                    reservationData.value.departureDay,
-                                                    reservationData.value.taxes,
-                                                    reservationData.value.arrivalTime,
-                                                    reservationData.value.departureTime,
-                                                    reservationData.value.subtotal,
-                                                    reservationData.value.totalPrices,
-                                                    reservationData.value.user,
-                                                    reservationData.value.idHouse)
-                        
-                console.log(response.data);
+            if(validatePayment()){
+                disabledButton.value =true;
+                try{
+                    let response = await setReservationHouse(reservationData.value.arrivalDay,
+                                                        reservationData.value.departureDay,
+                                                        reservationData.value.taxes,
+                                                        reservationData.value.arrivalTime,
+                                                        reservationData.value.departureTime,
+                                                        reservationData.value.subtotal,
+                                                        reservationData.value.totalPrices,
+                                                        reservationData.value.user,
+                                                        reservationData.value.idHouse)
+                            
+                    console.log(response.data);
 
-                let response2 = await sendEmail(
-                    store.state.informationUser.email,
-                    reservationData.value.nameHouse,
-                    reservationData.value.arrivalDay,
-                    reservationData.value.departureDay,
-                    reservationData.value.arrivalTime,
-                    reservationData.value.departureTime,
-                    reservationData.value.subtotal,
-                    reservationData.value.taxes,
-                    reservationData.value.totalPrices
-                );
-                console.log(response2.data);
-                router.push('/user');
-                console.log("Realizado correctamente");
-                toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente', life: 3000});
-                disabledButton.value = false;
-            }catch(e){
-                console.log(e);
-                toast.add({severity:'error', summary: 'Error Message', detail:'Error al realizar la reserva', life: 3000});
-                disabledButton.value.false;
-            }
+                    let response2 = await sendEmail(
+                        store.state.informationUser.email,
+                        reservationData.value.nameHouse,
+                        reservationData.value.arrivalDay,
+                        reservationData.value.departureDay,
+                        reservationData.value.arrivalTime,
+                        reservationData.value.departureTime,
+                        reservationData.value.subtotal,
+                        reservationData.value.taxes,
+                        reservationData.value.totalPrices
+                    );
+                    console.log(response2.data);
+                    router.push('/user');
+                    console.log("Realizado correctamente");
+                    toast.add({severity:'success', summary: 'Success Message', detail:'Reserva realizada correctamente', life: 3000});
+                    disabledButton.value = false;
+                }catch(e){
+                    console.log(e);
+                    toast.add({severity:'error', summary: 'Error Message', detail:'Numero de tarjeta invalido', life: 3000});
+                    disabledButton.value.false;
+                }
+            }else
+                toast.add({severity:'error', summary: 'Success Message', detail:'Error', life: 3000});
+
         }
 
-        return { reservationData, setReservation, disabledButton, getDayCancelation }
+        const validatePayment = ()=>{
+            var re = /^(?:4\d([\- ])?\d{6}\1\d{5}|(?:4\d{3}|5[1-5]\d{2}|6011)([\- ])?\d{4}\2\d{4}\2\d{4})$/;
+                return re.test(numberTarget.value);
+        }
+
+        return { reservationData, setReservation, disabledButton, getDayCancelation, numberTarget, paymentType }
     },
 })
 </script>
