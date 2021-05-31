@@ -49,7 +49,7 @@
                         <!-- Card reservation -->
                         <div class="row d-flex justify-content-center ">
                             <transition-group name="list" appear>
-                                <div class="col-10 col-lg-3 mt-3 mx-lg-3 card-reservation" v-for="(reservation,index) in reservations" :key="reservation.id">
+                                <div class="col-10 col-lg-3 mt-3 mx-lg-3 card-reservation p-0" v-for="(reservation,index) in reservations" :key="reservation.id">
                                     <div>
                                         <img :src="`/storage/${reservation.house.url}`"  :alt="reservation.house.name">
                                     </div>
@@ -187,14 +187,20 @@ export default ({
     .card-reservation{
 
         box-shadow: 0 0 4px #343a40;
-        border-radius: 5px 5px;
-        padding: 1rem;
+        border-radius: 10px 10px;
+        transition: all .5s ease;
+
+        &:hover{
+            transform: scale(1.05);
+            box-shadow: 1px 1px 6px #343a40;
+
+        }
 
         img{
             width: 100%;
             height: 7rem;
             object-fit: cover;
-            border-radius: 5px 5px;
+            border-radius:10px 10px 0px 0px
         }
 
         &-description{

@@ -16,6 +16,7 @@
             <p class="ml-2 filter" v-if="province && filterActivated">Provincia <span id="provinceFilter" @click="deleteFilter">&times;</span></p>
             <p class="ml-2 filter" v-if="wifi && filterActivated">Wifi <span id="wifiFilter" @click="deleteFilter">&times;</span></p>
             <p class="ml-2 filter" v-if="pool && filterActivated">Piscina <span id="poolFilter" @click="deleteFilter">&times;</span></p>
+            <p class="ml-2 filter" v-if="countGuest >0 && filterActivated">Guest <span id="guestFilter" @click="deleteFilter">&times;</span></p>
         </div>
         <!-- Button trigger modal -->
         
@@ -46,6 +47,12 @@
                             <label for="pool" class="mt-1">
                                 <input id="pool" type="checkbox" class="mr-2" v-model="pool">Piscina
                             </label>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mt-3">   
+                            <p class="m-0 mr-2">Huéspedes (min.):</p>
+                            <button class="btn-round d-flex justify-content-center align-items-center mx-1" @click="decrementGuest" :disabled="countGuest ==0"><b>-</b></button>              
+                            <input class="m-0 mx-1 input-count" v-model="countGuest" disabled>
+                            <button class="btn-round d-flex justify-content-center align-items-center mx-1" @click="incrementGuest"><b>+</b></button>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -102,6 +109,7 @@ export default ({
         const houses = ref(null);
         const locations = ref([]);
         const category = ref();
+        const countGuest = ref(0);
         const selectProvince = ref('Álava');
         const selectCategory = ref('Alojamientos enteros');
         const filterActivated = ref(false);
@@ -113,6 +121,17 @@ export default ({
         onMounted(async()=>{
 
             getLogin();
+
+            if(sessionStorage)
+                if(sessionStorage.getItem('filterCategory') != undefined){
+                    let filter = JSON.parse(sessionStorage.getItem('filter'));
+                    selectProvince.value = filter.selectProvince;
+                    province.value = filter.province;
+                    wifi.value = filter.wifi;
+                    pool.value = filter.pool;
+                    countGuest.value = filter.countGuest;
+                    filterActivated.value = filter.filterActivated;
+                }
 
             try{
                 let response = await getCategories();
@@ -127,7 +146,8 @@ export default ({
             try{
                 let response = await getHouseCategory(route.currentRoute.value.params.id);
                     houses.value = response.data.houses;
-                    houseFilter.value = response.data.houses;
+                    if(sessionStorage.getItem('filterCategory') == undefined)
+                        houseFilter.value = response.data.houses;
                     category.value = response.data.category;
                 
                 
@@ -142,6 +162,8 @@ export default ({
                 console.log(e);
             }
 
+            getHouseFilter();
+
         })
 
         const getHouseFilter = ()=>{
@@ -151,10 +173,21 @@ export default ({
             }else{
                 filterActivated.value = true;
                 houseFilter.value = houses.value.filter((house)=>{
-                    (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true);
-                        return true;
+                    return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true && (countGuest.value > 0 ? countGuest.value <= house.details.guests:true));
                 })
             }
+            /* setSessionStorage(); */
+        }
+
+        const setSessionStorage =()=>{
+            sessionStorage.setItem('filterCategory',JSON.stringify({
+                'selectProvince':selectProvince.value,
+                'province': province.value,
+                'wifi':wifi.value,
+                'pool':pool.value,
+                'countGuest':countGuest.value,
+                'filterActivated':filterActivated.value
+            }))
         }
 
         const deleteFilter = (e)=>{
@@ -173,7 +206,16 @@ export default ({
             }
         }
 
-        return { loggedIn ,selectProvince, houseFilter, locations, category,filterActivated, province, categoryValue, wifi, pool, getHouseFilter, deleteFilter};
+        const incrementGuest = ()=>{
+            countGuest.value +=1;
+        }
+
+        const decrementGuest = ()=>{
+            if(countGuest.value >0)
+            countGuest.value -=1;
+        }
+
+        return { loggedIn ,selectProvince, houseFilter, locations, category,filterActivated, province, categoryValue, wifi, pool, getHouseFilter, deleteFilter, countGuest, incrementGuest, decrementGuest};
     },
 
 })
@@ -213,6 +255,28 @@ export default ({
             color: $color-blue;
         }
     } 
+
+    .btn-round{
+        width: 1.5rem;
+        height: 1.5rem;
+        background-color: white;
+        border: 1px solid #8b8585;
+        border-radius: 50%;
+        color: #8b8585;
+        transition: all 1s ease;
+
+        &:hover:enabled{
+            border: 1px solid black;
+            color: black
+        }
+    }
+
+    .input-count{
+        width: 1rem;
+        background-color: white;
+        border: 0;
+        font-size: 1.5rem;
+    }
 
     .list-enter-active{
         transition: all 3s;

@@ -4652,6 +4652,16 @@ body {
 }
 .dashboard #title-dashboard {
   color: #5ec9e9;
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.5rem;
+  margin: 0.5rem 0;
+  border-bottom: 1px solid white;
+}
+@media (min-width: 992px) {
+  .dashboard #title-dashboard {
+    padding: 0.5rem 0;
+  }
 }
 .dashboard #sideNav {
   width: 100%;
@@ -4785,12 +4795,6 @@ body {
   -o-object-fit: cover;
      object-fit: cover;
 }
-.content .card .btn-delete {
-  color: #ef0e0e;
-}
-.content .card .btn-edit {
-  color: #007bff;
-}
 .content .card svg {
   font-size: 1.5rem;
 }
@@ -4849,6 +4853,12 @@ body {
 }
 .content .dropdown-toggle::after {
   display: none;
+}
+
+.p-datepicker table td > span.p-highlight,
+.p-datepicker table td.p-datepicker-today > span.p-highlight {
+  background-color: blue !important;
+  color: #f1f1f1 !important;
 }
 
 /*  @import "../../node_modules/bootstrap/scss/bootstrap";  */

@@ -7,7 +7,7 @@
         </button>
     
          <div class="collapse navbar-collapse d-lg-flex align-items-center flex-column m-lg-0" id="navbarNavAltMarkup">
-            <h4 id="title-dashboard" class="ml-2 ml-lg-0 mt-5">Dashboard</h4>
+            <h4 id="title-dashboard">Dashboard</h4>
             <ul id="extension-aside" class="nav flex-column align-items-start w-100 mt-lg-4">
                 <li class="{{ Request::url() == url('/administrador/home') ? 'active' : '' }} nav-item bg-hover">
                     <a href="{{route('administrador.home')}}" class="nav-link d-lg-flex justify-content-center align-items-center text-light"><i class="fas fa-home mr-2"></i> Home</a>

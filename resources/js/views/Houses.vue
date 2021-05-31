@@ -123,10 +123,25 @@ export default ({
         onMounted(async()=>{
 
             getLogin();
+
+            if(sessionStorage)
+                if(sessionStorage.getItem('filter') != undefined){
+                    let filter = JSON.parse(sessionStorage.getItem('filter'));
+                    selectProvince.value = filter.selectProvince;
+                    province.value = filter.province;
+                    wifi.value = filter.wifi;
+                    pool.value = filter.pool;
+                    selectCategory.value = filter.selectCategory;
+                    categoryValue.value = filter.categoryValue;
+                    countGuest.value = filter.countGuest;
+                    filterActivated.value = filter.filterActivated;
+                }
+
             try{
                 let response = await getHouses();
                 houses.value = response.data;
-                houseFilter.value = response.data;
+                if(sessionStorage.getItem('filter') == undefined)
+                    houseFilter.value = response.data;
             }catch(e){
                 console.log(e);
             }
@@ -144,20 +159,8 @@ export default ({
             }catch(e){
                 console.log(e);
             }
-
-            if(sessionStorage)
-                if(sessionStorage.getItem('filter') != undefined){
-                    let filter = JSON.parse(sessionStorage.getItem('filter'));
-                    selectProvince.value = filter.selectProvince;
-                    province.value = filter.province;
-                    wifi.value = filter.wifi;
-                    pool.wifi = filter.pool;
-                    selectCategory.value = filter.selectCategory;
-                    categoryValue.value = filter.categoryValue;
-                    countGuest.value = filter.countGuest;
-                    filterActivated.value = filter.filterActivated;
-                    getHouseFilter();
-                }
+            getHouseFilter();
+            
         })
 
         const getHouseFilter = ()=>{
@@ -216,7 +219,7 @@ export default ({
         }
 
 
-        return { loggedIn ,selectProvince, selectCategory, houseFilter, locations, categories,filterActivated, province, categoryValue, wifi, pool, getHouseFilter, deleteFilter, countGuest ,incrementGuest , decrementGuest };
+        return { loggedIn ,selectProvince, selectCategory, houseFilter, locations, categories,filterActivated, province, categoryValue, wifi, pool, getHouseFilter, deleteFilter, countGuest, incrementGuest, decrementGuest };
     },
 
 })

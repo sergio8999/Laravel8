@@ -1,10 +1,10 @@
 <template>
     <router-link :to="{name:'house',params:{id:house.id}}" >
-        <div class="row p-2 shadowCards">
-            <div class="col-12 col-lg-6">
+        <div class="row shadowCards">
+            <div class="col-12 col-lg-6 p-0">
                 <img :src="`/storage/${house.url}`"  :alt="house.name">
             </div>
-            <div class="col-12 col-lg-6 d-flex flex-column justify-content-between mt-2 mt-lg-0">
+            <div class="col-12 col-lg-6 d-flex flex-column justify-content-between mt-2 mt-lg-0 p-2">
                 <div>
                     <h5><b>{{house.name}}</b></h5>
                     <div class="d-flex text-size">
@@ -51,14 +51,21 @@ export default ({
     img{
         width: 100%;
         height: 10rem;
-        border-radius: 10px 10px;
+        border-radius: 10px 0 0 10px;
         object-fit: cover;
         transition: all 1s 0s ease;
     }
 
     .shadowCards{
         box-shadow: 0 0 4px $color-grey;
-        border-radius: 5px 5px;
+        border-radius: 10px 10px;
+        transition: all .5s ease;
+        
+        &:hover{
+            transform: scale(1.05);
+            box-shadow: 1px 1px 6px $color-grey;
+
+        }
     }
 
     .text-size{

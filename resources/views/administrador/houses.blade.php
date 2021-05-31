@@ -59,8 +59,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-around">
-                        <a class="btn" href="{{route('dashboard.edit',$house)}}" tag="button"><i class="fas fa-edit lead btn-edit"></i></a>
-                        <a class="btn" id="{{$house['id']}}" v-tooltip="'Eliminar'" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt lead btn-delete"></i></a>
+                        <button class="btn bg-primary" href="{{route('dashboard.edit',$house)}}" tag="button"><i class="fas fa-edit text-light"></i></button>
+                        <button class="btn bg-danger" id="{{$house['id']}}" v-tooltip="'Eliminar'" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt text-light"></i></button>
                     </div>
                 </div>
               </div>
