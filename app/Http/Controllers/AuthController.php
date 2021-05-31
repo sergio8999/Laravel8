@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Login;
+use App\Http\Requests\SignUp;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,13 +16,13 @@ class AuthController extends Controller
         return view('register.index');
     }
 
-    public function signUp(Request $request)
+    public function signUp(SignUp $request)
     {
-        $request->validate([
+        /* $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string'
-        ]);
+        ]); */
 
         User::create([
             'name' => $request->name,
@@ -33,13 +35,13 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function login(Request $request)
+    public function login(Login $request)
     {
-        $request->validate([
+        /* $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
             'remember_me' => 'boolean'
-        ]);
+        ]); */
 
         $credentials = request(['email', 'password']);
 

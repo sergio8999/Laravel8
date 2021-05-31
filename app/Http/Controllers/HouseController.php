@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EditHouseRequest;
+use App\Http\Requests\StoreHouseRequest;
 use App\Models\Category;
 use App\Models\House;
 use App\Models\House_Detail;
@@ -68,9 +70,9 @@ class HouseController extends Controller
         }
     }
 
-    public function store(Request $request){
+    public function store(StoreHouseRequest $request){
 
-        $request->validate([
+        /* $request->validate([
             'name' => 'required|min:3|max:40',
             'host' => 'required',
             'price' => 'required|numeric',
@@ -84,7 +86,7 @@ class HouseController extends Controller
             'wifi' => 'required',
             'category_id' => 'required',
             'location_id' => 'required'
-        ]);
+        ]); */
 
         
         try{ 
@@ -136,9 +138,9 @@ class HouseController extends Controller
         }
     }
 
-    public function edit(Request $house){
+    public function edit(EditHouseRequest $house){
 
-        $house->validate([
+        /* $house->validate([
             'name' => 'required|min:3|max:40',
             'host' => 'required',
             'price' => 'required|numeric',
@@ -151,7 +153,7 @@ class HouseController extends Controller
             'wifi' => 'required',
             'category_id' => 'required',
             'location_id' => 'required'
-        ]);
+        ]); */
 
         try{
             $getHouse = House::where('id', '=' , $house['id'])->first();

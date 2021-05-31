@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreResumeOrderRequest;
 use App\Mail\ContactMailable;
 use App\Mail\resumeOrderMaileable;
 use Exception;
@@ -10,10 +11,10 @@ use Illuminate\Support\Facades\Mail;
 
 class ResumeOrderController extends Controller
 {
-    public function store(Request $request){
+    public function store(StoreResumeOrderRequest $request){
 
         try{
-            $request->validate([
+            /* $request->validate([
                 'email'=>'required|email',
                 'nameHouse'=>'required',
                 'arrivalDay'=>'required',
@@ -23,7 +24,7 @@ class ResumeOrderController extends Controller
                 'subtotal'=>'required',
                 'taxes'=>'required',
                 'totalPrices'=>'required'
-            ]);
+            ]); */
     
             Mail::to($request['email'])->send(new resumeOrderMaileable($request->all()));
 

@@ -170,7 +170,7 @@ export default ({
             }else{
                 filterActivated.value = true;
                 houseFilter.value = houses.value.filter((house)=>{
-                    return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true && (countGuest.value > 0 ? countGuest.value <= house.details.guests:true));
+                    return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true) && (countGuest.value > 0 ? countGuest.value <= house.details.guests:true);
                 })
             }
             setSessionStorage();

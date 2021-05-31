@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReservation;
 use App\Models\Reservation;
 use Exception;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class ReservationController extends Controller
     }
 
 
-    public function store(Request $reservation){
+    public function store(StoreReservation $reservation){
            
         Reservation::set($reservation['arrivalDay'], $reservation['departureDay'], $reservation['arrivalTime'], $reservation['departureTime'], $reservation['taxes'], $reservation['subtotal'],$reservation['total'],$reservation['user_id'], $reservation['house_id']);
         

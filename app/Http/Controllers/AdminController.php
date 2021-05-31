@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Login;
+use App\Http\Requests\StoreAdminRequest;
 use App\Models\Admin;
 use App\Models\Category;
 use App\Models\House;
@@ -86,13 +88,13 @@ class AdminController extends Controller
         }
     } */
 
-    public function login(Request $request)
+    public function login(Login $request)
     {
-        $request->validate([
+        /* $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
             'remember_me' => 'boolean'
-        ]);
+        ]); */
 
         $credentials = request(['email', 'password']);
 
@@ -189,9 +191,9 @@ class AdminController extends Controller
         return view('administrador.addHouse',compact('categories','locations'));
     }
 
-    public function store(Request $request){
+    public function store(StoreAdminRequest $request){
 
-        $request->validate([
+        /* $request->validate([
             'name' => 'required|min:3|max:40',
             'host' => 'required',
             'price' => 'required|numeric',
@@ -203,7 +205,7 @@ class AdminController extends Controller
             'toilets' => 'required',
             'category' => 'required',
             'location' => 'required'
-        ]);
+        ]); */
 
         if($request['pool'] == 'on')
             $pool = "true";

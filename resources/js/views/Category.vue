@@ -66,13 +66,13 @@
          <h1 class="tittle">{{category}}</h1>
         
         <!-- Card -->
-        <transition-group name="list" appear>
-            <div class="row d-flex justify-content-center cards">
-            <div class="col-10 col-lg-5 m-3" v-for="house in houseFilter" :key="house.id">
-                <card-house :house="house" />
+        <div class="row d-flex justify-content-center cards">
+            <transition-group name="list" appear>
+                <div class="col-10 col-lg-5 m-3" v-for="house in houseFilter" :key="house.id">
+                    <card-house :house="house" />
                 </div>
+            </transition-group>
        </div>
-        </transition-group>
 
        <p class="text-center" v-if="houseFilter.length == 0">No hay Alojamientos</p>
 
@@ -111,10 +111,8 @@ export default ({
         const category = ref();
         const countGuest = ref(0);
         const selectProvince = ref('Álava');
-        const selectCategory = ref('Alojamientos enteros');
         const filterActivated = ref(false);
         const province = ref(false);
-        const categoryValue = ref(false);
         const wifi = ref(false);
         const pool = ref(false);
         
@@ -124,7 +122,7 @@ export default ({
 
             if(sessionStorage)
                 if(sessionStorage.getItem('filterCategory') != undefined){
-                    let filter = JSON.parse(sessionStorage.getItem('filter'));
+                    let filter = JSON.parse(sessionStorage.getItem('filterCategory'));
                     selectProvince.value = filter.selectProvince;
                     province.value = filter.province;
                     wifi.value = filter.wifi;
@@ -167,16 +165,16 @@ export default ({
         })
 
         const getHouseFilter = ()=>{
-            if(!province.value && !wifi.value && !pool.value && !categoryValue.value){
+            if(!province.value && !wifi.value && !pool.value && countGuest.value == 0){
                 houseFilter.value = houses.value;
                 filterActivated.value = false;
             }else{
                 filterActivated.value = true;
                 houseFilter.value = houses.value.filter((house)=>{
-                    return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) && (categoryValue.value ? house.category.name == selectCategory.value:true && (countGuest.value > 0 ? countGuest.value <= house.details.guests:true));
+                    return (province.value ? house.location.name == selectProvince.value:true) && (wifi.value ? house.details.wifi == "true": true) && (pool.value ? house.details.pool == "true": true) &&  (countGuest.value > 0 ? countGuest.value <= house.details.guests:true);
                 })
             }
-            /* setSessionStorage(); */
+             setSessionStorage(); 
         }
 
         const setSessionStorage =()=>{
@@ -200,10 +198,11 @@ export default ({
             }else if(e.target.id == "poolFilter"){
                 pool.value = false;
                 getHouseFilter();
-            }else if(e.target.id == "categoryFilter"){
-                categoryValue.value = false;
+            }else if(e.target.id == "guestFilter"){
+                countGuest.value = 0;
                 getHouseFilter();
             }
+            setSessionStorage();
         }
 
         const incrementGuest = ()=>{
@@ -215,7 +214,7 @@ export default ({
             countGuest.value -=1;
         }
 
-        return { loggedIn ,selectProvince, houseFilter, locations, category,filterActivated, province, categoryValue, wifi, pool, getHouseFilter, deleteFilter, countGuest, incrementGuest, decrementGuest};
+        return { loggedIn ,selectProvince, houseFilter, locations, category, filterActivated, province, wifi, pool, getHouseFilter, deleteFilter, countGuest, incrementGuest, decrementGuest};
     },
 
 })

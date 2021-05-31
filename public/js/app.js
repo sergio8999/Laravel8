@@ -21438,10 +21438,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     var category = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)();
     var countGuest = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(0);
     var selectProvince = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)('Álava');
-    var selectCategory = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)('Alojamientos enteros');
     var filterActivated = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(false);
     var province = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(false);
-    var categoryValue = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(false);
     var wifi = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(false);
     var pool = (0,vue__WEBPACK_IMPORTED_MODULE_3__.ref)(false);
     (0,vue__WEBPACK_IMPORTED_MODULE_3__.onMounted)( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -21453,7 +21451,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             case 0:
               (0,_utils_checkLogin__WEBPACK_IMPORTED_MODULE_5__.getLogin)();
               if (sessionStorage) if (sessionStorage.getItem('filterCategory') != undefined) {
-                filter = JSON.parse(sessionStorage.getItem('filter'));
+                filter = JSON.parse(sessionStorage.getItem('filterCategory'));
                 selectProvince.value = filter.selectProvince;
                 province.value = filter.province;
                 wifi.value = filter.wifi;
@@ -21528,17 +21526,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     })));
 
     var getHouseFilter = function getHouseFilter() {
-      if (!province.value && !wifi.value && !pool.value && !categoryValue.value) {
+      if (!province.value && !wifi.value && !pool.value && countGuest.value == 0) {
         houseFilter.value = houses.value;
         filterActivated.value = false;
       } else {
         filterActivated.value = true;
         houseFilter.value = houses.value.filter(function (house) {
-          return (province.value ? house.location.name == selectProvince.value : true) && (wifi.value ? house.details.wifi == "true" : true) && (pool.value ? house.details.pool == "true" : true) && (categoryValue.value ? house.category.name == selectCategory.value :  true && (countGuest.value > 0 ? countGuest.value <= house.details.guests : true));
+          return (province.value ? house.location.name == selectProvince.value : true) && (wifi.value ? house.details.wifi == "true" : true) && (pool.value ? house.details.pool == "true" : true) && (countGuest.value > 0 ? countGuest.value <= house.details.guests : true);
         });
       }
-      /* setSessionStorage(); */
 
+      setSessionStorage();
     };
 
     var setSessionStorage = function setSessionStorage() {
@@ -21562,10 +21560,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else if (e.target.id == "poolFilter") {
         pool.value = false;
         getHouseFilter();
-      } else if (e.target.id == "categoryFilter") {
-        categoryValue.value = false;
+      } else if (e.target.id == "guestFilter") {
+        countGuest.value = 0;
         getHouseFilter();
       }
+
+      setSessionStorage();
     };
 
     var incrementGuest = function incrementGuest() {
@@ -21584,7 +21584,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       category: category,
       filterActivated: filterActivated,
       province: province,
-      categoryValue: categoryValue,
       wifi: wifi,
       pool: pool,
       getHouseFilter: getHouseFilter,
@@ -22765,7 +22764,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       } else {
         filterActivated.value = true;
         houseFilter.value = houses.value.filter(function (house) {
-          return (province.value ? house.location.name == selectProvince.value : true) && (wifi.value ? house.details.wifi == "true" : true) && (pool.value ? house.details.pool == "true" : true) && (categoryValue.value ? house.category.name == selectCategory.value :  true && (countGuest.value > 0 ? countGuest.value <= house.details.guests : true));
+          return (province.value ? house.location.name == selectProvince.value : true) && (wifi.value ? house.details.wifi == "true" : true) && (pool.value ? house.details.pool == "true" : true) && (categoryValue.value ? house.category.name == selectCategory.value : true) && (countGuest.value > 0 ? countGuest.value <= house.details.guests : true);
         });
       }
 
@@ -24655,12 +24654,12 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
     })
   }, "Buscar")])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("h1", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.category), 1
   /* TEXT */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.TransitionGroup, {
     name: "list",
     appear: ""
   }, {
     "default": _withId(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)("div", _hoisted_35, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.houseFilter, function (house) {
+      return [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.houseFilter, function (house) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", {
           "class": "col-10 col-lg-5 m-3",
           key: house.id
@@ -24671,12 +24670,12 @@ var render = /*#__PURE__*/_withId(function (_ctx, _cache, $props, $setup, $data,
         , ["house"])]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])];
+      ))];
     }),
     _: 1
     /* STABLE */
 
-  }), $setup.houseFilter.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_36, "No hay Alojamientos")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_37, [_hoisted_38]));
+  })]), $setup.houseFilter.length == 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("p", _hoisted_36, "No hay Alojamientos")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)("div", _hoisted_37, [_hoisted_38]));
 });
 
 /***/ }),
